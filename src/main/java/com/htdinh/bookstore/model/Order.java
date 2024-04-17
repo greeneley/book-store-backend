@@ -1,5 +1,10 @@
 package com.htdinh.bookstore.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
@@ -14,6 +19,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "orders")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
 
 	@Id
@@ -30,49 +39,7 @@ public class Order {
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "book_id")
 	private Book book;
-
-	public Order() {
-	}
-
-	public Order(Long id, LocalDate orderDate, Customer customer, Book book) {
-		this.id = id;
-		this.orderDate = orderDate;
-		this.customer = customer;
-		this.book = book;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public LocalDate getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(LocalDate orderDate) {
-		this.orderDate = orderDate;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public Book getBook() {
-		return book;
-	}
-
-	public void setBook(Book book) {
-		this.book = book;
-	}
-
+	
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", orderDate=" + orderDate + ", customer=" + customer + ", book=" + book + "]";

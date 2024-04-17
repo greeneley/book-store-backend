@@ -10,9 +10,10 @@ import org.springframework.stereotype.Repository;
 import com.htdinh.bookstore.model.Book;
 
 @Repository
-public interface BookRepository extends CrudRepository<Book, Long> {
+public interface BookRepository extends CrudRepository<Book, Integer> {
 
 	@Query(value = "SELECT * FROM books WHERE name LIKE %:term%", nativeQuery = true)
 	List<Book> findByNameContaining(@Param("term") String term);
 
+	List<Book> findAll();
 }

@@ -1,7 +1,13 @@
 package com.htdinh.bookstore.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Entity;
 import java.util.List;
 
+@Getter
+@Setter
 public class CustomerBooks {
 
 	private Customer customer;
@@ -11,21 +17,5 @@ public class CustomerBooks {
 		this.customer = customer;
 		this.books = books;
 	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public List<Book> getBooks() {
-		return books;
-	}
-
-	public void setBooks(List<Book> books) {
-		this.books = books;
-	}
-
+	
 }
