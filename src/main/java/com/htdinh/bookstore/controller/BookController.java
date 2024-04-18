@@ -4,6 +4,7 @@ import com.htdinh.bookstore.model.Book;
 import com.htdinh.bookstore.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,15 +13,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/book")
 public class BookController {
-
-//	private final BookService bookService;
-
+	
 	@Autowired
 	private  BookRepository bookRepository;
 	
-	@GetMapping(value = {"", "/"})
-	public List<Book> getAllbooks() {
+	@GetMapping(value = {"", "/all"})
+	public List<Book> getAllBooks() {
 		return bookRepository.findAll();
+	}
+	
+	@GetMapping("/{id}")
+	public Book getBookById(@PathVariable(value = "id") int id) {
+		return bookRepository.findById(id);
 	}
 	
 //	public BookController(BookService bookService) {
