@@ -27,6 +27,11 @@ public class BookController {
 		return bookRepository.findById(id);
 	}
 	
+	@GetMapping("/favorite")
+	public List<Book> getAllFavoriteBook() {
+		return bookRepository.findAllFavoriteBooks();
+	}
+	
 //	public BookController(BookService bookService) {
 //		this.bookService = bookService;
 //	}

@@ -17,4 +17,7 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
 
 	List<Book> findAll();
 	Book findById(int id);
+	
+	@Query(value="SELECT * FROM books WHERE books.FAVORITE = 'Y'", nativeQuery = true)
+	List<Book> findAllFavoriteBooks();
 }
