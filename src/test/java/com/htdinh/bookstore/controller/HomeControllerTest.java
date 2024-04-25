@@ -15,11 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.support.BindingAwareModelMap;
 
 import com.htdinh.bookstore.model.Book;
-import com.htdinh.bookstore.service.BookService;
+import com.htdinh.bookstore.service.impl.BookServiceImpl;
 
 class HomeControllerTest {
 
-	private BookService bookService = mock(BookService.class);
+	private BookServiceImpl bookService = mock(BookServiceImpl.class);
 	private HomeController homeController = new HomeController(bookService);
 
 	@Test

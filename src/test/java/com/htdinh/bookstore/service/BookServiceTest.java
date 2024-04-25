@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import com.htdinh.bookstore.model.Book;
 import com.htdinh.bookstore.repository.BookRepository;
+import com.htdinh.bookstore.service.impl.BookServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -39,7 +40,7 @@ class BookServiceTest {
 	private LocalDate DOB_2 = LocalDate.of(2003, 04, 02);
 
 	private BookRepository bookRepository = mock(BookRepository.class);
-	private BookService bookService = new BookService(bookRepository);
+	private BookServiceImpl bookService = new BookServiceImpl(bookRepository);
 
 	@Test
 	void findPaginated_shouldReturnPaginatedBooksSearched() {

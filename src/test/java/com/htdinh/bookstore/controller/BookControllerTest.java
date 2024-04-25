@@ -22,11 +22,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import com.htdinh.bookstore.model.Book;
-import com.htdinh.bookstore.service.BookService;
+import com.htdinh.bookstore.service.impl.BookServiceImpl;
 
 class BookControllerTest {
 
-	private BookService bookService = mock(BookService.class);
+	private BookServiceImpl bookService = mock(BookServiceImpl.class);
 	private BookController bookController = new BookController(bookService);
 
 	@Test

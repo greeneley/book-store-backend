@@ -16,12 +16,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.htdinh.bookstore.model.Book;
-import com.htdinh.bookstore.service.BookService;
+import com.htdinh.bookstore.service.impl.BookServiceImpl;
 import com.htdinh.bookstore.service.ShoppingCartService;
 
 class CartControllerTest {
 
-	private BookService bookService = mock(BookService.class);
+	private BookServiceImpl bookService = mock(BookServiceImpl.class);
 	private ShoppingCartService shoppingCartService = mock(ShoppingCartService.class);
 	private CartController cartController = new CartController(bookService, shoppingCartService);
 
