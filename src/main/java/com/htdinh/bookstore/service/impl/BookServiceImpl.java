@@ -1,64 +1,51 @@
 package com.htdinh.bookstore.service.impl;
 
-import java.util.Optional;
-
+import com.htdinh.bookstore.dto.BookResponse;
+import com.htdinh.bookstore.dto.CategoryResponse;
+import com.htdinh.bookstore.exception.ResourceNotFoundException;
+import com.htdinh.bookstore.mapper.CategoryMapper;
+import com.htdinh.bookstore.mapper.Mapper;
+import com.htdinh.bookstore.model.Book;
+import com.htdinh.bookstore.model.Category;
 import com.htdinh.bookstore.repository.BookRepository;
+import com.htdinh.bookstore.repository.CategoryRepository;
+import com.htdinh.bookstore.service.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.htdinh.bookstore.model.Book;
-
 @Service
-public class BookServiceImpl {
+public class BookServiceImpl implements BookService {
 
 	private final BookRepository bookRepository;
+	private final CategoryRepository categoryRepository;
 
-	public BookServiceImpl(BookRepository bookRepository) {
+	public BookServiceImpl(BookRepository bookRepository,
+						   CategoryRepository categoryRepository) {
 		this.bookRepository = bookRepository;
+		this.categoryRepository = categoryRepository;
+	}
+	
+	@Override
+	public BookResponse getBook(Integer id) {
+		Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book with ID = " + id + " not found"));
+		
+		int categoryId = book.getCategory().getCategoryId();
+		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category with ID = " + categoryId + " not found"));
+		
+		
+		
+		return Mapper.toBookResponse(bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book with ID = " + id + " not found")));
 	}
 
-//	public Page<Book> findPaginated(Pageable pageable, String term) {
-//
-//		return page(pageable, term);
-//	}
-
-//	private Page<Book> page(Pageable pageable, String term) {
-//		int pageSize = pageable.getPageSize();
-//		int currentPage = pageable.getPageNumber();
-//		int startItem = currentPage * pageSize;
-//
-//		ArrayList<Book> books;
-//		List<Book> list;
-//
-//		if (term == null) {
-//			books = (ArrayList<Book>) bookRepository.findAll();
-//		} else {
-//			books = (ArrayList<Book>) bookRepository.findByNameContaining(term);
-//		}
-//
-//		if (books.size() < startItem) {
-//			list = Collections.emptyList();
-//		} else {
-//			int toIndex = Math.min(startItem + pageSize, books.size());
-//			list = books.subList(startItem, toIndex);
-//		}
-//
-//		Page<Book> bookPage = new PageImpl<Book>(list, PageRequest.of(currentPage, pageSize), books.size());
-//
-//		return bookPage;
-//	}
-
-	public void save(Book book) {
-		bookRepository.save(book);
+	@Override
+	public Page<BookResponse> getAllBooks(int pageNumber, int pageSize, Integer seed) {
+		return bookRepository.findRandomBooks(seed, PageRequest.of(pageNumber, pageSize)).map(Mapper::toBookResponse);
 	}
 
-	public Optional<Book> findBookById(Integer id) {
-		Optional<Book> book = bookRepository.findById(id);
-		return book;
+	@Override
+	public Page<BookResponse> getAllFavoriteBooks(int pageNumber, int pageSize, Integer seed) {
+		return bookRepository.findAllFavoriteBooks(seed, PageRequest.of(pageNumber, pageSize)).map(Mapper::toBookResponse);
 	}
-    
-
-	public void delete(Integer id) {
-		bookRepository.deleteById(id);
-	}
-
+	
 }

@@ -1,33 +1,60 @@
 package com.htdinh.bookstore.controller;
 
-import com.htdinh.bookstore.model.Book;
-import com.htdinh.bookstore.repository.BookRepository;
+import com.htdinh.bookstore.dto.BookResponse;
+import com.htdinh.bookstore.service.BookService;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/api/v1/books")
 public class BookController {
 	
 	@Autowired
-	private  BookRepository bookRepository;
+	private BookService bookService;
 	
 	@GetMapping(value = {"", "/all"})
-	public List<Book> getAllBooks() {
-		return bookRepository.findAll();
+	public ResponseEntity<Page<BookResponse>> getAllBooks(
+			@RequestParam(value="page")
+			@Min(value = 0, message = "Page index must not be less than zero")
+			@NotNull(message = "Page index must not be null")
+			Integer pageNumber,
+			
+			@RequestParam(value="size")
+			@Min(value = 0, message = "Page size must not be less than 1")
+			@NotNull(message = "Page size must not be null")
+			Integer pageSize,
+			@RequestParam(value="seed")
+			Integer seed
+	) {
+		return ResponseEntity.ok(bookService.getAllBooks(pageNumber, pageSize, seed));
 	}
 	
 	@GetMapping("/{id}")
-	public Book getBookById(@PathVariable(value = "id") int id) {
-		return bookRepository.findById(id);
+	public ResponseEntity<BookResponse> getBookById(@PathVariable(value = "id") int id) {
+		return ResponseEntity.ok(bookService.getBook(id));
 	}
 	
 	@GetMapping("/favorite")
-	public List<Book> getAllFavoriteBook() {
-		return bookRepository.findAllFavoriteBooks();
+	public ResponseEntity<Page<BookResponse>> getAllFavoriteBook(
+			@RequestParam(value="page")
+			@Min(value = 0, message = "Page index must not be less than zero")
+			@NotNull(message = "Page index must not be null")
+			Integer pageNumber,
+
+			@RequestParam(value="size")
+			@Min(value = 0, message = "Page size must not be less than 1")
+			@NotNull(message = "Page size must not be null")
+			Integer pageSize,
+			@RequestParam(value="seed")
+			Integer seed
+	) {
+		return ResponseEntity.ok(bookService.getAllFavoriteBooks(pageNumber, pageSize, seed));
 	}
 	
 //	public BookController(BookService bookService) {

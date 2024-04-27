@@ -61,6 +61,10 @@ public class Book {
 	@Column(name = "FAVORITE", length = 1)
 	private String favorite;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CATEGORY_ID")
+	private Category category;
+
 	@Override
 	public String toString() {
 		return "Book [id=" + bookId + ", name=" + name + ", price=" + price + ", authors=" + authors + ", isbn=" + isbn

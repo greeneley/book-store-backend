@@ -1,8 +1,10 @@
 package com.htdinh.bookstore.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -10,6 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class BookResponse {
+    @JsonProperty("book_id")
     private int bookId;
     private String name;
     private BigDecimal price;
@@ -20,4 +23,6 @@ public class BookResponse {
     private String desc;
     private String imageUrl;
     private String favorite;
+    
+    private List<CategoryResponse> category;
 }

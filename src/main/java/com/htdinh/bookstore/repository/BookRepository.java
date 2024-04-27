@@ -1,23 +1,16 @@
 package com.htdinh.bookstore.repository;
 
-import java.util.List;
-
+import com.htdinh.bookstore.model.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.htdinh.bookstore.model.Book;
-
 @Repository
-public interface BookRepository extends CrudRepository<Book, Integer> {
-
-//	@Query(value = "SELECT * FROM books WHERE name LIKE %:term%", nativeQuery = true)
-//	List<Book> findByNameContaining(@Param("term") String term);
-
-	List<Book> findAll();
-	Book findById(int id);
-	
-	@Query(value="SELECT * FROM books WHERE books.FAVORITE = 'Y'", nativeQuery = true)
-	List<Book> findAllFavoriteBooks();
+public interface BookRepository extends JpaRepository<Book, Integer> {
+	@Query(value = "select * from books b order by rand(:seed)", nativeQuery = true)
+	Page<Book> findRandomBooks(Integer seed, Pageable pageable);
+	@Query(value="SELECT * FROM books WHERE books.FAVORITE = 'Y' order by rand(:seed)", nativeQuery = true)
+	Page<Book> findAllFavoriteBooks(Integer seed, Pageable pageable);
 }
