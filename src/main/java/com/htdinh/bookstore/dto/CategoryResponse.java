@@ -10,6 +10,6 @@ import lombok.*;
 @Builder
 public class CategoryResponse {
     @JsonProperty("category_id")
-    private Long categoryId;
+    private Integer categoryId;
     private String categoryName;
 }

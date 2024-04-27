@@ -3,7 +3,7 @@ package com.htdinh.bookstore.mapper;
 import com.htdinh.bookstore.dto.BookResponse;
 import com.htdinh.bookstore.model.Book;
 
-public class Mapper {
+public class BookMapper {
     public static BookResponse toBookResponse(Book book) {
         return BookResponse.builder()
                 .bookId(book.getBookId())
@@ -16,6 +16,7 @@ public class Mapper {
                 .desc(book.getDesc())
                 .imageUrl(book.getImageUrl())
                 .favorite(book.getFavorite())
+                .category(CategoryMapper.toCategoryResponse(book.getCategory()))
                 .build();
     }
 }
