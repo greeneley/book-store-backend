@@ -22,7 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import com.htdinh.bookstore.model.Book;
-import com.htdinh.bookstore.service.impl.BookServiceImpl;
 
 class BookControllerTest {
 

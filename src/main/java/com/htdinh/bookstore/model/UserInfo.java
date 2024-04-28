@@ -11,8 +11,6 @@ import java.util.Collection;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 public class UserInfo implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,4 +49,7 @@ public class UserInfo implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    
+    @Override
+    public String getPassword() { return this.password; }
 } 

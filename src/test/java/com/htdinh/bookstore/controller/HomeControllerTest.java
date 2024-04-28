@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.support.BindingAwareModelMap;
 
 import com.htdinh.bookstore.model.Book;
-import com.htdinh.bookstore.service.impl.BookServiceImpl;
 
 class HomeControllerTest {
 

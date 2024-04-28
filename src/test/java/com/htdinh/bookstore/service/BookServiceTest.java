@@ -13,7 +13,6 @@ import java.util.Optional;
 
 import com.htdinh.bookstore.model.Book;
 import com.htdinh.bookstore.repository.BookRepository;
-import com.htdinh.bookstore.service.impl.BookServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
