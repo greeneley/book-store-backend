@@ -2,7 +2,7 @@ package com.htdinh.bookstore.service.impl;
 
 import com.htdinh.bookstore.dto.BookResponse;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
-import com.htdinh.bookstore.mapper.BookStructMapper;
+import com.htdinh.bookstore.mapper.BookMapper;
 import com.htdinh.bookstore.repository.BookRepository;
 import com.htdinh.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class BookServiceImpl implements BookService {
 	private final BookRepository bookRepository;
 	
 	@Autowired
-	private BookStructMapper bookStructMapper;
+	private BookMapper bookStructMapper;
 
 	public BookServiceImpl(BookRepository bookRepository) {
 		this.bookRepository = bookRepository;
