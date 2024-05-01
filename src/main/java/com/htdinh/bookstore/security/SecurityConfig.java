@@ -6,15 +6,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-@Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().permitAll();
-    }
-    
+//@Configuration
+//@EnableWebSecurity
+//@EnableMethodSecurity
+//public class SecurityConfig extends WebSecurityConfigurerAdapter{
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests().anyRequest().permitAll();
+//    }
+//    
 //	@Autowired
 //	private JwtAuthFilter authFilter;
 //
@@ -62,4 +62,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 //		return config.getAuthenticationManager();
 //	}
-} 
+//} 
