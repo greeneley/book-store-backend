@@ -1,5 +1,6 @@
 package com.htdinh.bookstore.config;
 
+import com.htdinh.bookstore.jwt.JwtTokenFilter;
 import com.htdinh.bookstore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,14 +13,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private UserRepository userRepository;
-
-
+    @Autowired
+    private JwtTokenFilter jwtTokenFilter;
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -28,6 +31,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/auth/login").permitAll()
                 .anyRequest().authenticated();
+
+        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
     
     @Override
