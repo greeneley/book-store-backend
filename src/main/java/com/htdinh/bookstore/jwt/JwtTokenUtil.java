@@ -40,7 +40,7 @@ public class JwtTokenUtil {
 
     public boolean validateAccessToken(String token) {
         try {
-            Jwts.parser().setSigningKey(getSigningKey()).parseClaimsJwt(token);
+            Jwts.parser().setSigningKey(getSigningKey()).parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException ex) {
             LOGGER.error("JWT expired", ex.getMessage());
@@ -61,6 +61,6 @@ public class JwtTokenUtil {
     }
 
     private Claims parseClaims(String token) {
-        return Jwts.parser().setSigningKey(getSigningKey()).parseClaimsJwt(token).getBody();
+        return Jwts.parser().setSigningKey(getSigningKey()).parseClaimsJws(token).getBody();
     }
 }
