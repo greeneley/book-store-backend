@@ -1,10 +1,12 @@
 package com.htdinh.bookstore.jwt;
 
 import com.htdinh.bookstore.model.User;
+import com.htdinh.bookstore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -20,6 +22,9 @@ import java.io.IOException;
 public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    
+    @Autowired
+    private UserRepository userRepository;
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -51,7 +56,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private void setAuthenticationContext(String token, HttpServletRequest request) {
         UserDetails userDetails = getUserDetails(token);
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, null);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -59,11 +64,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
     
     private UserDetails getUserDetails(String token) {
-        User userDetails = new User();
         String[] jwtSubject = jwtTokenUtil.getSubject(token).split(",");
-        
-        userDetails.setUsername(jwtSubject[0]);
-        userDetails.setEmail(jwtSubject[1]);
-        return userDetails;
+        return userRepository.findByUser(jwtSubject[0], jwtSubject[1]).orElseThrow(() -> new UsernameNotFoundException("Not found user"));
     }
 }

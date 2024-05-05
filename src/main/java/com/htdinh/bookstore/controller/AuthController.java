@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     @Autowired
@@ -25,7 +26,7 @@ public class AuthController {
     @Autowired
     private JwtTokenUtil jwtUtil;
 
-    @PostMapping("auth/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {
         try {
             Authentication authentication = authManager.authenticate(

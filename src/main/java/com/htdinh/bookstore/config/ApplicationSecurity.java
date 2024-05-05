@@ -18,6 +18,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     
+    private final String[] PUBLIC_ENDPOINTS = {
+            "/api/v1/auth/login",
+            "/api/v1/books/**"
+    };
+    
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -29,7 +34,9 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         
         http.authorizeRequests()
-                .antMatchers("/auth/login").permitAll()
+                .antMatchers("/api/v1/profile/user").hasAnyAuthority("USER")
+                .antMatchers("/api/v1/profile/admin").hasAnyAuthority("ADMIN")
+                .antMatchers(PUBLIC_ENDPOINTS).permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
