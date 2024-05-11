@@ -51,3 +51,4 @@ http://localhost:8080/
 
 
 https://github.com/Trandinhdongkhanh/G2WebStoreV2/blob/main/src/main/java/com/hcmute/g2webstorev2/controller/ProductController.java
+https://www.codejava.net/frameworks/spring-boot/spring-security-jwt-authentication-tutorial

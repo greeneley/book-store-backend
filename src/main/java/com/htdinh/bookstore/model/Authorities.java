@@ -6,9 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "authorities")
@@ -18,13 +17,14 @@ import java.util.Set;
 @AllArgsConstructor
 public class Authorities {
 
-
     @Id
-    @Size(max = 255)
-    @Column(name = "AUTHORITY", nullable = false)
-    private String authority;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "AUTHORITY_ID", nullable = false)
+    private Long id;
 
-    @OneToMany(mappedBy = "authority")
-    private Set<User> users = new LinkedHashSet<>();
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "NAME", nullable = false)
+    private String name;
 
 }

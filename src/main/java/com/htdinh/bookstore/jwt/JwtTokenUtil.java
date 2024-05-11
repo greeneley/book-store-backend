@@ -25,6 +25,7 @@ public class JwtTokenUtil {
     public String generateAccessToken(User user) {
 
         return Jwts.builder()
+                .setId(user.getId().toString())
                 .setSubject(String.format("%s,%s", user.getUsername(), user.getEmail()))
                 .setIssuer("Dinh")
                 .setIssuedAt(new Date())
@@ -58,6 +59,10 @@ public class JwtTokenUtil {
 
     public String getSubject(String token) {
         return parseClaims(token).getSubject();
+    }
+    
+    public String getId(String token) {
+        return parseClaims(token).getId();
     }
 
     private Claims parseClaims(String token) {

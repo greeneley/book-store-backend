@@ -18,11 +18,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails{
-    @Id
-    @Size(max = 255)
-    @Column(name = "USERNAME", nullable = false)
-    private String username;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USER_ID", nullable = false)
+    private Long id;
+    
     @Size(max = 255)
     @NotNull
     @Column(name = "PASSWORD", nullable = false)
@@ -31,21 +32,26 @@ public class User implements UserDetails{
     @NotNull
     @Column(name = "ENABLED", nullable = false)
     private Boolean enabled = false;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "AUTHORITY")
-    private Authorities authority;
-
+    
     @Size(max = 500)
     @Column(name = "EMAIL", length = 500)
     private String email;
-    
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "AUTHORITY_ID")
+    private Authorities authority;
+
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "USERNAME", nullable = false)
+    private String username;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(this.authority.getAuthority()));
+        authorities.add(new SimpleGrantedAuthority(this.authority.getName()));
         return authorities;
-//        return null;
     }
 
     @Override
