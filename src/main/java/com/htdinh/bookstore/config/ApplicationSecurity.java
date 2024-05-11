@@ -20,7 +20,17 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     
     private final String[] PUBLIC_ENDPOINTS = {
             "/api/v1/auth/login",
-            "/api/v1/books/**"
+            "/api/v1/books/**",
+            "/api/v1/user/**",
+            "/swagger-ui/index.html"
+    };
+
+    private static final String[] AUTH_WHITELIST = {
+            // -- swagger ui
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/swagger-resources/**",
+            "/swagger-ui/**",
     };
     
     @Autowired
@@ -37,6 +47,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/profile/user").hasAnyAuthority("USER")
                 .antMatchers("/api/v1/profile/admin").hasAnyAuthority("ADMIN")
                 .antMatchers(PUBLIC_ENDPOINTS).permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);

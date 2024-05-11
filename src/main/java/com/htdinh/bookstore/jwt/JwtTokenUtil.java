@@ -25,7 +25,7 @@ public class JwtTokenUtil {
     public String generateAccessToken(User user) {
 
         return Jwts.builder()
-                .setId(user.getId().toString())
+                .setId(String.valueOf(user.getId()))
                 .setSubject(String.format("%s,%s", user.getUsername(), user.getEmail()))
                 .setIssuer("Dinh")
                 .setIssuedAt(new Date())
