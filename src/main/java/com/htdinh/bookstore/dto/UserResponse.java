@@ -1,12 +1,10 @@
 package com.htdinh.bookstore.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.htdinh.bookstore.model.Authorities;
-import lombok.*;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +15,10 @@ public class UserResponse {
     private int id;
     private String username;
     private String email;
-    
+    private String firstname;
+    private String lastname;
+    private String avatar;
+
     private Boolean enabled;
     private AuthoritiesResponse authority;
 }

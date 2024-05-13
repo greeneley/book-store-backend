@@ -1,6 +1,7 @@
 package com.htdinh.bookstore.controller;
 
 
+import com.htdinh.bookstore.dto.AuthRequest;
 import com.htdinh.bookstore.dto.UserRequest;
 import com.htdinh.bookstore.dto.UserResponse;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
@@ -20,15 +21,10 @@ public class UserController {
     private UserService userService;
     
     
-    @GetMapping("")
-    public ResponseEntity<?> getUserById(
-            @RequestParam(value="id")
-            int id,
-            @RequestParam(value="token")
-            String token
-    ) {
+    @PostMapping("")
+    public ResponseEntity<?> getUserById(@RequestBody @Valid UserRequest request) {
         try {
-            UserResponse userResponse = userService.getUserWithToken(id, token);
+            UserResponse userResponse = userService.getUserWithToken(request.getId(), request.getToken());
             return ResponseEntity.ok(userResponse);
         } catch (ResourceNotFoundException | TokenInValidException resourceNotFoundException) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resourceNotFoundException.getMessage());

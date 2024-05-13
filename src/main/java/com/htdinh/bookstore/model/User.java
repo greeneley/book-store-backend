@@ -47,6 +47,20 @@ public class User implements UserDetails{
     @Column(name = "USERNAME", nullable = false)
     private String username;
 
+    @Size(max = 150)
+    @NotNull
+    @Column(name = "FIRSTNAME", nullable = false, length = 150)
+    private String firstname;
+
+    @Size(max = 150)
+    @NotNull
+    @Column(name = "LASTNAME", nullable = false, length = 150)
+    private String lastname;
+
+    @Lob
+    @Column(name = "AVATAR")
+    private String avatar;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
