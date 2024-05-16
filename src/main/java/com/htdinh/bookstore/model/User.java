@@ -61,6 +61,16 @@ public class User implements UserDetails{
     @Column(name = "AVATAR")
     private String avatar;
 
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "PHONE_NUMBER", nullable = false, length = 50)
+    private String phoneNumber;
+
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "CREATED_AT", nullable = false, length = 50)
+    private String createdAt;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
