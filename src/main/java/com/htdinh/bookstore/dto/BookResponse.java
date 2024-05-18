@@ -14,7 +14,7 @@ public class BookResponse {
     private int bookId;
     private String name;
     private BigDecimal price;
-    private String authors;
+    private String author;
     private String isbn;
     private String publisher;
     private String publishedOn;

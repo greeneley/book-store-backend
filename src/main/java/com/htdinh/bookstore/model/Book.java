@@ -32,9 +32,9 @@ public class Book {
 	@NotNull(message = "{book.price.notBlank}")
 	private BigDecimal price;
 
-	@Column(name = "AUTHORS", nullable = false)
-	@NotBlank(message = "{book.authors.notBlank}")
-	private String authors;
+	@Column(name = "AUTHOR", nullable = false)
+	@NotBlank(message = "{book.author.notBlank}")
+	private String author;
 
 	@Column(name = "ISBN", nullable = false)
 	@NotBlank(message = "{book.isbn.notBlank}")
@@ -67,7 +67,7 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + bookId + ", name=" + name + ", price=" + price + ", authors=" + authors + ", isbn=" + isbn
+		return "Book [id=" + bookId + ", name=" + name + ", price=" + price + ", author=" + author + ", isbn=" + isbn
 				+ ", publisher=" + publisher + ", publishedOn=" + publishedOn + "]";
 	}
 }

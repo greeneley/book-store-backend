@@ -55,7 +55,7 @@ public class JwtTokenUtil {
             LOGGER.error("Signature validation failed");
         }
         return false;
-    }
+    }   
 
     public String getSubject(String token) {
         return parseClaims(token).getSubject();
