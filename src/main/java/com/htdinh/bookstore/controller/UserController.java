@@ -24,7 +24,7 @@ public class UserController {
     @PostMapping("")
     public ResponseEntity<?> getUserById(@RequestBody @Valid UserRequest request) {
         try {
-            UserResponse userResponse = userService.getUserWithToken(request.getId(), request.getToken());
+            UserResponse userResponse = userService.getUserWithToken(request.getId());
             return ResponseEntity.ok(userResponse);
         } catch (ResourceNotFoundException | TokenInValidException resourceNotFoundException) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resourceNotFoundException.getMessage());

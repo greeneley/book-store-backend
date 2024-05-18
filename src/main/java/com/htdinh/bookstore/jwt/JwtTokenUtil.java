@@ -61,10 +61,6 @@ public class JwtTokenUtil {
         return parseClaims(token).getSubject();
     }
     
-    public String getId(String token) {
-        return parseClaims(token).getId();
-    }
-
     private Claims parseClaims(String token) {
         return Jwts.parser().setSigningKey(getSigningKey()).parseClaimsJws(token).getBody();
     }
