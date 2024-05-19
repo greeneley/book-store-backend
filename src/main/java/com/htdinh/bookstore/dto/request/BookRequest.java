@@ -1,4 +1,4 @@
-package com.htdinh.bookstore.dto;
+package com.htdinh.bookstore.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

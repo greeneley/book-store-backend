@@ -1,6 +1,6 @@
 package com.htdinh.bookstore.service;
 
-import com.htdinh.bookstore.dto.BookResponse;
+import com.htdinh.bookstore.dto.response.BookResponse;
 import org.springframework.data.domain.Page;
 
 public interface BookService {

@@ -1,7 +1,7 @@
 package com.htdinh.bookstore.controller;
 
-import com.htdinh.bookstore.dto.AuthRequest;
-import com.htdinh.bookstore.dto.AuthResponse;
+import com.htdinh.bookstore.dto.request.AuthRequest;
+import com.htdinh.bookstore.dto.response.AuthResponse;
 import com.htdinh.bookstore.jwt.JwtTokenUtil;
 import com.htdinh.bookstore.model.User;
 import jakarta.validation.Valid;

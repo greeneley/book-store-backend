@@ -1,6 +1,6 @@
 package com.htdinh.bookstore.mapper;
 
-import com.htdinh.bookstore.dto.UserResponse;
+import com.htdinh.bookstore.dto.response.UserResponse;
 import com.htdinh.bookstore.model.User;
 import org.mapstruct.Mapper;
 

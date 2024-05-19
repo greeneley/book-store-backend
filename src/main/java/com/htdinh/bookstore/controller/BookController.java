@@ -1,6 +1,6 @@
 package com.htdinh.bookstore.controller;
 
-import com.htdinh.bookstore.dto.BookResponse;
+import com.htdinh.bookstore.dto.response.BookResponse;
 import com.htdinh.bookstore.service.BookService;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;

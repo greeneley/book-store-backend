@@ -1,6 +1,6 @@
 package com.htdinh.bookstore.service.impl;
 
-import com.htdinh.bookstore.dto.UserResponse;
+import com.htdinh.bookstore.dto.response.UserResponse;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.exception.TokenInValidException;
 import com.htdinh.bookstore.mapper.UserMapper;
@@ -24,10 +24,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse getUserWithToken(int id) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        User user = (User) authentication.getPrincipal();
-
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
         int extractedId = user.getId();
 
         if (extractedId == id) {

@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -22,7 +23,7 @@ public class Book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "BOOK_ID", nullable = false)
-	private int bookId;
+	private Integer bookId;
 
 	@Column(name = "NAME", nullable = false)
 	@NotBlank(message = "{book.name.notBlank}")
@@ -30,7 +31,7 @@ public class Book {
 
 	@Column(name = "PRICE", nullable = false)
 	@NotNull(message = "{book.price.notBlank}")
-	private BigDecimal price;
+	private BigDecimal   price;
 
 	@Column(name = "AUTHOR", nullable = false)
 	@NotBlank(message = "{book.author.notBlank}")
@@ -65,6 +66,9 @@ public class Book {
 	@JoinColumn(name = "CATEGORY_ID")
 	private Category category;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "book", cascade = CascadeType.ALL)
+	private List<CartItem> cartItemsList;
+	
 	@Override
 	public String toString() {
 		return "Book [id=" + bookId + ", name=" + name + ", price=" + price + ", author=" + author + ", isbn=" + isbn

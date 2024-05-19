@@ -22,7 +22,7 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID", nullable = false)
-    private int id;
+    private Integer id;
     
     @Size(max = 255)
     @NotNull
@@ -71,6 +71,9 @@ public class User implements UserDetails{
     @Column(name = "CREATED_AT", nullable = false, length = 50)
     private String createdAt;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();

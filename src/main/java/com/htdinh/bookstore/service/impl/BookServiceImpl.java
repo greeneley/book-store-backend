@@ -1,6 +1,6 @@
 package com.htdinh.bookstore.service.impl;
 
-import com.htdinh.bookstore.dto.BookResponse;
+import com.htdinh.bookstore.dto.response.BookResponse;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.mapper.BookMapper;
 import com.htdinh.bookstore.repository.BookRepository;

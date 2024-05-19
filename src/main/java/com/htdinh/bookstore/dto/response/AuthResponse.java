@@ -1,4 +1,4 @@
-package com.htdinh.bookstore.dto;
+package com.htdinh.bookstore.dto.response;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,9 +1,8 @@
 package com.htdinh.bookstore.controller;
 
 
-import com.htdinh.bookstore.dto.AuthRequest;
-import com.htdinh.bookstore.dto.UserRequest;
-import com.htdinh.bookstore.dto.UserResponse;
+import com.htdinh.bookstore.dto.request.UserRequest;
+import com.htdinh.bookstore.dto.response.UserResponse;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.exception.TokenInValidException;
 import com.htdinh.bookstore.service.UserService;
