@@ -2,6 +2,7 @@ package com.htdinh.bookstore.dto.response;
 
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 @Getter
 @Setter
@@ -10,5 +11,5 @@ import java.util.List;
 public class CartResponse {
     private UserResponse userResponse;
     private List<CartItemResponse> cartItemResponses;
-    private Integer total;
+    private BigDecimal total;
 }

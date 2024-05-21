@@ -21,11 +21,8 @@ public class Cart {
     private Integer cartId;
     
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinTable(
-            name = "users",
-            joinColumns = @JoinColumn(name = "user_id")
-    )
+    @OneToOne()
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     @Size(max = 50)
@@ -33,6 +30,6 @@ public class Cart {
     @Column(name = "CREATED_AT", nullable = false, length = 50)
     private String createdAt;
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
 }

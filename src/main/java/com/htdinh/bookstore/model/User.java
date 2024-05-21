@@ -71,8 +71,8 @@ public class User implements UserDetails{
     @Column(name = "CREATED_AT", nullable = false, length = 50)
     private String createdAt;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Cart cart;
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+//    private Cart cart;
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

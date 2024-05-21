@@ -16,13 +16,14 @@ public class CartItem {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CART_ITEM_ID", nullable = false)
     private Integer id;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "CART_ID")
     private Cart cart;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "BOOK_ID")
     private Book book;
 

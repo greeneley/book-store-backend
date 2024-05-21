@@ -48,14 +48,13 @@ public class CartServiceImpl implements CartService {
             
             res.add(cartItemMapper.toCartItemResponse(item));
         });
-
+        
+        BigDecimal total = new BigDecimal(0);
 //        UserResponse userResponse = userMapper.toUserResponse(user);
-//        
-//        AtomicReference<BigDecimal> total = null;
-//        res.forEach(item -> {
-//            total.updateAndGet(v -> v.plus(item.getSubTotal()));
-//        });
-//        
-        return null;
+        for (CartItemResponse item: res) {
+            total = total.add(item.getSubTotal());
+        }
+        CartResponse cartResponse = new CartResponse(userMapper.toUserResponse(user),res, total);
+        return cartResponse;
     }
 }
