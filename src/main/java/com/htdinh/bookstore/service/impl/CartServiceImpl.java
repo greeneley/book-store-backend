@@ -5,6 +5,7 @@ import com.htdinh.bookstore.dto.response.CartResponse;
 import com.htdinh.bookstore.dto.response.UserResponse;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.mapper.CartItemMapper;
+import com.htdinh.bookstore.mapper.CartMapper;
 import com.htdinh.bookstore.mapper.UserMapper;
 import com.htdinh.bookstore.model.Cart;
 import com.htdinh.bookstore.model.User;
@@ -33,15 +34,20 @@ public class CartServiceImpl implements CartService {
     private CartItemMapper cartItemMapper;
     @Autowired
     private UserMapper userMapper;
+    
+    @Autowired
+    private CartMapper cartMapper;
+    
     @Override
     public CartResponse getAllInfo() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
+        
         List<CartItemResponse> res = new ArrayList<>();
         
-        Cart cart = cartRepository.findCartByUser(user).orElseThrow(() -> new ResourceNotFoundException("User id " + user.getId() + " not found"));
+        Cart cart = cartRepository.findCartByUserId(user.getId()).orElseThrow(() -> new ResourceNotFoundException("User id " + user.getId() + " not found"));
         
-        cartItemRepository.findAllByCart(cart).forEach(item -> {
+        cartItemRepository.findAllByCartId(cart.getCartId()).forEach(item -> {
             BigDecimal price = item.getBook().getPrice();
             BigDecimal quantity = new BigDecimal(item.getQuantity());
             item.setSubTotal(price.multiply(quantity));
@@ -54,7 +60,10 @@ public class CartServiceImpl implements CartService {
         for (CartItemResponse item: res) {
             total = total.add(item.getSubTotal());
         }
-        CartResponse cartResponse = new CartResponse(userMapper.toUserResponse(user),res, total);
-        return cartResponse;
+       
+        cart.setTotal(total);
+        
+        return cartMapper.toCartResponse(cart);
+       
     }
 }
