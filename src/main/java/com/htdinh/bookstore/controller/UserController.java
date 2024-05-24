@@ -19,7 +19,6 @@ public class UserController {
     @Autowired
     private UserService userService;
     
-    
     @PostMapping("")
     public ResponseEntity<?> getUserById(@RequestBody @Valid UserRequest request) {
         try {

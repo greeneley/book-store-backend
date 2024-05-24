@@ -8,6 +8,5 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface CartMapper {
     @Mapping(target = "cartItemResponse", source = "cartItems")
-    @Mapping(target = "userResponse", source = "user")
     CartResponse toCartResponse(Cart cart);
 }

@@ -63,7 +63,7 @@ public class Book {
 	@Column(name = "FAVORITE", length = 1)
 	private String favorite;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne()
 	@JoinColumn(name = "CATEGORY_ID")
 	private Category category;
 	

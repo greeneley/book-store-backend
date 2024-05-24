@@ -16,7 +16,6 @@ public class CartItemResponse {
     @JsonProperty("cart_item_id")
     private Integer id;
    
-    private CartResponse cartResponse;
     private Book book;
     private Integer quantity;
     private BigDecimal subTotal;
