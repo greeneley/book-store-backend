@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -59,16 +60,21 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
+    @Transactional
     public void deleteItem(int cartItemId) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Cart cart = cartRepository.findCartByUserId(user.getId()).orElseThrow(() -> new ResourceNotFoundException("User id " + user.getId() + " not found"));
+        List<CartItem> cartItemsInCart = cart.getCartItems();
+        
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
-
+        
         if (cartItem != null) {
+            cartItemsInCart.remove(cartItem);
             cartItemRepository.deleteById(cartItemId);
             log.info("Cart Item with ID = " + cartItemId + " deleted successfully");
         } else {
             throw new ResourceNotFoundException("Cart item with id " + cartItemId + " not found");
         }
-        
     }
 
     @Override
