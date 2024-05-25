@@ -56,7 +56,7 @@ public class CartServiceImpl implements CartService {
         });
         
         BigDecimal total = new BigDecimal(0);
-//        UserResponse userResponse = userMapper.toUserResponse(user);
+        
         for (CartItemResponse item: res) {
             total = total.add(item.getSubTotal());
         }

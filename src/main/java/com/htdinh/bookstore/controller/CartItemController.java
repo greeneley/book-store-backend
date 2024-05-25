@@ -3,13 +3,14 @@ package com.htdinh.bookstore.controller;
 import com.htdinh.bookstore.dto.request.CartItemRequest;
 import com.htdinh.bookstore.dto.response.CartItemResponse;
 import com.htdinh.bookstore.service.CartItemService;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -20,12 +21,12 @@ public class CartItemController {
     private CartItemService cartItemService;
     
     @GetMapping("/add")
-    public ResponseEntity<CartItemResponse> addItem(@Valid @RequestBody CartItemRequest request) {
+    public ResponseEntity<CartItemResponse> addItem( @RequestBody CartItemRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(cartItemService.addItem(request));
     }
     
     @GetMapping("/update")
-    public ResponseEntity<CartItemResponse> updateItem(@RequestBody @Valid CartItemRequest request) {
+    public ResponseEntity<CartItemResponse> updateItem(@Valid @RequestBody  CartItemRequest request) {
         return ResponseEntity.ok(cartItemService.updateItem(request));
     }
 
