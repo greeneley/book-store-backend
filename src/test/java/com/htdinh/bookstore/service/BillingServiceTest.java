@@ -12,9 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.htdinh.bookstore.model.Book;
-import com.htdinh.bookstore.model.Customer;
-import com.htdinh.bookstore.model.CustomerBooks;
-import com.htdinh.bookstore.repository.BillingRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.data.domain.Page;

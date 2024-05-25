@@ -63,13 +63,14 @@ public class CartItemServiceImpl implements CartItemService {
     @Transactional
     public void deleteItem(int cartItemId) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Cart cart = cartRepository.findCartByUserId(user.getId()).orElseThrow(() -> new ResourceNotFoundException("User id " + user.getId() + " not found"));
-        List<CartItem> cartItemsInCart = cart.getCartItems();
         
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
         
         if (cartItem != null) {
+            Cart cart = cartRepository.findCartByUserId(user.getId()).orElseThrow(() -> new ResourceNotFoundException("User id " + user.getId() + " not found"));
+            List<CartItem> cartItemsInCart = cart.getCartItems();
             cartItemsInCart.remove(cartItem);
+            
             cartItemRepository.deleteById(cartItemId);
             log.info("Cart Item with ID = " + cartItemId + " deleted successfully");
         } else {
@@ -78,7 +79,22 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
+    @Transactional
     public CartItemResponse updateItem(CartItemRequest request) {
-        return null;
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Cart cart = cartRepository.findCartByUserId(user.getId()).orElseThrow(() -> new ResourceNotFoundException("User id " + user.getId() + " not found"));
+        Book book = bookRepository.findById(request.getBookId()).orElseThrow(() -> new ResourceNotFoundException("Book with ID = " + request.getBookId() + " not found"));
+        CartItem cartItem = cartItemRepository.findByCartAndBook(cart, book).orElse(null);
+        
+        assert cartItem != null;
+
+        cartItem.setQuantity(request.getQuantity());
+        
+        BigDecimal price = book.getPrice();
+        cartItem.setSubTotal(price.multiply(new BigDecimal(cartItem.getQuantity())));
+        
+        log.info("Book with ID = " + request.getBookId() + " updated successfully");
+        
+        return cartItemMapper.toCartItemResponse(cartItem);
     }
 }

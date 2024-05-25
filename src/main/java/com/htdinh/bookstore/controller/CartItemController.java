@@ -8,15 +8,11 @@ import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1/cart-item")
 public class CartItemController {
     
@@ -29,8 +25,8 @@ public class CartItemController {
     }
     
     @GetMapping("/update")
-    public ResponseEntity<String> updateItem(@Valid @RequestBody CartItemRequest request) {
-        return ResponseEntity.ok("Update successfully");
+    public ResponseEntity<CartItemResponse> updateItem(@RequestBody @Valid CartItemRequest request) {
+        return ResponseEntity.ok(cartItemService.updateItem(request));
     }
 
     @GetMapping("/delete/{id}")
