@@ -19,6 +19,5 @@ public class CartItemRequest {
 
     @NotNull(message = "Book ID can not be null")
     @Min(value = 1, message = "Book ID must be greater than 0")
-    @JsonProperty("book_id")
     private Integer bookId;
 }
