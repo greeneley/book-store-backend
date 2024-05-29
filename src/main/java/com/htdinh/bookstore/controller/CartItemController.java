@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/cart-item")
 public class CartItemController {
@@ -20,7 +21,7 @@ public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
     
-    @GetMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<CartItemResponse> addItem( @RequestBody CartItemRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(cartItemService.addItem(request));
     }

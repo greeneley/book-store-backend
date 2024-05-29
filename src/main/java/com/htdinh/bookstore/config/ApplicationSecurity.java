@@ -22,7 +22,9 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
             "/api/v1/auth/login",
             "/api/v1/books/**",
             "/api/v1/user/**",
-            "/swagger-ui/index.html"
+            "/swagger-ui/index.html",
+            "/api/v1/cart",
+            "/api/v1/cart-item/**",
     };
 
     private static final String[] AUTH_WHITELIST = {
