@@ -26,7 +26,7 @@ public class CartItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(cartItemService.addItem(request));
     }
     
-    @GetMapping("/update")
+    @PatchMapping(value = "/update")
     public ResponseEntity<CartItemResponse> updateItem(@Valid @RequestBody  CartItemRequest request) {
         return ResponseEntity.ok(cartItemService.updateItem(request));
     }
