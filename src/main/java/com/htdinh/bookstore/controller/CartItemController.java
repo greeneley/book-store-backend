@@ -27,7 +27,7 @@ public class CartItemController {
     }
     
     @PatchMapping(value = "/update")
-    public ResponseEntity<CartItemResponse> updateItem(@Valid @RequestBody  CartItemRequest request) {
+    public ResponseEntity<CartItemResponse> updateItem(@Valid @RequestBody CartItemRequest request) {
         return ResponseEntity.ok(cartItemService.updateItem(request));
     }
 
