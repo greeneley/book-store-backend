@@ -17,7 +17,7 @@ import java.util.Date;
 public class JwtTokenUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
-    private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000;
+    private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000 * 7;
 
     @Value("${app.jwt.secret}")
     private String SECRET_KEY;
@@ -35,7 +35,7 @@ public class JwtTokenUtil {
     }
 
     private SecretKey getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes =   Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
