@@ -10,8 +10,6 @@ import java.io.Serializable;
 @Value
 public class AddressRequest implements Serializable {
     @NotNull
-    Integer userId;
-    @NotNull
     @Size(max = 250)
     String province;
     @NotNull

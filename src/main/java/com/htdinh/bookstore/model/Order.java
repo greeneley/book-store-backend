@@ -15,11 +15,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     
     @Id
     @Column(name = "ORDER_ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderId;
 
     @NotNull

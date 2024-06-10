@@ -56,8 +56,4 @@ public class Address {
     @Size(max = 50)
     @Column(name = "CREATED_AT", length = 50)
     private String createdAt;
-
-    @OneToMany(mappedBy = "address")
-    private Set<Order> orders = new LinkedHashSet<>();
-
 }

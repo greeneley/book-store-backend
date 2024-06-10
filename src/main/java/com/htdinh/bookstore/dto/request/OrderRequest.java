@@ -16,9 +16,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRequest {
-
-    @NotNull
-    private Integer userId;
     @NotNull
     AddressRequest address;
     OrderStatus orderStatus;
