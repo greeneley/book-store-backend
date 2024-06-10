@@ -1,6 +1,5 @@
 package com.htdinh.bookstore.dto.request;
 
-import com.htdinh.bookstore.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ import java.util.Set;
 public class OrderRequest {
     @NotNull
     AddressRequest address;
-    OrderStatus orderStatus;
+    String orderStatus;
     @Size(max = 50)
     String orderDate;
     @Size(max = 50)
