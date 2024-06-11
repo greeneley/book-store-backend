@@ -1,11 +1,9 @@
 package com.htdinh.bookstore.controller;
 
 import com.htdinh.bookstore.dto.response.BookResponse;
-import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,11 +37,7 @@ public class BookController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getBookById(@PathVariable(value = "id") int id) {
-        try {
-            return ResponseEntity.ok(bookService.getBook(id));
-        } catch (ResourceNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+        return ResponseEntity.ok(bookService.getBook(id));
     }
 
     @GetMapping("/favorite")

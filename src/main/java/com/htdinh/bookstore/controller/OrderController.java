@@ -2,11 +2,8 @@ package com.htdinh.bookstore.controller;
 
 import com.htdinh.bookstore.dto.request.OrderRequest;
 import com.htdinh.bookstore.dto.response.OrderResponse;
-import com.htdinh.bookstore.exception.InvalidEnumException;
-import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +19,7 @@ public class OrderController {
 
     @PostMapping(value = {"", "/"})
     private ResponseEntity<String> createOrder(@Valid @RequestBody OrderRequest orderRequest) {
-        try {
-            return ResponseEntity.ok(orderService.createOrder(orderRequest));
-        } catch (ResourceNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        } catch (InvalidEnumException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
+        return ResponseEntity.ok(orderService.createOrder(orderRequest));
     }
 
     @GetMapping(value = {"/search/{order_id}"})

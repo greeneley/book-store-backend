@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
 
         String orderStatusInput = orderRequest.getOrderStatus();
         if (!checkOrderStatus(orderStatusInput)) {
-            throw new InvalidEnumException("Invalid enum order status:" + orderStatusInput);
+            throw new InvalidEnumException("Invalid enum order status: " + orderStatusInput);
         }
 
         Order newOrderInfo = orderRepository.save(Order.builder()
@@ -80,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
         Set<OrderItem> orderItems = new LinkedHashSet<>();
 
         for (OrderItemRequest newOrderItemRequest : orderRequest.getOrderItems()) {
-            Book newBookItem = bookRepository.findById(newOrderItemRequest.getBookId()).orElseThrow(() -> new ResourceNotFoundException("Book with ID = " + newOrderItemRequest.getBookId() + " not found"));
+            Book newBookItem = bookRepository.findById(newOrderItemRequest.getBookId()).orElseThrow(() -> new ResourceNotFoundException("Book not found"));
             OrderItem newOrderItem = OrderItem.builder().order(newOrderInfo).book(newBookItem).quantity(newOrderItemRequest.getQuantity()).priceAtPurchase(newOrderItemRequest.getPriceAtPurchase()).build();
             orderItems.add(newOrderItem);
         }
