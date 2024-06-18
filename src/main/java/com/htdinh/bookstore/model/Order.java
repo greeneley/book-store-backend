@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @Table(name = "orders")
 public class Order {
-    
+
     @Id
     @Column(name = "ORDER_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +46,7 @@ public class Order {
 
     @Column(name = "TOTAL")
     private Long total;
+
 
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems = new LinkedHashSet<>();

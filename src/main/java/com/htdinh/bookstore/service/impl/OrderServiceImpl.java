@@ -7,6 +7,7 @@ import com.htdinh.bookstore.dto.response.OrderResponse;
 import com.htdinh.bookstore.enums.OrderStatus;
 import com.htdinh.bookstore.exception.InvalidEnumException;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
+import com.htdinh.bookstore.mapper.OrderMapper;
 import com.htdinh.bookstore.model.*;
 import com.htdinh.bookstore.repository.AddressRepository;
 import com.htdinh.bookstore.repository.BookRepository;
@@ -29,11 +30,13 @@ public class OrderServiceImpl implements OrderService {
     private AddressRepository addressRepository;
     @Autowired
     private OrderItemRepository orderItemRepository;
-
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private OrderMapper orderMapper;
 
     private boolean checkOrderStatus(String input) {
         return Arrays.asList(OrderStatus.values()).toString().contains(input);
@@ -92,6 +95,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse getOrderById(Integer id) {
-        return null;
+        Order searchedOrder = orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found"));
+        return orderMapper.toOrderResponse(searchedOrder);
     }
 }
