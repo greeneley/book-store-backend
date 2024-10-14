@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-public class AuthController {
+public class AccessController {
 
     @Autowired
     private AuthenticationManager authManager;
@@ -38,4 +38,18 @@ public class AuthController {
         return ResponseEntity.ok().body(response);
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> signup(@RequestBody @Valid AuthRequest request) {
+        return null;
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody @Valid AuthRequest request) {
+        return null;
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> handleRefreshToken(@RequestBody @Valid AuthRequest request) {
+        return null;
+    }
 }
