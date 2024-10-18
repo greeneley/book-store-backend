@@ -1,4 +1,4 @@
-package com.htdinh.bookstore.dto.request;
+package com.htdinh.bookstore.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookRequest {
-    private int bookId;
+public class ProductResponse {
+    private int productId;
+    private String name;
 }
