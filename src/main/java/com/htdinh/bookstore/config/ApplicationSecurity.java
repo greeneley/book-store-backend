@@ -1,13 +1,19 @@
 package com.htdinh.bookstore.config;
 
+import com.htdinh.bookstore.jwt.JwtTokenFilter;
+import com.htdinh.bookstore.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
@@ -28,14 +34,19 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
             "/api/v1/cart-item/**",
             "/api/v1/orders/**"
     };
-//    @Autowired
-//    private UserRepository userRepository;
-//    @Autowired
-//    private JwtTokenFilter jwtTokenFilter;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private JwtTokenFilter jwtTokenFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
+        http.csrf().disable().authorizeRequests()
+                .antMatchers(PUBLIC_ENDPOINTS).permitAll()
+                .anyRequest().authenticated()
+                .and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //
 //        http.authorizeRequests()
@@ -45,16 +56,14 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 //                .antMatchers(AUTH_WHITELIST).permitAll()
 //                .anyRequest().authenticated();
 //
-//        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        http.authorizeRequests().antMatchers("/**").permitAll();
+        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.authorizeRequests().antMatchers("/**").permitAll();
 
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(
-//                username -> userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"))
-//        );
+        auth.userDetailsService(username -> userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found")));
     }
 
     @Bean
