@@ -10,9 +10,14 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, BigDecimal> {
-    @Query(value = "SELECT * FROM USER WHERE USERNAME = :username", nativeQuery = true)
+    //    @Query(value = "SELECT * FROM USER WHERE USERNAME = :username", nativeQuery = true)
     Optional<User> findByUsername(String username);
 
     @Query(value = "SELECT * FROM USER WHERE USERNAME = :username and EMAIL = :email", nativeQuery = true)
     Optional<User> findByUsernameAndEmail(String username, String email);
+
+    Optional<User> findByEmail(String email);
+
+    @Query(value = "SELECT MAX(USER_ID) FROM USER", nativeQuery = true)
+    BigDecimal getMaxId();
 }

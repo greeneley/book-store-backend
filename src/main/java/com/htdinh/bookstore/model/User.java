@@ -20,7 +20,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "USER")
+@Table(name = "USER", schema = "bookstore")
 public class User implements UserDetails {
 
     @Id
@@ -30,7 +30,7 @@ public class User implements UserDetails {
 
     @Size(max = 50)
     @NotNull
-    @Column(name = "USERNAME", nullable = false, length = 50)
+    @Column(name = "USERNAME", nullable = false, length = 50, unique = true)
     private String username;
 
     @Size(max = 255)
@@ -60,7 +60,7 @@ public class User implements UserDetails {
 
     @Size(max = 128)
     @NotNull
-    @Column(name = "EMAIL", nullable = false, length = 128)
+    @Column(name = "EMAIL", nullable = false, length = 128, unique = true)
     @Getter
     private String email;
 

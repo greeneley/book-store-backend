@@ -26,7 +26,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**",
     };
     private final String[] PUBLIC_ENDPOINTS = {
-            "/api/v1/auth/login",
+            "/api/v1/auth/*",
             "/api/v1/books/**",
             "/api/v1/user/**",
             "/swagger-ui/index.html",
@@ -68,6 +68,11 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

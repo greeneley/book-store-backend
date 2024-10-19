@@ -1,10 +1,15 @@
 package com.htdinh.bookstore.controller;
 
 import com.htdinh.bookstore.dto.request.AuthRequest;
+import com.htdinh.bookstore.dto.request.RefreshTokenRequest;
+import com.htdinh.bookstore.dto.request.RegisterRequest;
 import com.htdinh.bookstore.dto.response.AuthResponse;
+import com.htdinh.bookstore.dto.response.RefreshTokenResponse;
 import com.htdinh.bookstore.jwt.JwtTokenUtil;
 import com.htdinh.bookstore.model.User;
+import com.htdinh.bookstore.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +30,9 @@ public class AuthController {
     @Autowired
     private JwtTokenUtil jwtUtil;
 
+    @Autowired
+    private AuthService authService;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {
         Authentication authentication = authManager.authenticate(
@@ -39,18 +47,19 @@ public class AuthController {
         return ResponseEntity.ok().body(response);
     }
 
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
+        RefreshTokenResponse refreshTokenResponse = new RefreshTokenResponse(jwtUtil.createJwtRefreshToken(String.valueOf(request.getId())));
+        return ResponseEntity.ok().body(refreshTokenResponse);
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<?> signup(@RequestBody @Valid AuthRequest request) {
-        return null;
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request));
     }
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestBody @Valid AuthRequest request) {
-        return null;
-    }
-
-    @PostMapping("/refresh-token")
-    public ResponseEntity<?> handleRefreshToken(@RequestBody @Valid AuthRequest request) {
         return null;
     }
 }
