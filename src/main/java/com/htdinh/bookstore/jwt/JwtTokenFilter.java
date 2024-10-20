@@ -31,14 +31,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        String token = getToken(request);
+        String accessToken = getAccessToken(request);
 
-        if (!jwtTokenUtil.isAccessTokenValid(token)) {
+        if (!jwtTokenUtil.isAccessTokenValid(accessToken)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        setAuthenticationContext(token, request);
+        setAuthenticationContext(accessToken, request);
         filterChain.doFilter(request, response);
     }
 
@@ -47,8 +47,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         return !ObjectUtils.isEmpty(header);
     }
 
-    private String getToken(HttpServletRequest request) {
+    private String getAccessToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
+    }
+
+    private String getRefreshToken(HttpServletRequest request) {
+        return request.getHeader("x-refresh-token");
     }
 
     private void setAuthenticationContext(String token, HttpServletRequest request) {

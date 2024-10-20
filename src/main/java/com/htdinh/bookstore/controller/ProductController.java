@@ -5,13 +5,11 @@ import com.htdinh.bookstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -26,7 +24,6 @@ public class ProductController {
             @Min(value = 0, message = "Page index must not be less than zero")
             @NotNull(message = "Page index must not be null")
             Integer pageNumber,
-
             @RequestParam(value = "size")
             @Min(value = 0, message = "Page size must not be less than 1")
             @NotNull(message = "Page size must not be null")
@@ -36,18 +33,31 @@ public class ProductController {
     ) {
         return ResponseEntity.ok(productService.getAllProduct(pageNumber, pageSize, seed));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> getProductsByName(@RequestParam(value = "key") String keySearch,
+                                               @RequestParam(value = "page")
+                                               @Min(value = 0, message = "Page index must not be less than zero")
+                                               @NotNull(message = "Page index must not be null")
+                                               Integer pageNumber,
+                                               @RequestParam(value = "size")
+                                               @Min(value = 0, message = "Page size must not be less than 1")
+                                               @NotNull(message = "Page size must not be null")
+                                               Integer pageSize) {
+        return ResponseEntity.ok(productService.getProductsByName(keySearch, pageNumber, pageSize));
+    }
+
+
+    @PostMapping("/publish/{product_id}")
+    public void publishProductByShop(@PathVariable(value = "product_id") BigDecimal productId) {
+        productService.publishProductByShop(productId);
+    }
+
+    @PostMapping("/draft/{product_id}")
+    public void draftProductByShop(@PathVariable(value = "product_id") BigDecimal productId) {
+        productService.draftProductByShop(productId);
+    }
 //
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> getBookById(@PathVariable(value = "id") int id) {
-//        return ResponseEntity.ok(bookService.getBook(id));
-//    }
-//
-//    @GetMapping("/search/{keySearch}")
-//    public ResponseEntity<?> getListSearchBook(@PathVariable(value = "keySearch") String keySearch) {
-//        // TODO;
-//        return null;
-////        return ResponseEntity.ok(bookService.getBook(id));
-//    }
 //
 //    @PostMapping("")
 //    public ResponseEntity<?> createProduct(String keySearch) {
