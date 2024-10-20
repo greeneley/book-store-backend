@@ -1,19 +1,16 @@
 package com.htdinh.bookstore.controller;
 
 import com.htdinh.bookstore.dto.request.AuthRequest;
+import com.htdinh.bookstore.dto.request.LogoutRequest;
 import com.htdinh.bookstore.dto.request.RefreshTokenRequest;
 import com.htdinh.bookstore.dto.request.RegisterRequest;
-import com.htdinh.bookstore.dto.response.AuthResponse;
 import com.htdinh.bookstore.dto.response.RefreshTokenResponse;
 import com.htdinh.bookstore.jwt.JwtTokenUtil;
-import com.htdinh.bookstore.model.User;
 import com.htdinh.bookstore.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,16 +32,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {
-        Authentication authentication = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-        );
-
-        User user = (User) authentication.getPrincipal();
-        String accessToken = jwtUtil.createJwtAccessToken(user);
-        String refreshToken = jwtUtil.createJwtRefreshToken(String.valueOf(user.getId()));
-        AuthResponse response = new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), accessToken, refreshToken);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(authService.login(request));
     }
 
     @PostMapping("/refresh-token")
@@ -59,7 +47,8 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestBody @Valid AuthRequest request) {
-        return null;
+    public ResponseEntity<?> logout(@RequestBody @Valid LogoutRequest request) {
+
+        return ResponseEntity.ok().body(authService.logout(request));
     }
 }

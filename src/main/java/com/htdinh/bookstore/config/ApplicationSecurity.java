@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
@@ -65,11 +64,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(username -> userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found")));
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {

@@ -1,10 +1,10 @@
 package com.htdinh.bookstore.jwt;
 
 import com.htdinh.bookstore.model.User;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,41 +19,30 @@ public class JwtTokenUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
 
-    // 1h
-    private static final long ACCESS_TOKEN_VALID_TIME = 60 * 60 * 1000;
-    // 7 day
-    private static final long REFRESH_TOKEN_VALID_TIME = 24 * 60 * 60 * 1000 * 7;
+    private static final long ACCESS_TOKEN_VALID_TIME = 60 * 60 * 1000; // 1 hour
+    private static final long REFRESH_TOKEN_VALID_TIME = 24 * 60 * 60 * 1000 * 7; // 7 days
 
     @Value("${app.jwt.secret}")
     private String SECRET_KEY;
 
     public String createJwtAccessToken(User user) {
-        Claims claims = Jwts.claims();
-
-        claims.put("id", user.getId());
-        claims.put("username", user.getUsername());
-
-        Date now = new Date();
-        Date expiration = new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALID_TIME);
-
-        return Jwts.builder()
-                .setIssuer(String.valueOf(user.getId()))
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(expiration)
-                .signWith(getSigningKey())
-                .compact();
+        return createToken(user.getId(), user.getUsername(), ACCESS_TOKEN_VALID_TIME);
     }
 
     public String createJwtRefreshToken(String userId) {
-        Claims claims = Jwts.claims();
-        claims.put("ID", userId);
+        return createToken(userId, null, REFRESH_TOKEN_VALID_TIME);
+    }
+
+    private String createToken(Object id, String username, long validTime) {
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("id", id);
 
         Date now = new Date();
-        Date expiration = new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALID_TIME);
+        Date expiration = new Date(now.getTime() + validTime);
 
         return Jwts.builder()
-                .setIssuer(userId)
+                .setIssuer(String.valueOf(id))
+                .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiration)
                 .signWith(getSigningKey())
@@ -65,31 +54,17 @@ public class JwtTokenUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    protected Claims getClaimsFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
+    public boolean isAccessTokenValid(String token) {
+        return isTokenValid(token);
     }
 
-    public boolean validateAccessToken(String token) {
-        try {
-            Jwts.parser().setSigningKey(getSigningKey()).parseClaimsJws(token);
-            return true;
-        } catch (ExpiredJwtException ex) {
-            LOGGER.error("JWT expired", ex.getMessage());
-        } catch (IllegalArgumentException ex) {
-            LOGGER.error("Token is null, empty or only whitespace", ex.getMessage());
-        } catch (MalformedJwtException ex) {
-            LOGGER.error("JWT is invalid", ex);
-        } catch (UnsupportedJwtException ex) {
-            LOGGER.error("JWT is not supported", ex);
-        } catch (SignatureException ex) {
-            LOGGER.error("Signature validation failed");
-        }
-        return false;
+    public boolean isRefreshTokenValid(String token) {
+        return isTokenValid(token);
     }
 
-    protected boolean isAccessTokenValid(String token) {
+    private boolean isTokenValid(String token) {
         try {
-            Claims claims = getClaimsFromToken(token);
+            Claims claims = extractAllClaims(token);
             return !claims.getExpiration().before(new Date());
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -97,16 +72,6 @@ public class JwtTokenUtil {
         }
     }
 
-    protected boolean isRefreshTokenValid(String token) {
-        try {
-            Claims claims = getClaimsFromToken(token);
-            return !claims.getExpiration().before(new Date());
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            return false;
-        }
-    }
-    
     // extract username from toke
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -123,6 +88,6 @@ public class JwtTokenUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJwt(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
     }
 }
