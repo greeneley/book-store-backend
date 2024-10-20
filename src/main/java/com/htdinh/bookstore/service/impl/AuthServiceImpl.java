@@ -68,6 +68,7 @@ public class AuthServiceImpl implements AuthService {
         return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), accessToken, generatedRefreshToken);
     }
 
+    @Transactional
     public String logout(LogoutRequest request) {
         User user = userRepository.findById(request.getId()).orElseThrow(() -> new ResourceNotFoundException("User with ID = " + request.getId() + " not found"));
         refreshTokenRepository.deleteByUserId(user.getId());
