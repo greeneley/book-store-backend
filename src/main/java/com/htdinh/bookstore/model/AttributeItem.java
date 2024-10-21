@@ -11,23 +11,25 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
-@Table(name = "PRODUCT_ATTRIBUTE", schema = "bookstore")
-public class ProductAttribute {
-
+@Table(name = "ATTRIBUTE_ITEM", schema = "bookstore")
+public class AttributeItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SEQ_ID", nullable = false)
+    @Column(name = "ATTRIBUTE_ITEM_ID", nullable = false)
     private Long id;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ATTRIBUTE_ID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ATTRIBUTE_ID")
     private Attribute attribute;
 
+    @Size(max = 50)
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PRODUCT_ID", nullable = false)
-    private Product product;
+    @Column(name = "NAME", nullable = false, length = 50)
+    private String name;
+
+    @Size(max = 500)
+    @Column(name = "DESCRIPTION", length = 500)
+    private String description;
 
     @Column(name = "CRT_ID", precision = 22)
     private BigDecimal crtId;
@@ -42,5 +44,4 @@ public class ProductAttribute {
     @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
     private String updtDt;
-
 }

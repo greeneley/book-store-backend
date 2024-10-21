@@ -41,17 +41,13 @@ public class Product {
     private String isPublish;
 
     @Size(max = 50)
-    @Column(name = "PRICE", length = 50)
-    private String price;
+    @Column(name = "REGULAR_PRICE", length = 50)
+    private String regularPrice;
 
     @Size(max = 50)
-    @Column(name = "PRICE_MIN", length = 50)
-    private String priceMin;
-
-    @Size(max = 50)
-    @Column(name = "PRICE_MAX", length = 50)
-    private String priceMax;
-
+    @Column(name = "SALE_PRICE", length = 50)
+    private String salePrice;
+    
     @Column(name = "CRT_ID", precision = 22)
     private BigDecimal crtId;
 
@@ -83,5 +79,6 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private Set<ProductVariant> productVariants = new LinkedHashSet<>();
+
 
 }
