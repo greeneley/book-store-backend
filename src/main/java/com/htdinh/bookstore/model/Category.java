@@ -7,26 +7,25 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "PRODUCT_CATEGORY", schema = "bookstore")
-public class ProductCategory {
+@Table(name = "CATEGORY", schema = "bookstore")
+public class Category {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SEQ_ID", nullable = false)
+    @Column(name = "CAT_ID", nullable = false)
     private Long id;
 
+    @Size(max = 128)
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "CAT_ID", nullable = false)
-    private Category cat;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PRODUCT_ID", nullable = false)
-    private Product product;
+    @Column(name = "NAME", nullable = false, length = 128)
+    private String name;
 
     @Column(name = "CRT_ID", precision = 22)
     private BigDecimal crtId;
@@ -41,5 +40,8 @@ public class ProductCategory {
     @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
     private String updtDt;
+
+    @OneToMany(mappedBy = "cat")
+    private Set<ProductCategory> productCategories = new LinkedHashSet<>();
 
 }
