@@ -16,4 +16,11 @@ public interface ProductRepository extends JpaRepository<Product, BigDecimal> {
 
     @Query(value = "select * from PRODUCT p WHERE p.name like %:name% and p.IS_PUBLISH = 'T'", nativeQuery = true)
     Page<Product> findAllByName(String name, Pageable pageable);
+
+
+    @Query(value = "select * from PRODUCT P WHERE P.USER_ID = :userId  and P.IS_PUBLISH = 'T'", nativeQuery = true)
+    Page<Product> findAllPublishProduct(BigDecimal userId, Pageable pageable);
+
+    @Query(value = "select * from PRODUCT P WHERE P.USER_ID = :userId  and P.IS_PUBLISH = 'F'", nativeQuery = true)
+    Page<Product> findAllDraftProduct(BigDecimal userId, Pageable pageable);
 }

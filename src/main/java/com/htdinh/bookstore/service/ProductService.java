@@ -13,5 +13,10 @@ public interface ProductService {
 
     void publishProductByShop(BigDecimal productId);
 
+    Page<ProductResponse> getAllPublishForShop(int pageNumber, int pageSize);
+
+
     void draftProductByShop(BigDecimal productId);
+
+    Page<ProductResponse> getAllDraftForShop(int pageNumber, int pageSize);
 }

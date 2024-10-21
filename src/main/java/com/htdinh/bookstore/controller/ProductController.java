@@ -53,46 +53,41 @@ public class ProductController {
         productService.publishProductByShop(productId);
     }
 
+    @GetMapping("/publish/all")
+    public ResponseEntity<?> getAllPublishForShop(@RequestParam(value = "page")
+                                                  @Min(value = 0, message = "Page index must not be less than zero")
+                                                  @NotNull(message = "Page index must not be null")
+                                                  Integer pageNumber,
+                                                  @RequestParam(value = "size")
+                                                  @Min(value = 0, message = "Page size must not be less than 1")
+                                                  @NotNull(message = "Page size must not be null")
+                                                  Integer pageSize) {
+        return ResponseEntity.ok(productService.getAllPublishForShop(pageNumber, pageSize));
+    }
+
     @PostMapping("/draft/{product_id}")
     public void draftProductByShop(@PathVariable(value = "product_id") BigDecimal productId) {
         productService.draftProductByShop(productId);
     }
-//
-//
-//    @PostMapping("")
-//    public ResponseEntity<?> createProduct(String keySearch) {
-//        // TODO;
-//        return null;
-//    }
-//
-//    @PatchMapping("/{product_id}")
-//    public ResponseEntity<?> updateProduct(String keySearch) {
-//        // TODO;
-//        return null;
-//    }
-//
-//    @PostMapping("/publish/{id}")
-//    public ResponseEntity<?> publishProductByShop(String keySearch) {
-//        // TODO;
-//        return null;
-//    }
-//
-//    @PostMapping("/unpublish/{id}")
-//    public ResponseEntity<?> unPublishProductByShop(String keySearch) {
-//        // TODO;
-//        return null;
-//    }
-//
-//    @GetMapping("/drafts/all")
-//    public ResponseEntity<?> getAllDraftsForShop(String keySearch) {
-//        // TODO;
-//        return null;
-//    }
-//
-//    @GetMapping("/published/all")
-//    public ResponseEntity<?> getAllPublishForShop(String keySearch) {
-//        // TODO;
-//        return null;
-//    }
+
+    @GetMapping("/draft/all")
+    public ResponseEntity<?> draftProductByShop(@RequestParam(value = "page")
+                                                @Min(value = 0, message = "Page index must not be less than zero")
+                                                @NotNull(message = "Page index must not be null")
+                                                Integer pageNumber,
+                                                @RequestParam(value = "size")
+                                                @Min(value = 0, message = "Page size must not be less than 1")
+                                                @NotNull(message = "Page size must not be null")
+                                                Integer pageSize) {
+        return ResponseEntity.ok(productService.getAllDraftForShop(pageNumber, pageSize));
+    }
+
+
+    @PostMapping("")
+    public ResponseEntity<?> createProduct(String keySearch) {
+        // TODO;
+        return null;
+    }
+
 
 }

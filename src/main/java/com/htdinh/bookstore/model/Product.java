@@ -37,10 +37,6 @@ public class Product {
     private Long rating;
 
     @Size(max = 50)
-    @Column(name = "IS_DRAFT", length = 50)
-    private String isDraft;
-
-    @Size(max = 50)
     @Column(name = "IS_PUBLISH", length = 50)
     private String isPublish;
 

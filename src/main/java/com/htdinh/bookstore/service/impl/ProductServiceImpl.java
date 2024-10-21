@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -50,8 +50,13 @@ public class ProductServiceImpl implements ProductService {
         }
 
         product.setIsPublish("T");
-        product.setIsDraft("F");
         productRepository.save(product);
+    }
+
+    @Override
+    public Page<ProductResponse> getAllPublishForShop(int pageNumber, int pageSize) {
+        User user = getCurrentUser();
+        return productRepository.findAllPublishProduct(user.getId(), PageRequest.of(pageNumber, pageSize)).map(productMapper::toProductResponse);
     }
 
     @Override
@@ -66,7 +71,12 @@ public class ProductServiceImpl implements ProductService {
         }
 
         product.setIsPublish("F");
-        product.setIsDraft("T");
         productRepository.save(product);
+    }
+
+    @Override
+    public Page<ProductResponse> getAllDraftForShop(int pageNumber, int pageSize) {
+        User user = getCurrentUser();
+        return productRepository.findAllDraftProduct(user.getId(), PageRequest.of(pageNumber, pageSize)).map(productMapper::toProductResponse);
     }
 }
