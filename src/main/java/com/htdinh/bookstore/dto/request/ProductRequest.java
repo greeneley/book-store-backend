@@ -1,13 +1,11 @@
 package com.htdinh.bookstore.dto.request;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
-@Setter
 public class ProductRequest {
     @Size(max = 50)
     String name;

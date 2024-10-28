@@ -2,13 +2,13 @@ package com.htdinh.bookstore.dto.request;
 
 import com.htdinh.bookstore.enums.DiscountType;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
-@Setter
 public class CouponRequest {
 
     @NotNull
@@ -16,6 +16,8 @@ public class CouponRequest {
     String code;
     @Size(max = 50)
     String description;
+
+    @NotNull
     DiscountType discountType;
     @Size(max = 50)
     String amount;
@@ -33,8 +35,6 @@ public class CouponRequest {
     String limitUsageToXItems;
     @Size(max = 50)
     String usageLimitPerUser;
-    @Size(max = 50)
-    String usesCount;
-    @Size(max = 50)
-    String usersUsed;
+    List<BigDecimal> productIds;
+    List<BigDecimal> excludeProductIds;
 }
