@@ -1,5 +1,6 @@
 package com.htdinh.bookstore.service;
 
+import com.htdinh.bookstore.dto.request.ProductRequest;
 import com.htdinh.bookstore.dto.response.ProductResponse;
 import org.springframework.data.domain.Page;
 
@@ -19,4 +20,6 @@ public interface ProductService {
     void draftProductByShop(BigDecimal productId);
 
     Page<ProductResponse> getAllDraftForShop(int pageNumber, int pageSize);
+
+    String createProduct(ProductRequest request);
 }

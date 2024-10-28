@@ -1,5 +1,6 @@
 package com.htdinh.bookstore.controller;
 
+import com.htdinh.bookstore.dto.request.ProductRequest;
 import com.htdinh.bookstore.dto.response.ProductResponse;
 import com.htdinh.bookstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,34 +84,8 @@ public class ProductController {
     }
 
 
-//    @PostMapping("")
-//    public ResponseEntity<?> createProduct(@RequestParam(value = "name") String name,
-//                                           @RequestParam(value = "description") String description,
-//                                           @RequestParam(value = "stock") int stock,
-//                                           @RequestParam(value = "price") BigDecimal price,
-//                                           @RequestParam(value = "category") String category,
-//                                           @RequestParam(value = "variant") String variant,
-//                                           @RequestParam(value = "image") String image) {
-//        // Check if product category exists, if exists, add it
-//        if (productService.categoryExists(category)) {
-//            productService.addCategoryToProduct(name, category);
-//        }
-//
-//        // Check if product variant exists, if exists, add it
-//        if (productService.variantExists(variant)) {
-//            productService.addVariantToProduct(name, variant);
-//        }
-//
-//        // Check if product image exists, if exists, add it
-//        if (productService.imageExists(image)) {
-//            productService.addImageToProduct(name, image);
-//        }
-//
-//        // Create the product
-//        ProductResponse productResponse = productService.createProduct(name, description, stock, price);
-//
-//        return ResponseEntity.ok(productResponse);
-//    }
-
-
+    @PostMapping("/create")
+    public ResponseEntity<String> createProduct(@RequestBody ProductRequest request) {
+        return ResponseEntity.ok(productService.createProduct(request));
+    }
 }

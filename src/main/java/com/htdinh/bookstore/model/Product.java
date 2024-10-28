@@ -15,6 +15,7 @@ import java.util.Set;
 @Table(name = "PRODUCT", schema = "bookstore")
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PRODUCT_ID", nullable = false, precision = 22)
     private BigDecimal id;
 
@@ -47,7 +48,7 @@ public class Product {
     @Size(max = 50)
     @Column(name = "SALE_PRICE", length = 50)
     private String salePrice;
-    
+
     @Column(name = "CRT_ID", precision = 22)
     private BigDecimal crtId;
 

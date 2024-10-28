@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
 public class ProductRequest {
-
     @Size(max = 50)
     String name;
     String description;
@@ -18,5 +18,6 @@ public class ProductRequest {
     @Size(max = 50)
     String salePrice;
 
-//    List<Long> categoryIds;
+    List<Long> categoryIds;
+    List<Long> attributeIds;
 }
