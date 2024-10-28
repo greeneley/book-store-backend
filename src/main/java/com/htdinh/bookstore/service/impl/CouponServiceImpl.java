@@ -41,8 +41,10 @@ public class CouponServiceImpl implements CouponService {
     @Override
     @Transactional
     public String createCouponCode(CouponRequest request) {
-        Coupon coupon = new Coupon();
 
+        validateCoupon(request);
+
+        Coupon coupon = new Coupon();
         coupon.setCode(request.getCode());
         coupon.setDescription(request.getDescription());
         coupon.setDiscountType(request.getDiscountType());
@@ -88,9 +90,30 @@ public class CouponServiceImpl implements CouponService {
         return "coupon created successfully";
     }
 
+    private void validateCoupon(CouponRequest couponRequest) {
+        if (couponRepository.findCouponByCode(couponRequest.getCode()).isPresent()) {
+            throw new RuntimeException("Code already exists");
+        }
+    }
+
     @Override
     public Page<CouponResponse> getAllCouponCode(int pageNumber, int pageSize) {
         return couponRepository.findAll(PageRequest.of(pageNumber, pageSize)).map(couponMapper::toCouponResponse);
+    }
+
+    @Override
+    public String deleteCouponCode(Long couponId) {
+        Coupon coupon = couponRepository.findById(couponId)
+                .orElseThrow(() -> new IllegalArgumentException("couponId id not exists:::" + couponId));
+
+        productCouponRepository.findAllByCoupon(coupon)
+                .ifPresent(productCoupons -> productCoupons.forEach(productCouponRepository::delete));
+
+        excludeProductCouponRepository.findAllByCoupon(coupon)
+                .ifPresent(excludeProductCoupons -> excludeProductCoupons.forEach(excludeProductCouponRepository::delete));
+
+        couponRepository.delete(coupon);
+        return "delete successfully";
     }
 
     private String getCurrentTimestamp() {

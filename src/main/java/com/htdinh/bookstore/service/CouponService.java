@@ -8,4 +8,6 @@ public interface CouponService {
     String createCouponCode(CouponRequest request);
 
     Page<CouponResponse> getAllCouponCode(int pageNumber, int pageSize);
+
+    String deleteCouponCode(Long couponId);
 }

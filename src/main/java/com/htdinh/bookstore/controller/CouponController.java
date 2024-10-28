@@ -34,7 +34,12 @@ public class CouponController {
                                               Integer pageSize) {
         return ResponseEntity.ok(couponService.getAllCouponCode(pageNumber, pageSize));
     }
-//
+
+    @DeleteMapping("/delete/{coupon_id}")
+    public String deleteDiscount(@PathVariable("coupon_id") Long couponId) {
+        return couponService.deleteCouponCode(couponId);
+    }
+    //
 //    @GetMapping("/all")
 //    public ResponseEntity<String> getCouponAmount() {
 //        return categoryService.getAllCategory();
@@ -45,8 +50,4 @@ public class CouponController {
 //        return categoryService.getAllCategory();
 //    }
 //
-//    @GetMapping("/all")
-//    public ResponseEntity<String> deleteDiscount() {
-//        return categoryService.getAllCategory();
-//    }
 }
