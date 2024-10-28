@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
         if (!product.getUser().getId().equals(user.getId())) {
             throw new IllegalArgumentException("Product does not belong to the shop with id: " + user.getId());
         }
-
+        
         product.setIsPublish(true);
         productRepository.save(product);
     }

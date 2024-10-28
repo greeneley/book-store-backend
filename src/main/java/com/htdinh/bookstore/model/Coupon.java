@@ -1,5 +1,6 @@
 package com.htdinh.bookstore.model;
 
+import com.htdinh.bookstore.enums.DiscountType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,8 +16,6 @@ import java.util.Set;
 @Entity
 @Table(name = "COUPON", schema = "bookstore")
 public class Coupon {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COUPON_ID", nullable = false)
@@ -29,10 +28,10 @@ public class Coupon {
     @Size(max = 50)
     @Column(name = "DESCRIPTION", length = 50)
     private String description;
-
-    @Lob
-    @Column(name = "DISCOUNT_TYPE")
-    private String discountType;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "discount_type")
+    private DiscountType discountType;
 
     @Size(max = 50)
     @Column(name = "AMOUNT", length = 50)
@@ -53,14 +52,6 @@ public class Coupon {
     @Size(max = 50)
     @Column(name = "MIN_ORDER_VALUE", length = 50)
     private String minOrderValue;
-
-    @Size(max = 50)
-    @Column(name = "PRODUCT_IDS", length = 50)
-    private String productIds;
-
-    @Size(max = 50)
-    @Column(name = "EXCLUDE_PRODUCT_IDS", length = 50)
-    private String excludeProductIds;
 
     @Size(max = 50)
     @Column(name = "USAGE_LIMIT", length = 50)
@@ -106,4 +97,6 @@ public class Coupon {
     @OneToMany(mappedBy = "coupon")
     private Set<ProductCoupon> productCoupons = new LinkedHashSet<>();
 
+
 }
+
