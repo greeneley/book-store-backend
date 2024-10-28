@@ -11,35 +11,21 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
-@Table(name = "PRODUCT_VARIANT", schema = "bookstore")
-public class ProductVariant {
-
-    @EmbeddedId
-    private ProductVariantId id;
+@Table(name = "EXCLUDE_PRODUCT_COUPON", schema = "bookstore")
+public class ExcludeProductCoupon {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SEQ_ID", nullable = false)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_ID")
-    private Product product;
+    @JoinColumn(name = "COUPON_ID")
+    private Coupon coupon;
 
-    @Size(max = 50)
     @NotNull
-    @Column(name = "PRICE", nullable = false, length = 50)
-    private String price;
-
-    @Size(max = 50)
-    @Column(name = "SKU", length = 50)
-    private String sku;
-
-    @Column(name = "STOCK")
-    private Long stock;
-
-    @Size(max = 50)
-    @Column(name = "DESCRIPTION", length = 50)
-    private String description;
-
-    @Column(name = "IS_PUBLISH")
-    private Boolean isPublish;
-
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "PRODUCT_ID", nullable = false)
+    private Product product;
 
     @Column(name = "CRT_ID", precision = 22)
     private BigDecimal crtId;
@@ -54,6 +40,5 @@ public class ProductVariant {
     @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
     private String updtDt;
-
 
 }

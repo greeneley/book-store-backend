@@ -14,13 +14,13 @@ public interface ProductRepository extends JpaRepository<Product, BigDecimal> {
     @Query(value = "select * from PRODUCT P WHERE P.USER_ID = :userId  order by rand(:seed)", nativeQuery = true)
     Page<Product> findAllById(BigDecimal userId, Integer seed, Pageable pageable);
 
-    @Query(value = "select * from PRODUCT p WHERE p.name like %:name% and p.IS_PUBLISH = 'T'", nativeQuery = true)
+    @Query(value = "select * from PRODUCT p WHERE p.name like %:name% and p.IS_PUBLISH IS TRUE", nativeQuery = true)
     Page<Product> findAllByName(String name, Pageable pageable);
 
 
-    @Query(value = "select * from PRODUCT P WHERE P.USER_ID = :userId  and P.IS_PUBLISH = 'T'", nativeQuery = true)
+    @Query(value = "select * from PRODUCT P WHERE P.USER_ID = :userId  and P.IS_PUBLISH IS TRUE", nativeQuery = true)
     Page<Product> findAllPublishProduct(BigDecimal userId, Pageable pageable);
 
-    @Query(value = "select * from PRODUCT P WHERE P.USER_ID = :userId  and P.IS_PUBLISH = 'F'", nativeQuery = true)
+    @Query(value = "select * from PRODUCT P WHERE P.USER_ID = :userId  and P.IS_PUBLISH IS FALSE", nativeQuery = true)
     Page<Product> findAllDraftProduct(BigDecimal userId, Pageable pageable);
 }

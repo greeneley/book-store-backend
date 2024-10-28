@@ -39,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductAttributeRepository productAttributeRepository;
 
+
     private User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
@@ -65,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException("Product does not belong to the shop with id: " + user.getId());
         }
 
-        product.setIsPublish("T");
+        product.setIsPublish(true);
         productRepository.save(product);
     }
 
@@ -86,7 +87,7 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException("Product does not belong to the shop with id: " + user.getId());
         }
 
-        product.setIsPublish("F");
+        product.setIsPublish(false);
         productRepository.save(product);
     }
 
@@ -105,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
         product.setName(request.getName());
         product.setDescription(request.getDescription());
         product.setStock(request.getStock());
-        product.setIsPublish("F");
+        product.setIsPublish(true);
         product.setRegularPrice(request.getRegularPrice());
         product.setSalePrice(request.getSalePrice());
         product.setCrtDt(getCurrentTimestamp());
@@ -138,7 +139,7 @@ public class ProductServiceImpl implements ProductService {
 
             productAttributeRepository.save(productAttribute);
         });
-
+        Coupon coupon = new Coupon();
         return "Create product successfully";
     }
 

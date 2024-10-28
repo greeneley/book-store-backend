@@ -37,9 +37,8 @@ public class Product {
     @Column(name = "RATING")
     private Long rating;
 
-    @Size(max = 50)
-    @Column(name = "IS_PUBLISH", length = 50)
-    private String isPublish;
+    @Column(name = "IS_PUBLISH")
+    private Boolean isPublish;
 
     @Size(max = 50)
     @Column(name = "REGULAR_PRICE", length = 50)

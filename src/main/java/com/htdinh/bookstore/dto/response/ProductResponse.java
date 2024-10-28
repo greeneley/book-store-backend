@@ -21,7 +21,7 @@ public class ProductResponse {
     private Long stock;
     private Long rating;
     @Size(max = 50)
-    private String isPublish;
+    private Boolean isPublish;
     @Size(max = 50)
     private String price;
     @Size(max = 50)
@@ -94,7 +94,7 @@ public class ProductResponse {
         @Size(max = 50)
         private String description;
         @Size(max = 1)
-        private String isPublish;
+        private Boolean isPublish;
     }
 
     /**

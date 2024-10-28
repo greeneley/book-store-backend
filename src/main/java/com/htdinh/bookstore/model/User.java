@@ -38,10 +38,9 @@ public class User implements UserDetails {
     @Column(name = "PASSWORD", nullable = false, length = 50)
     private String password;
 
-    @Size(max = 1)
     @NotNull
-    @Column(name = "IS_ACTIVE", nullable = false, length = 1)
-    private String isActive;
+    @Column(name = "IS_ACTIVE", nullable = false)
+    private Boolean isActive = false;
 
     @Size(max = 50)
     @NotNull
@@ -87,6 +86,7 @@ public class User implements UserDetails {
     @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
     private String updtDt;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
