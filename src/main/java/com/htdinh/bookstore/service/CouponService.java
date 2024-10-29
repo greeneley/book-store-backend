@@ -10,4 +10,6 @@ public interface CouponService {
     Page<CouponResponse> getAllCouponCode(int pageNumber, int pageSize);
 
     String deleteCouponCode(Long couponId);
+
+    void updateCouponCode(CouponRequest request, Long couponId);
 }

@@ -37,4 +37,5 @@ public class CouponRequest {
     String usageLimitPerUser;
     List<BigDecimal> productIds;
     List<BigDecimal> excludeProductIds;
+    private Boolean isActive = false;
 }

@@ -39,6 +39,11 @@ public class CouponController {
     public String deleteDiscount(@PathVariable("coupon_id") Long couponId) {
         return couponService.deleteCouponCode(couponId);
     }
+
+    @PatchMapping("/update/{id}")
+    public void updateCouponCode(@RequestBody @Valid CouponRequest couponRequest, @PathVariable("id") Long id) {
+        couponService.updateCouponCode(couponRequest, id);
+    }
     //
 //    @GetMapping("/all")
 //    public ResponseEntity<String> getCouponAmount() {

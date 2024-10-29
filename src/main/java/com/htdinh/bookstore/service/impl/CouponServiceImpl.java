@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CouponServiceImpl implements CouponService {
@@ -114,6 +115,22 @@ public class CouponServiceImpl implements CouponService {
 
         couponRepository.delete(coupon);
         return "delete successfully";
+    }
+
+    @Override
+    public void updateCouponCode(CouponRequest request, Long couponId) {
+        Coupon coupon = couponRepository.findById(couponId).orElseThrow(() -> new IllegalArgumentException("coupon id not exists:::" + couponId));
+        Optional.ofNullable(request.getDescription()).ifPresent(coupon::setDescription);
+        Optional.ofNullable(request.getAmount()).ifPresent(coupon::setAmount);
+        Optional.ofNullable(request.getMaxDiscountValue()).ifPresent(coupon::setMaxDiscountValue);
+        Optional.ofNullable(request.getStartDt()).ifPresent(coupon::setStartDt);
+        Optional.ofNullable(request.getEndDt()).ifPresent(coupon::setEndDt);
+        Optional.ofNullable(request.getMinOrderValue()).ifPresent(coupon::setMinOrderValue);
+        Optional.ofNullable(request.getUsageLimit()).ifPresent(coupon::setUsageLimit);
+        Optional.ofNullable(request.getLimitUsageToXItems()).ifPresent(coupon::setLimitUsageToXItems);
+        Optional.ofNullable(request.getUsageLimitPerUser()).ifPresent(coupon::setUsageLimitPerUser);
+        Optional.ofNullable(request.getIsActive()).ifPresent(coupon::setIsActive);
+        couponRepository.save(coupon);
     }
 
     private String getCurrentTimestamp() {
