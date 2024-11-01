@@ -107,11 +107,9 @@ public class CouponServiceImpl implements CouponService {
         Coupon coupon = couponRepository.findById(couponId)
                 .orElseThrow(() -> new IllegalArgumentException("couponId id not exists:::" + couponId));
 
-        productCouponRepository.findAllByCoupon(coupon)
-                .ifPresent(productCoupons -> productCoupons.forEach(productCouponRepository::delete));
+        productCouponRepository.findAllByCoupon(coupon).ifPresent(productCoupons -> productCouponRepository.deleteAll(productCoupons));
 
-        excludeProductCouponRepository.findAllByCoupon(coupon)
-                .ifPresent(excludeProductCoupons -> excludeProductCoupons.forEach(excludeProductCouponRepository::delete));
+        excludeProductCouponRepository.findAllByCoupon(coupon).ifPresent(excludeProductCoupons -> excludeProductCouponRepository.deleteAll(excludeProductCoupons));
 
         couponRepository.delete(coupon);
         return "delete successfully";
@@ -131,6 +129,36 @@ public class CouponServiceImpl implements CouponService {
         Optional.ofNullable(request.getUsageLimitPerUser()).ifPresent(coupon::setUsageLimitPerUser);
         Optional.ofNullable(request.getIsActive()).ifPresent(coupon::setIsActive);
         couponRepository.save(coupon);
+
+        Optional.ofNullable(request.getProductIds()).ifPresent((productIds) -> {
+            productCouponRepository.findAllByCoupon(coupon).ifPresent(productCoupons -> productCouponRepository.deleteAll(productCoupons));
+            productIds.forEach(productId -> {
+                Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Product id not exists:::" + productId));
+                ProductCoupon productCoupon = new ProductCoupon();
+
+                productCoupon.setCoupon(coupon);
+                productCoupon.setProduct(product);
+                productCoupon.setCrtDt(getCurrentTimestamp());
+                productCoupon.setUpdtDt(getCurrentTimestamp());
+
+                productCouponRepository.save(productCoupon);
+            });
+        });
+
+        Optional.ofNullable(request.getExcludeProductIds()).ifPresent((excludeProductIds) -> {
+            excludeProductCouponRepository.findAllByCoupon(coupon).ifPresent(productCoupons -> excludeProductCouponRepository.deleteAll(productCoupons));
+            excludeProductIds.forEach(productId -> {
+                Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Product id not exists:::" + productId));
+                ExcludeProductCoupon excludeProductCoupon = new ExcludeProductCoupon();
+
+                excludeProductCoupon.setCoupon(coupon);
+                excludeProductCoupon.setProduct(product);
+                excludeProductCoupon.setCrtDt(getCurrentTimestamp());
+                excludeProductCoupon.setUpdtDt(getCurrentTimestamp());
+
+                excludeProductCouponRepository.save(excludeProductCoupon);
+            });
+        });
     }
 
     private String getCurrentTimestamp() {
