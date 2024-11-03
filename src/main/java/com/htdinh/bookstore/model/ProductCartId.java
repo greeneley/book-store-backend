@@ -1,7 +1,6 @@
 package com.htdinh.bookstore.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
@@ -14,6 +13,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ProductCartId implements Serializable {
     private static final long serialVersionUID = 313629342233104141L;
     @NotNull
@@ -22,7 +24,7 @@ public class ProductCartId implements Serializable {
 
     @NotNull
     @Column(name = "PRODUCT_ID", nullable = false)
-    private Long productId;
+    private BigDecimal productId;
 
     @Override
     public boolean equals(Object o) {

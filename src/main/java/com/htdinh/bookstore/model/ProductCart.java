@@ -1,7 +1,6 @@
 package com.htdinh.bookstore.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +10,9 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "PRODUCT_CART", schema = "bookstore")
 public class ProductCart {
 
