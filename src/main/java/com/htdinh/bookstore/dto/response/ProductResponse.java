@@ -14,30 +14,27 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 public class ProductResponse {
-    private BigDecimal id;
-    private String name;
+
+    BigDecimal id;
+    @Size(max = 50)
+    String name;
+    String description;
+    Long stock;
+    Long rating;
+    Boolean isPublish;
+    BigDecimal crtId;
+    @Size(max = 128)
+    String crtDt;
+    BigDecimal updtId;
+    @Size(max = 128)
+    String updtDt;
+    private BigDecimal regularPrice;
+    private BigDecimal salePrice;
     private UserDto user;
-    private String description;
-    private Long stock;
-    private Long rating;
-    @Size(max = 50)
-    private Boolean isPublish;
-    @Size(max = 50)
-    private String price;
-    @Size(max = 50)
-    private String priceMin;
-    @Size(max = 50)
-    private String priceMax;
-    private BigDecimal crtId;
-    @Size(max = 128)
-    private String crtDt;
-    private BigDecimal updtId;
-    @Size(max = 128)
-    private String updtDt;
     private Set<ProductCategoryDto> productCategories = new LinkedHashSet<>();
     private Set<ProductAttributeDto> productAttributes = new LinkedHashSet<>();
-    private Set<ProductImageDto> productImages = new LinkedHashSet<>();
     private Set<ProductVariantDto> productVariants = new LinkedHashSet<>();
+    private Set<ProductImageDto> productImages = new LinkedHashSet<>();
 
     /**
      * DTO for {@link com.htdinh.bookstore.model.User}
@@ -47,54 +44,9 @@ public class ProductResponse {
     @NoArgsConstructor
     public static class UserDto implements Serializable {
         private BigDecimal id;
-    }
-
-    /**
-     * DTO for {@link com.htdinh.bookstore.model.ProductAttribute}
-     */
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class ProductAttributeDto implements Serializable {
-        private Long id;
         @NotNull
         @Size(max = 50)
-        private String name;
-        @NotNull
-        @Size(max = 50)
-        private String value;
-    }
-
-    /**
-     * DTO for {@link com.htdinh.bookstore.model.ProductImage}
-     */
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class ProductImageDto implements Serializable {
-        private Long id;
-        @NotNull
-        private String imageUrl;
-    }
-
-    /**
-     * DTO for {@link com.htdinh.bookstore.model.ProductVariant}
-     */
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class ProductVariantDto implements Serializable {
-        private ProductVariantId id;
-        @NotNull
-        @Size(max = 50)
-        private String price;
-        @Size(max = 50)
-        private String sku;
-        private Long stock;
-        @Size(max = 50)
-        private String description;
-        @Size(max = 1)
-        private Boolean isPublish;
+        private String username;
     }
 
     /**
@@ -119,6 +71,88 @@ public class ProductResponse {
             @NotNull
             @Size(max = 128)
             private String name;
+        }
+    }
+
+    /**
+     * DTO for {@link com.htdinh.bookstore.model.ProductAttribute}
+     */
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ProductAttributeDto implements Serializable {
+        private Long id;
+        @NotNull
+        private ProductResponse.ProductAttributeDto.AttributeDto attribute;
+
+        /**
+         * DTO for {@link com.htdinh.bookstore.model.Attribute}
+         */
+        @Data
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class AttributeDto implements Serializable {
+            private Long id;
+            @Size(max = 50)
+            private String name;
+        }
+    }
+
+    /**
+     * DTO for {@link com.htdinh.bookstore.model.ProductVariant}
+     */
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ProductVariantDto implements Serializable {
+        private ProductVariantId id;
+        @NotNull
+        @Size(max = 50)
+        private String price;
+        @Size(max = 50)
+        private String sku;
+        private Long stock;
+        @Size(max = 50)
+        private String description;
+        private Boolean isPublish;
+        private BigDecimal crtId;
+        @Size(max = 128)
+        private String crtDt;
+        private BigDecimal updtId;
+        @Size(max = 128)
+        private String updtDt;
+    }
+
+    /**
+     * DTO for {@link com.htdinh.bookstore.model.ProductImage}
+     */
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ProductImageDto implements Serializable {
+        private ImageDto image;
+
+        /**
+         * DTO for {@link com.htdinh.bookstore.model.Image}
+         */
+        @Data
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class ImageDto implements Serializable {
+            private Long id;
+            @Size(max = 128)
+            private String title;
+            private String url;
+            @Size(max = 128)
+            private String altText;
+            @Size(max = 128)
+            private String description;
+            private BigDecimal crtId;
+            @Size(max = 128)
+            private String crtDt;
+            private BigDecimal updtId;
+            @Size(max = 128)
+            private String updtDt;
         }
     }
 }

@@ -40,13 +40,11 @@ public class Product {
     @Column(name = "IS_PUBLISH")
     private Boolean isPublish;
 
-    @Size(max = 50)
-    @Column(name = "REGULAR_PRICE", length = 50)
-    private String regularPrice;
+    @Column(name = "REGULAR_PRICE", precision = 20, scale = 2)
+    private BigDecimal regularPrice;
 
-    @Size(max = 50)
-    @Column(name = "SALE_PRICE", length = 50)
-    private String salePrice;
+    @Column(name = "SALE_PRICE", precision = 20, scale = 2)
+    private BigDecimal salePrice;
 
     @Column(name = "CRT_ID", precision = 22)
     private BigDecimal crtId;
@@ -67,10 +65,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private Set<ProductAttribute> productAttributes = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "product")
-    private Set<ProductCart> productCarts = new LinkedHashSet<>();
-
+    
     @OneToMany(mappedBy = "product")
     private Set<ProductCategory> productCategories = new LinkedHashSet<>();
 

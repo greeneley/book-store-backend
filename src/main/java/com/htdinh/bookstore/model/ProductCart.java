@@ -13,22 +13,24 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "PRODUCT_CART", schema = "bookstore")
 public class ProductCart {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PRODUCT_CART_ID", nullable = false)
-    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_ID")
+    @EmbeddedId
+    private ProductCartId id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USER_ID", nullable = false, insertable = false, updatable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "PRODUCT_ID", nullable = false, insertable = false, updatable = false)
     private Product product;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CART_ID")
-    private Cart cart;
 
     @NotNull
     @Column(name = "QUANTITY", nullable = false)
     private Long quantity;
+
+    @Transient
+    private BigDecimal subTotal;
 
     @Column(name = "CRT_ID", precision = 22)
     private BigDecimal crtId;
@@ -43,5 +45,6 @@ public class ProductCart {
     @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
     private String updtDt;
-    
+
+
 }
