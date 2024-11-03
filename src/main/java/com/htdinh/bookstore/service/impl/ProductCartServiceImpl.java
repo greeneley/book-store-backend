@@ -31,7 +31,7 @@ public class ProductCartServiceImpl implements ProductCartService {
     @Transactional
     public String addToCart(ProductCartRequest request) {
         User user = getCurrentUser();
-        BigDecimal productId = request.getProductId();
+        Long productId = request.getProductId();
         Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + productId));
 
         ProductCart productCart = productCartRepository.findByUserAndProduct(user, product).orElse(null);
@@ -54,6 +54,18 @@ public class ProductCartServiceImpl implements ProductCartService {
         log.info("Add item to cart successfully");
 
         return "Add item to cart successfully";
+    }
+
+    @Override
+    @Transactional
+    public String deleteCartItem(Long productId) {
+        User user = getCurrentUser();
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + productId));
+
+        ProductCart productCart = productCartRepository.findByUserAndProduct(user, product).orElseThrow(() -> new IllegalArgumentException("Not found"));
+        productCartRepository.delete(productCart);
+        return "delete successfully";
     }
 
     private User getCurrentUser() {

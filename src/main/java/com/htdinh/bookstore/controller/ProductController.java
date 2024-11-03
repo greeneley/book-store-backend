@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -50,7 +49,7 @@ public class ProductController {
 
 
     @PostMapping("/publish/{product_id}")
-    public void publishProductByShop(@PathVariable(value = "product_id") BigDecimal productId) {
+    public void publishProductByShop(@PathVariable(value = "product_id") Long productId) {
         productService.publishProductByShop(productId);
     }
 
@@ -67,7 +66,7 @@ public class ProductController {
     }
 
     @PostMapping("/draft/{product_id}")
-    public void draftProductByShop(@PathVariable(value = "product_id") BigDecimal productId) {
+    public void draftProductByShop(@PathVariable(value = "product_id") Long productId) {
         productService.draftProductByShop(productId);
     }
 

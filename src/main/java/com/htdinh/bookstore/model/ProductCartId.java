@@ -24,7 +24,7 @@ public class ProductCartId implements Serializable {
 
     @NotNull
     @Column(name = "PRODUCT_ID", nullable = false)
-    private BigDecimal productId;
+    private Long productId;
 
     @Override
     public boolean equals(Object o) {

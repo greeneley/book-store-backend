@@ -18,13 +18,14 @@ public class ProductCartController {
         return ResponseEntity.ok(productCartService.addToCart(request));
     }
 
+    @DeleteMapping("/{product_id}")
+    public ResponseEntity<String> deleteCartItem(@PathVariable("product_id") Long productId) {
+        return ResponseEntity.ok(productCartService.deleteCartItem(productId));
+    }
+
     @GetMapping("/update")
     public ResponseEntity<String> updateCart() {
         return null;
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<String> deleteCartItem() {
-        return null;
-    }
 }

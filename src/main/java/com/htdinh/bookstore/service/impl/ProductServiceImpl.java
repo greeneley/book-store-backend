@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -56,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void publishProductByShop(BigDecimal productId) {
+    public void publishProductByShop(Long productId) {
         User user = getCurrentUser();
 
         Product product = productRepository.findById(productId)
@@ -77,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void draftProductByShop(BigDecimal productId) {
+    public void draftProductByShop(Long productId) {
         User user = getCurrentUser();
 
         Product product = productRepository.findById(productId)

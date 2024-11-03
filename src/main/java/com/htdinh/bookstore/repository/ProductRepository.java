@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, BigDecimal> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select * from PRODUCT P WHERE P.USER_ID = :userId  order by rand(:seed)", nativeQuery = true)
     Page<Product> findAllById(BigDecimal userId, Integer seed, Pageable pageable);
 

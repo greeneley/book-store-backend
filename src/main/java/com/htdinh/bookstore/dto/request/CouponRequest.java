@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -35,7 +34,7 @@ public class CouponRequest {
     String limitUsageToXItems;
     @Size(max = 50)
     String usageLimitPerUser;
-    List<BigDecimal> productIds;
-    List<BigDecimal> excludeProductIds;
+    List<Long> productIds;
+    List<Long> excludeProductIds;
     private Boolean isActive = false;
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ProductResponse {
 
-    BigDecimal id;
+    Long id;
     @Size(max = 50)
     String name;
     String description;

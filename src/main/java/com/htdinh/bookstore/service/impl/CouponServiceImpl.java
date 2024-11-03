@@ -18,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -62,7 +61,7 @@ public class CouponServiceImpl implements CouponService {
         coupon.setUpdtDt(getCurrentTimestamp());
         couponRepository.save(coupon);
 
-        List<BigDecimal> productIds = request.getProductIds();
+        List<Long> productIds = request.getProductIds();
         productIds.forEach(productId -> {
             Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Product id not exists:::" + productId));
             ProductCoupon productCoupon = new ProductCoupon();
@@ -75,7 +74,7 @@ public class CouponServiceImpl implements CouponService {
             productCouponRepository.save(productCoupon);
         });
 
-        List<BigDecimal> excludeProductIds = request.getExcludeProductIds();
+        List<Long> excludeProductIds = request.getExcludeProductIds();
         excludeProductIds.forEach(excludeProductId -> {
             Product product = productRepository.findById(excludeProductId).orElseThrow(() -> new IllegalArgumentException("excludeProductId id not exists:::" + excludeProductId));
             ExcludeProductCoupon excludeProductCoupon = new ExcludeProductCoupon();

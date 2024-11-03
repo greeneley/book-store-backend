@@ -17,7 +17,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PRODUCT_ID", nullable = false, precision = 22)
-    private BigDecimal id;
+    private Long id;
 
     @Size(max = 50)
     @Column(name = "NAME", length = 50)
@@ -65,7 +65,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private Set<ProductAttribute> productAttributes = new LinkedHashSet<>();
-    
+
     @OneToMany(mappedBy = "product")
     private Set<ProductCategory> productCategories = new LinkedHashSet<>();
 
