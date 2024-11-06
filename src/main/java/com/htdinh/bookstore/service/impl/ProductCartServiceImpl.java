@@ -68,6 +68,21 @@ public class ProductCartServiceImpl implements ProductCartService {
         return "delete successfully";
     }
 
+    @Override
+    public String updateCartItem(ProductCartRequest request) {
+        User user = getCurrentUser();
+
+        Long productId = request.getProductId();
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + productId));
+        ProductCart productCart = productCartRepository.findByUserAndProduct(user, product).orElseThrow(() -> new IllegalArgumentException("Product cart not found"));
+
+        productCart.setQuantity(request.getQuantity());
+        productCart.setUpdtDt(getCurrentTimestamp());
+        productCartRepository.save(productCart);
+        return "update successfully";
+    }
+
     private User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/cart-items")
 public class ProductCartController {
@@ -23,9 +25,9 @@ public class ProductCartController {
         return ResponseEntity.ok(productCartService.deleteCartItem(productId));
     }
 
-    @GetMapping("/update")
-    public ResponseEntity<String> updateCart() {
-        return null;
+    @PostMapping("/update")
+    public ResponseEntity<String> updateCart(@RequestBody @Valid ProductCartRequest productCartRequest) {
+        return ResponseEntity.ok(productCartService.updateCartItem(productCartRequest));
     }
 
 }

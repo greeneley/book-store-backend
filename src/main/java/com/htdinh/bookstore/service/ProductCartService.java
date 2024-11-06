@@ -6,4 +6,7 @@ public interface ProductCartService {
     String addToCart(ProductCartRequest request);
 
     String deleteCartItem(Long productId);
+
+    String updateCartItem(ProductCartRequest request);
+
 }

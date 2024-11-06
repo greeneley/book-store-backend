@@ -44,15 +44,4 @@ public class CouponController {
     public void updateCouponCode(@RequestBody @Valid CouponRequest couponRequest, @PathVariable("id") Long id) {
         couponService.updateCouponCode(couponRequest, id);
     }
-    //
-//    @GetMapping("/all")
-//    public ResponseEntity<String> getCouponAmount() {
-//        return categoryService.getAllCategory();
-//    }
-//
-//    @GetMapping("/all")
-//    public ResponseEntity<String> getAllCouponCodesWithProduct() {
-//        return categoryService.getAllCategory();
-//    }
-//
 }
