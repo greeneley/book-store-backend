@@ -15,7 +15,6 @@ public class CouponRequest {
     String code;
     @Size(max = 50)
     String description;
-
     @NotNull
     DiscountType discountType;
     @Size(max = 50)
