@@ -37,8 +37,8 @@ public class CheckoutResponse {
         Long productId;
         String couponCode;
         Long quantity;
-        String priceRaw;
-        String priceApplyDiscount;
+        BigDecimal priceRaw;
+        BigDecimal priceApplyDiscount;
     }
 
     @Data

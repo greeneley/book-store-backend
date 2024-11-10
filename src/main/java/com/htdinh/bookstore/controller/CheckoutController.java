@@ -1,8 +1,6 @@
 package com.htdinh.bookstore.controller;
 
-import com.htdinh.bookstore.dto.request.CategoryRequest;
-import com.htdinh.bookstore.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.htdinh.bookstore.dto.request.CheckoutRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,12 +13,6 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/v1/checkout")
 public class CheckoutController {
-
-    @Autowired
-    private CategoryService categoryService;
-
-    @PostMapping("/review")
-
     /*
      * BODY REQUEST
      * "orderList": [
@@ -56,8 +48,9 @@ public class CheckoutController {
      * }
      *
      * */
-    public ResponseEntity<String> createCategory(@RequestBody @Valid CategoryRequest categoryRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.createCategory(categoryRequest.getCatName()));
+    @PostMapping("/review")
+    public ResponseEntity<String> checkoutReview(@RequestBody @Valid CheckoutRequest checkoutRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body("ABC");
     }
 
 }
