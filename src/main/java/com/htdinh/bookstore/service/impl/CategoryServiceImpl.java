@@ -27,12 +27,8 @@ public class CategoryServiceImpl implements CategoryService {
         if ((categoryRepository.findByName(catName)).isPresent()) {
             throw new RuntimeException("Category already exists");
         }
-
-        Category category = new Category();
-        category.setName(catName);
-        category.setCrtDt(getCurrentTimestamp());
-        category.setUpdtDt(getCurrentTimestamp());
-        categoryRepository.save(category);
+        
+        categoryRepository.save(Category.builder().name(catName).crtDt(getCurrentTimestamp()).updtDt(getCurrentTimestamp()).build());
 
         return "Create category successfully";
     }

@@ -41,12 +41,8 @@ public class CartServiceImpl implements CartService {
             total.updateAndGet(preValue -> preValue.add(productCart.getSubTotal()));
             productCartResponses.add(productCartMapper.toProductCartResponse(productCart));
         });
-
-        CartResponse cartResponse = new CartResponse();
-        cartResponse.setItems(productCartResponses);
-        cartResponse.setTotal(total.get());
-
-        return cartResponse;
+        
+        return CartResponse.builder().items(productCartResponses).total(total.get()).build();
     }
 
     private User getCurrentUser() {
