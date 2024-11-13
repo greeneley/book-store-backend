@@ -1,6 +1,7 @@
 package com.htdinh.bookstore.service.impl;
 
 import com.htdinh.bookstore.dto.response.AttributeResponse;
+import com.htdinh.bookstore.exception.BusinessValidationException;
 import com.htdinh.bookstore.mapper.AttributeMapper;
 import com.htdinh.bookstore.model.Attribute;
 import com.htdinh.bookstore.repository.AttributeRepository;
@@ -25,7 +26,7 @@ public class AttributeServiceImpl implements AttributeService {
     @Transactional
     public String createAttribute(String attName) {
         if ((attributeRepository.findByName(attName)).isPresent()) {
-            throw new RuntimeException("Attribute name already exists");
+            throw new BusinessValidationException("Attribute name already exists: " + attName);
         }
 
         Attribute attribute = new Attribute();

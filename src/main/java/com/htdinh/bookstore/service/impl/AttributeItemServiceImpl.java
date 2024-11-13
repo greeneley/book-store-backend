@@ -2,6 +2,8 @@ package com.htdinh.bookstore.service.impl;
 
 import com.htdinh.bookstore.dto.request.AttributeItemRequest;
 import com.htdinh.bookstore.dto.response.AttributeItemResponse;
+import com.htdinh.bookstore.exception.BusinessValidationException;
+import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.mapper.AttributeItemMapper;
 import com.htdinh.bookstore.model.Attribute;
 import com.htdinh.bookstore.model.AttributeItem;
@@ -33,7 +35,7 @@ public class AttributeItemServiceImpl implements AttributeItemService {
     @Override
     public List<AttributeItemResponse> getAttributeItems(Long attributeId) {
         Attribute attribute = attributeRepository.findById(attributeId)
-                .orElseThrow(() -> new IllegalArgumentException("Attribute not found with id: " + attributeId));
+                .orElseThrow(() -> new ResourceNotFoundException("Attribute not found with id: " + attributeId));
         return attributeItemRepository.findAllByAttribute(attribute).stream()
                 .map(attributeItemMapper::toAttributeItemResponse)
                 .collect(Collectors.toList());
@@ -61,14 +63,14 @@ public class AttributeItemServiceImpl implements AttributeItemService {
 
     private void validateAttributeItemRequestList(List<AttributeItemRequest> attributeItemRequestList) {
         if (attributeItemRequestList == null || attributeItemRequestList.isEmpty()) {
-            throw new IllegalArgumentException("Attribute item request list cannot be null or empty");
+            throw new BusinessValidationException("Attribute item request list cannot be null or empty");
         }
     }
 
     private void validateAttributeItemNames(List<AttributeItemRequest> attributeItemRequestList) {
         attributeItemRequestList.forEach(attributeItemRequest -> {
             if (attributeItemRepository.findByName(attributeItemRequest.getName()).isPresent()) {
-                throw new RuntimeException("Name already exists");
+                throw new BusinessValidationException("Attribute item name already exists: " + attributeItemRequest.getName());
             }
         });
     }

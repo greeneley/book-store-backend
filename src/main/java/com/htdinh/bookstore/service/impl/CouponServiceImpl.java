@@ -2,6 +2,7 @@ package com.htdinh.bookstore.service.impl;
 
 import com.htdinh.bookstore.dto.request.CouponRequest;
 import com.htdinh.bookstore.dto.response.CouponResponse;
+import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.mapper.CouponMapper;
 import com.htdinh.bookstore.model.Coupon;
 import com.htdinh.bookstore.model.ExcludeProductCoupon;
@@ -91,7 +92,7 @@ public class CouponServiceImpl implements CouponService {
 
     private void validateCoupon(CouponRequest couponRequest) {
         if (couponRepository.findCouponByCode(couponRequest.getCode()).isPresent()) {
-            throw new RuntimeException("Code already exists");
+            throw new ResourceNotFoundException("Coupon code already exists: " + couponRequest.getCode());
         }
     }
 
@@ -103,7 +104,7 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public String deleteCouponCode(Long couponId) {
         Coupon coupon = couponRepository.findById(couponId)
-                .orElseThrow(() -> new IllegalArgumentException("couponId id not exists:::" + couponId));
+                .orElseThrow(() -> new ResourceNotFoundException("Coupon not found with id: " + couponId));
 
         productCouponRepository.findAllByCoupon(coupon).ifPresent(productCoupons -> productCouponRepository.deleteAll(productCoupons));
 

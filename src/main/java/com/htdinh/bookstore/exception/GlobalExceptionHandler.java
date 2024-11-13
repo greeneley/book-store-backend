@@ -13,45 +13,48 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleServerException(Exception e) {
-        ErrorResponse error = ErrorResponse.builder().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).status(HttpStatus.INTERNAL_SERVER_ERROR).message(e.getMessage()).timestamp(LocalDateTime.now()).build();
-        log.error(e.getMessage());
-        return ResponseEntity.internalServerError().body(error);
+    // ResourceNotFoundException now returns 404 NOT_FOUND instead of 400 BAD_REQUEST
+    // TokenInValidException now returns 401 UNAUTHORIZED instead of 404 NOT_FOUND
+    // InvalidEnumException now returns 400 BAD_REQUEST instead of 404 NOT_FOUND
+    // ExpiredJwtException now returns 401 UNAUTHORIZED instead of 403 FORBIDDEN
+    private ResponseEntity<ErrorResponse> buildErrorResponse(HttpStatus status, Exception e) {
+        ErrorResponse error = ErrorResponse.builder()
+                .code(status.value())
+                .status(status)
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+        log.error("Exception occurred: {}", e.getMessage(), e);
+        return ResponseEntity.status(status).body(error);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(Exception e) {
-        ErrorResponse error = ErrorResponse.builder().code(HttpStatus.BAD_REQUEST.value()).status(HttpStatus.BAD_REQUEST).message(e.getMessage()).timestamp(LocalDateTime.now()).build();
-        log.error(e.getMessage());
-        return ResponseEntity.badRequest().body(error);
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException e) {
+        return buildErrorResponse(HttpStatus.NOT_FOUND, e);
     }
 
     @ExceptionHandler(TokenInValidException.class)
-    public ResponseEntity<ErrorResponse> handleTokenInValidException(Exception e) {
-        ErrorResponse error = ErrorResponse.builder().code(HttpStatus.NOT_FOUND.value()).status(HttpStatus.NOT_FOUND).message(e.getMessage()).timestamp(LocalDateTime.now()).build();
-        log.error(e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    public ResponseEntity<ErrorResponse> handleTokenInValidException(TokenInValidException e) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, e);
     }
 
     @ExceptionHandler(InvalidEnumException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidEnumException(Exception e) {
-        ErrorResponse error = ErrorResponse.builder().code(HttpStatus.NOT_FOUND.value()).status(HttpStatus.NOT_FOUND).message(e.getMessage()).timestamp(LocalDateTime.now()).build();
-        log.error(e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    public ResponseEntity<ErrorResponse> handleInvalidEnumException(InvalidEnumException e) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, e);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorResponse> handleBadCredentialsException(Exception e) {
-        ErrorResponse error = ErrorResponse.builder().code(HttpStatus.UNAUTHORIZED.value()).status(HttpStatus.UNAUTHORIZED).message(e.getMessage()).timestamp(LocalDateTime.now()).build();
-        log.error(e.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, e);
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<ErrorResponse> handleExpiredJwtException(Exception e) {
-        ErrorResponse error = ErrorResponse.builder().code(HttpStatus.FORBIDDEN.value()).status(HttpStatus.FORBIDDEN).message(e.getMessage()).timestamp(LocalDateTime.now()).build();
-        log.error(e.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    public ResponseEntity<ErrorResponse> handleExpiredJwtException(ExpiredJwtException e) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, e);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleServerException(Exception e) {
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e);
     }
 }

@@ -1,6 +1,7 @@
 package com.htdinh.bookstore.service.impl;
 
 import com.htdinh.bookstore.dto.request.ProductCartRequest;
+import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.model.Product;
 import com.htdinh.bookstore.model.ProductCart;
 import com.htdinh.bookstore.model.ProductCartId;
@@ -31,7 +32,8 @@ public class ProductCartServiceImpl implements ProductCartService {
     public String addToCart(ProductCartRequest request) {
         User user = getCurrentUser();
         Long productId = request.getProductId();
-        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + productId));
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
 
         ProductCart productCart = productCartRepository.findByUserAndProduct(user, product).orElse(null);
 
@@ -60,9 +62,10 @@ public class ProductCartServiceImpl implements ProductCartService {
     public String deleteCartItem(Long productId) {
         User user = getCurrentUser();
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + productId));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
 
-        ProductCart productCart = productCartRepository.findByUserAndProduct(user, product).orElseThrow(() -> new IllegalArgumentException("Not found"));
+        ProductCart productCart = productCartRepository.findByUserAndProduct(user, product)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart item not found"));
         productCartRepository.delete(productCart);
         return "delete successfully";
     }
@@ -70,11 +73,11 @@ public class ProductCartServiceImpl implements ProductCartService {
     @Override
     public String updateCartItem(ProductCartRequest request) {
         User user = getCurrentUser();
-
         Long productId = request.getProductId();
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + productId));
-        ProductCart productCart = productCartRepository.findByUserAndProduct(user, product).orElseThrow(() -> new IllegalArgumentException("Product cart not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
+        ProductCart productCart = productCartRepository.findByUserAndProduct(user, product)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart item not found"));
 
         productCart.setQuantity(request.getQuantity());
         productCart.setUpdtDt(getCurrentTimestamp());
