@@ -1,6 +1,9 @@
 package com.htdinh.bookstore.controller;
 
 import com.htdinh.bookstore.dto.request.CheckoutRequest;
+import com.htdinh.bookstore.dto.response.CheckoutResponse;
+import com.htdinh.bookstore.service.CheckoutService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,9 +51,13 @@ public class CheckoutController {
      * }
      *
      * */
+
+    @Autowired
+    private CheckoutService checkoutService;
+
     @PostMapping("/review")
-    public ResponseEntity<String> checkoutReview(@RequestBody @Valid CheckoutRequest checkoutRequest) {
-        return ResponseEntity.status(HttpStatus.OK).body("ABC");
+    public ResponseEntity<CheckoutResponse> checkoutReview(@RequestBody @Valid CheckoutRequest checkoutRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body(checkoutService.checkoutReview(checkoutRequest));
     }
 
 }

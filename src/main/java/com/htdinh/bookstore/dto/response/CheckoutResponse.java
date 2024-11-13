@@ -1,5 +1,6 @@
 package com.htdinh.bookstore.dto.response;
 
+import com.htdinh.bookstore.dto.request.CheckoutRequest;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -12,22 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CheckoutResponse {
     @NotNull
-    List<OrderProduct> orderProductList;
+    List<CheckoutRequest.OrderProduct> orderProductList;
     List<OrderProductNew> orderProductNews;
-    List<CheckoutOrder> checkoutOrder;
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class OrderProduct implements Serializable {
-        @NotNull
-        Long productId;
-        @NotNull
-        Long quantity;
-        @NotNull
-        BigDecimal price;
-        String couponCode;
-    }
+    CheckoutOrder checkoutOrder;
 
     @Data
     @AllArgsConstructor
@@ -35,19 +23,15 @@ public class CheckoutResponse {
     public static class OrderProductNew implements Serializable {
         @NotNull
         Long productId;
-        String couponCode;
         Long quantity;
         BigDecimal priceRaw;
-        BigDecimal priceApplyDiscount;
+//        BigDecimal priceApplyDiscount;
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     public static class CheckoutOrder implements Serializable {
-        Long totalPrice;
-        Long feeShip;
-        Long totalDiscount;
-        Long totalCheckout;
+        BigDecimal totalPrice;
     }
 }

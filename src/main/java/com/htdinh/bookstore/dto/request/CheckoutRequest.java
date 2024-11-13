@@ -25,6 +25,5 @@ public class CheckoutRequest {
         Long quantity;
         @NotNull
         BigDecimal price;
-        String couponCode;
     }
 }
