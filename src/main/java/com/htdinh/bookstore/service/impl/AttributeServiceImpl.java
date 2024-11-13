@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,8 +42,7 @@ public class AttributeServiceImpl implements AttributeService {
         return attributeRepository.findAll().stream().map(attributeMapper::toAttributeResponse).collect(Collectors.toList());
     }
 
-    private String getCurrentTimestamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        return sdf.format(new Date());
+    private LocalDateTime getCurrentTimestamp() {
+        return LocalDateTime.now();
     }
 }

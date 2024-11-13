@@ -19,8 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Service
@@ -100,14 +100,12 @@ public class AuthServiceImpl implements AuthService {
         return user;
     }
 
-    private BigDecimal generateNewUserId() {
-        BigDecimal maxId = userRepository.getMaxId();
-        return (maxId == null) ? BigDecimal.ONE : maxId.add(BigDecimal.ONE);
+    private Long generateNewUserId() {
+        return userRepository.getMaxId() + 1;
     }
 
-    private String getCurrentTimestamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        return sdf.format(new Date());
+    private LocalDateTime getCurrentTimestamp() {
+        return LocalDateTime.now();
     }
 
     private String convertDateToString(Date input) {

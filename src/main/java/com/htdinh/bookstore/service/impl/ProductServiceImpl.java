@@ -13,8 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -141,8 +140,7 @@ public class ProductServiceImpl implements ProductService {
         return "Create product successfully";
     }
 
-    private String getCurrentTimestamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        return sdf.format(new Date());
+    private LocalDateTime getCurrentTimestamp() {
+        return LocalDateTime.now();
     }
 }

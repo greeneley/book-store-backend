@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class Product {
     private Long stock;
 
     @Column(name = "RATING")
-    private Long rating;
+    private BigDecimal rating;
 
     @Column(name = "IS_PUBLISH")
     private Boolean isPublish;
@@ -47,18 +48,18 @@ public class Product {
     private BigDecimal salePrice;
 
     @Column(name = "CRT_ID", precision = 22)
-    private BigDecimal crtId;
+    private Long crtId;
 
     @Size(max = 128)
     @Column(name = "CRT_DT", length = 128)
-    private String crtDt;
+    private LocalDateTime crtDt;
 
     @Column(name = "UPDT_ID", precision = 22)
-    private BigDecimal updtId;
+    private Long updtId;
 
     @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
-    private String updtDt;
+    private LocalDateTime updtDt;
 
     @OneToMany(mappedBy = "product")
     private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
@@ -74,6 +75,4 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private Set<ProductVariant> productVariants = new LinkedHashSet<>();
-
-
 }

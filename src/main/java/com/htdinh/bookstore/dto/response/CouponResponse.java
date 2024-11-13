@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -19,29 +20,6 @@ public class CouponResponse {
     Long id;
     @Size(max = 50)
     String code;
-    @Size(max = 50)
-    String description;
-    DiscountType discountType;
-    @Size(max = 50)
-    String amount;
-    @Size(max = 50)
-    String maxDiscountValue;
-    @Size(max = 50)
-    String startDt;
-    @Size(max = 50)
-    String endDt;
-    @Size(max = 50)
-    String minOrderValue;
-    @Size(max = 50)
-    String usageLimit;
-    @Size(max = 50)
-    String limitUsageToXItems;
-    @Size(max = 50)
-    String usageLimitPerUser;
-    @Size(max = 50)
-    String usesCount;
-    @Size(max = 50)
-    String usersUsed;
     @NotNull
     Boolean isActive;
     BigDecimal crtId;
@@ -52,6 +30,19 @@ public class CouponResponse {
     String updtDt;
     Set<ExcludeProductCouponDto> excludeProductCoupons;
     Set<ProductCouponDto> productCoupons;
+    @Size(max = 500)
+    private String description;
+    private DiscountType discountType;
+    private BigDecimal amount;
+    private BigDecimal maxDiscountValue;
+    private LocalDateTime startDt;
+    private LocalDateTime endDt;
+    private BigDecimal minOrderValue;
+    private Integer usageLimit;
+    private Integer limitUsageToXItems;
+    private Integer usageLimitPerUser;
+    private Integer usesCount;
+    private String usersUsed;
 
     /**
      * DTO for {@link com.htdinh.bookstore.model.ExcludeProductCoupon}

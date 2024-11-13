@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -27,24 +27,23 @@ public class RefreshToken {
     @Size(max = 500)
     @Column(name = "VALUE", length = 500)
     private String value;
-
-    @Column(name = "CRT_ID", precision = 22)
-    private BigDecimal crtId;
-
-    @Size(max = 128)
-    @Column(name = "CRT_DT", length = 128)
-    private String crtDt;
-
-    @Column(name = "UPDT_ID", precision = 22)
-    private BigDecimal updtId;
-
-    @Size(max = 128)
-    @Column(name = "UPDT_DT", length = 128)
-    private String updtDt;
+    
 
     @Size(max = 50)
     @NotNull
     @Column(name = "EXPIRE_DT", nullable = false, length = 50)
     private String expireDt;
+
+    @Column(name = "CRT_ID")
+    private Long crtId;
+
+    @Column(name = "CRT_DT")
+    private LocalDateTime crtDt;
+
+    @Column(name = "UPDT_ID")
+    private Long updtId;
+
+    @Column(name = "UPDT_DT")
+    private LocalDateTime updtDt;
 
 }

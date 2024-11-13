@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
@@ -14,5 +13,5 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
 
     @Modifying
     @Query(value = "DELETE FROM REFRESH_TOKEN WHERE USER_ID = :userId", nativeQuery = true)
-    void deleteByUserId(BigDecimal userId);
+    void deleteByUserId(Long userId);
 }

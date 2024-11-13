@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Objects;
 
 @Getter
@@ -20,7 +19,7 @@ public class ProductCartId implements Serializable {
     private static final long serialVersionUID = 313629342233104141L;
     @NotNull
     @Column(name = "USER_ID", nullable = false, precision = 22)
-    private BigDecimal userId;
+    private Long userId;
 
     @NotNull
     @Column(name = "PRODUCT_ID", nullable = false)

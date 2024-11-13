@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -35,18 +36,18 @@ public class ProductCart {
     private BigDecimal subTotal;
 
     @Column(name = "CRT_ID", precision = 22)
-    private BigDecimal crtId;
+    private Long crtId;
 
     @Size(max = 128)
     @Column(name = "CRT_DT", length = 128)
-    private String crtDt;
+    private LocalDateTime crtDt;
 
     @Column(name = "UPDT_ID", precision = 22)
-    private BigDecimal updtId;
+    private Long updtId;
 
     @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
-    private String updtDt;
+    private LocalDateTime updtDt;
 
 
 }

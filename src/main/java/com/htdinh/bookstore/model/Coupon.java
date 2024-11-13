@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -25,52 +26,42 @@ public class Coupon {
     @Column(name = "CODE", length = 50)
     private String code;
 
-    @Size(max = 50)
-    @Column(name = "DESCRIPTION", length = 50)
+    @Size(max = 500)
+    @Column(name = "DESCRIPTION", length = 500)
     private String description;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "discount_type")
     private DiscountType discountType;
 
-    @Size(max = 50)
-    @Column(name = "AMOUNT", length = 50)
-    private String amount;
+    @Column(name = "AMOUNT", precision = 22)
+    private BigDecimal amount;
 
-    @Size(max = 50)
-    @Column(name = "MAX_DISCOUNT_VALUE", length = 50)
-    private String maxDiscountValue;
+    @Column(name = "MAX_DISCOUNT_VALUE", precision = 22)
+    private BigDecimal maxDiscountValue;
 
-    @Size(max = 50)
-    @Column(name = "START_DT", length = 50)
-    private String startDt;
+    @Column(name = "START_DT", precision = 22)
+    private LocalDateTime startDt;
 
-    @Size(max = 50)
-    @Column(name = "END_DT", length = 50)
-    private String endDt;
+    @Column(name = "END_DT", precision = 22)
+    private LocalDateTime endDt;
 
-    @Size(max = 50)
-    @Column(name = "MIN_ORDER_VALUE", length = 50)
-    private String minOrderValue;
+    @Column(name = "MIN_ORDER_VALUE", precision = 22)
+    private BigDecimal minOrderValue;
 
-    @Size(max = 50)
-    @Column(name = "USAGE_LIMIT", length = 50)
-    private String usageLimit;
+    @Column(name = "USAGE_LIMIT", precision = 22)
+    private Integer usageLimit;
 
-    @Size(max = 50)
-    @Column(name = "LIMIT_USAGE_TO_X_ITEMS", length = 50)
-    private String limitUsageToXItems;
+    @Column(name = "LIMIT_USAGE_TO_X_ITEMS", precision = 22)
+    private Integer limitUsageToXItems;
 
-    @Size(max = 50)
-    @Column(name = "USAGE_LIMIT_PER_USER", length = 50)
-    private String usageLimitPerUser;
+    @Column(name = "USAGE_LIMIT_PER_USER", precision = 22)
+    private Integer usageLimitPerUser;
 
-    @Size(max = 50)
-    @Column(name = "USES_COUNT", length = 50)
-    private String usesCount;
+    @Column(name = "USES_COUNT", precision = 22)
+    private Integer usesCount;
 
-    @Size(max = 50)
-    @Column(name = "USERS_USED", length = 50)
+    @Column(name = "USERS_USED", precision = 22)
     private String usersUsed;
 
     @NotNull
@@ -78,18 +69,16 @@ public class Coupon {
     private Boolean isActive = false;
 
     @Column(name = "CRT_ID", precision = 22)
-    private BigDecimal crtId;
+    private Long crtId;
 
-    @Size(max = 128)
-    @Column(name = "CRT_DT", length = 128)
-    private String crtDt;
+    @Column(name = "CRT_DT", precision = 22)
+    private LocalDateTime crtDt;
 
     @Column(name = "UPDT_ID", precision = 22)
-    private BigDecimal updtId;
+    private Long updtId;
 
-    @Size(max = 128)
-    @Column(name = "UPDT_DT", length = 128)
-    private String updtDt;
+    @Column(name = "UPDT_DT", precision = 22)
+    private LocalDateTime updtDt;
 
     @OneToMany(mappedBy = "coupon")
     private Set<ExcludeProductCoupon> excludeProductCoupons = new LinkedHashSet<>();

@@ -5,8 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -28,18 +27,17 @@ public class ProductCategory {
     @JoinColumn(name = "PRODUCT_ID", nullable = false)
     private Product product;
 
-    @Column(name = "CRT_ID", precision = 22)
-    private BigDecimal crtId;
 
-    @Size(max = 128)
-    @Column(name = "CRT_DT", length = 128)
-    private String crtDt;
+    @Column(name = "CRT_ID")
+    private Long crtId;
 
-    @Column(name = "UPDT_ID", precision = 22)
-    private BigDecimal updtId;
+    @Column(name = "CRT_DT")
+    private LocalDateTime crtDt;
 
-    @Size(max = 128)
-    @Column(name = "UPDT_DT", length = 128)
-    private String updtDt;
+    @Column(name = "UPDT_ID")
+    private Long updtId;
+
+    @Column(name = "UPDT_DT")
+    private LocalDateTime updtDt;
 
 }
