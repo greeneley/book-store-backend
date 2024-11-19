@@ -2,6 +2,7 @@ package com.htdinh.bookstore.controller;
 
 import com.htdinh.bookstore.dto.request.OrderCreationRequest;
 import com.htdinh.bookstore.dto.request.OrderStatusRequest;
+import com.htdinh.bookstore.dto.response.OrderDetailResponse;
 import com.htdinh.bookstore.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,11 @@ import javax.validation.Valid;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
+    @GetMapping("/search/{order_number}")
+    public ResponseEntity<OrderDetailResponse> searchOrder(@PathVariable("order_number") String orderNumber) {
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.searchOrder(orderNumber));
+    }
 
     @PostMapping("/create")
     public ResponseEntity<String> createOrder(@RequestBody @Valid OrderCreationRequest request) {
