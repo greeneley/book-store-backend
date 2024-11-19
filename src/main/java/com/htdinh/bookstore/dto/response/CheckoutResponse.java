@@ -20,6 +20,7 @@ public class CheckoutResponse {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
+    @Getter
     public static class OrderProductNew implements Serializable {
         @NotNull
         Long productId;

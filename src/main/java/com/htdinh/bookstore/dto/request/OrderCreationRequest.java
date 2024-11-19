@@ -15,7 +15,7 @@ import java.util.List;
 public class OrderCreationRequest {
     @NotNull
     List<OrderProductNew> orderProducts;
-    @NotNull
+    //    @NotNull
     BigDecimal totalPrice;
     String note;
     String payment;
@@ -25,6 +25,7 @@ public class OrderCreationRequest {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
+    @Getter
     public static class AddressOrderRequest implements Serializable {
         private String firstName;
         private String lastName;

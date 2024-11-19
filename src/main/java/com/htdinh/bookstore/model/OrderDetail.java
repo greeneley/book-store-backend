@@ -1,16 +1,18 @@
 package com.htdinh.bookstore.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "ORDER_DETAIL", schema = "bookstore")
 public class OrderDetail {
     @Id
@@ -25,7 +27,7 @@ public class OrderDetail {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ORDER_ID", nullable = false)
-    private Order order;
+    private Orders order;
 
     @NotNull
     @Column(name = "PRICE", nullable = false, precision = 22)
@@ -33,7 +35,7 @@ public class OrderDetail {
 
     @NotNull
     @Column(name = "QUANTITY", nullable = false, precision = 22)
-    private BigDecimal quantity;
+    private Long quantity;
 
     @Column(name = "DISCOUNT", precision = 22)
     private BigDecimal discount;
@@ -43,17 +45,15 @@ public class OrderDetail {
     private BigDecimal total;
 
     @Column(name = "CRT_ID", precision = 22)
-    private BigDecimal crtId;
+    private Long crtId;
 
-    @Size(max = 128)
     @Column(name = "CRT_DT", length = 128)
-    private String crtDt;
+    private LocalDateTime crtDt;
 
     @Column(name = "UPDT_ID", precision = 22)
-    private BigDecimal updtId;
+    private Long updtId;
 
-    @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
-    private String updtDt;
-    
+    private LocalDateTime updtDt;
+
 }

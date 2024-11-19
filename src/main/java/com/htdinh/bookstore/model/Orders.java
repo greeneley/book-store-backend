@@ -1,10 +1,13 @@
 package com.htdinh.bookstore.model;
 
+import com.htdinh.bookstore.enums.OrderStatus;
+import com.htdinh.bookstore.enums.PaymentType;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -13,8 +16,9 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ORDER", schema = "bookstore")
-public class Order {
+@Table(name = "ORDERS", schema = "bookstore")
+public class Orders {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDER_ID", nullable = false)
@@ -30,21 +34,19 @@ public class Order {
     @JoinColumn(name = "ADDRESS_ORDER_ID", nullable = false)
     private AddressOrder addressOrder;
 
-    @NotNull
-    @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "ORDER_STATUS", nullable = false)
-    private String orderStatus;
+    private OrderStatus orderStatus;
 
     @Size(max = 50)
     @NotNull
     @Column(name = "ORDER_NUMBER", nullable = false, length = 50)
     private String orderNumber;
 
-    @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "PAYMENT")
-    private String payment;
+    private PaymentType payment;
 
-    @Lob
     @Column(name = "NOTE")
     private String note;
 
@@ -60,6 +62,8 @@ public class Order {
     @Column(name = "UPDT_DT")
     private LocalDateTime updtDt;
 
+    @NotNull
+    @Column(name = "TOTAL", nullable = false, precision = 22)
+    private BigDecimal total;
 
-    //TODO [JPA Buddy] generate columns from DB
 }
