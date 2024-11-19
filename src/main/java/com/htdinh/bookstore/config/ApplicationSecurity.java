@@ -31,7 +31,11 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
             "/swagger-ui/index.html",
             "/api/v1/cart",
             "/api/v1/cart-item/**",
-            "/api/v1/orders/**"
+            "/api/v1/orders/**",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/swagger-resources/**",
+            "/swagger-ui/**",
     };
     @Autowired
     private UserRepository userRepository;
@@ -64,7 +68,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(username -> userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found")));
     }
-    
+
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {

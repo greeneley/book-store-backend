@@ -1,15 +1,13 @@
 package com.htdinh.bookstore.model;
 
+import com.htdinh.bookstore.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -87,11 +85,14 @@ public class User implements UserDetails {
     @Column(name = "UPDT_DT", length = 128)
     private LocalDateTime updtDt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ROLE")
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("admin"));
+        authorities.add(new SimpleGrantedAuthority(String.valueOf(this.role)));
         return authorities;
     }
 
