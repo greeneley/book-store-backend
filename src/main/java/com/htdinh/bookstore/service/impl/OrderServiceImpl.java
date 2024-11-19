@@ -22,8 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -90,43 +90,40 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDetailResponse searchOrder(String orderNumber) {
-        Orders orders = orderRepository.findByOrderNumber(orderNumber).orElseThrow(() -> new ResourceNotFoundException("Order not found with order number: " + orderNumber));
+        Orders orders = orderRepository.findByOrderNumber(orderNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found with order number: " + orderNumber));
 
-        List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrderId(orders.getId());
-
-        List<OrderDetailProduct> orderProducts = new ArrayList<>();
-
-        orderDetails.forEach(orderDetail -> {
-            Product product = orderDetail.getProduct();
-            OrderDetailProduct orderDetailProduct = OrderDetailProduct.builder().productId(product.getId())
-                    .name(product.getName())
-                    .description(product.getDescription())
-                    .quantity(orderDetail.getQuantity())
-                    .priceRaw(orderDetail.getTotal())
-                    .build();
-            orderProducts.add(orderDetailProduct);
-        });
-
-        OrderDetailResponse orderDetailResponse = new OrderDetailResponse();
-
-        orderDetailResponse.setOrderStatus(orders.getOrderStatus());
-        orderDetailResponse.setNote(orders.getNote());
-        orderDetailResponse.setPayment(orders.getPayment());
-        orderDetailResponse.setTotalPrice(orders.getTotal());
+        List<OrderDetailProduct> orderProducts = orderDetailRepository.findAllByOrderId(orders.getId()).stream()
+                .map(orderDetail -> {
+                    Product product = orderDetail.getProduct();
+                    return OrderDetailProduct.builder()
+                            .productId(product.getId())
+                            .name(product.getName())
+                            .description(product.getDescription())
+                            .quantity(orderDetail.getQuantity())
+                            .priceRaw(orderDetail.getTotal())
+                            .build();
+                })
+                .collect(Collectors.toList());
 
         AddressOrder addressOrder = orders.getAddressOrder();
-
-        orderDetailResponse.setAddressOrder(AddressOrderDTO.builder()
+        AddressOrderDTO addressOrderDTO = AddressOrderDTO.builder()
                 .firstName(addressOrder.getFirstName())
                 .lastName(addressOrder.getLastName())
                 .phone(addressOrder.getPhone())
                 .province(addressOrder.getProvince())
                 .ward(addressOrder.getWard())
                 .district(addressOrder.getDistrict())
-                .build());
+                .build();
 
-        orderDetailResponse.setOrderProduct(orderProducts);
-        return orderDetailResponse;
+        return OrderDetailResponse.builder()
+                .orderStatus(orders.getOrderStatus())
+                .note(orders.getNote())
+                .payment(orders.getPayment())
+                .totalPrice(orders.getTotal())
+                .addressOrder(addressOrderDTO)
+                .orderProduct(orderProducts)
+                .build();
     }
 
     private LocalDateTime getCurrentTimestamp() {
