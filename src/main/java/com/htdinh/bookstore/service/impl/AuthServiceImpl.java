@@ -65,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
         refreshToken.setCrtDt(getCurrentTimestamp());
         refreshTokenRepository.save(refreshToken);
 
-        return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), accessToken, generatedRefreshToken);
+        return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), user.getFirstName(), user.getLastName(), accessToken, generatedRefreshToken);
     }
 
     @Transactional
