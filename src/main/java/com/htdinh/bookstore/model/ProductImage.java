@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Getter
@@ -31,14 +30,12 @@ public class ProductImage {
     @Column(name = "CRT_ID", precision = 22)
     private BigDecimal crtId;
 
-    @Size(max = 128)
     @Column(name = "CRT_DT", length = 128)
     private String crtDt;
 
     @Column(name = "UPDT_ID", precision = 22)
     private BigDecimal updtId;
 
-    @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
     private String updtDt;
 

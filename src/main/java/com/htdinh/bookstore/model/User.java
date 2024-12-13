@@ -36,7 +36,6 @@ public class User implements UserDetails {
     @Column(name = "PASSWORD", nullable = false, length = 50)
     private String password;
 
-    @NotNull
     @Column(name = "IS_ACTIVE", nullable = false)
     private Boolean isActive = false;
 
@@ -74,20 +73,22 @@ public class User implements UserDetails {
     @Column(name = "CRT_ID", precision = 22)
     private Long crtId;
 
-    @Size(max = 128)
     @Column(name = "CRT_DT", length = 128)
     private LocalDateTime crtDt;
 
     @Column(name = "UPDT_ID", precision = 22)
     private Long updtId;
 
-    @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
     private LocalDateTime updtDt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ROLE")
     private Role role;
+
+    @Size(max = 64)
+    @Column(name = "VERIFICATION_CODE", length = 64)
+    private String verificationCode;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -123,6 +124,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.isActive;
     }
 }

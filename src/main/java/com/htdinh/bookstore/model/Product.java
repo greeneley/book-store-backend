@@ -50,14 +50,12 @@ public class Product {
     @Column(name = "CRT_ID", precision = 22)
     private Long crtId;
 
-    @Size(max = 128)
     @Column(name = "CRT_DT", length = 128)
     private LocalDateTime crtDt;
 
     @Column(name = "UPDT_ID", precision = 22)
     private Long updtId;
 
-    @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
     private LocalDateTime updtDt;
 

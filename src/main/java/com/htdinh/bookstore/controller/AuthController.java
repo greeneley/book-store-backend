@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -42,7 +44,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest request) {
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest request) throws MessagingException, UnsupportedEncodingException {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request));
     }
 

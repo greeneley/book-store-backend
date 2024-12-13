@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT MAX(USER_ID) FROM USER", nativeQuery = true)
     Long getMaxId();
+
+    @Query(value = "SELECT * FROM USER WHERE VERIFICATION_CODE = :code", nativeQuery = true)
+    Optional<User> findByVerificationCode(String code);
 }

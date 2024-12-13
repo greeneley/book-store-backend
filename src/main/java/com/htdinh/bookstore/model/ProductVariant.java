@@ -44,14 +44,12 @@ public class ProductVariant {
     @Column(name = "CRT_ID", precision = 22)
     private BigDecimal crtId;
 
-    @Size(max = 128)
     @Column(name = "CRT_DT", length = 128)
     private String crtDt;
 
     @Column(name = "UPDT_ID", precision = 22)
     private BigDecimal updtId;
 
-    @Size(max = 128)
     @Column(name = "UPDT_DT", length = 128)
     private String updtDt;
 
