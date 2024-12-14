@@ -25,3 +25,6 @@ https://github.com/Trandinhdongkhanh/G2WebStoreV2/blob/main/src/main/java/com/hc
 https://www.codejava.net/frameworks/spring-boot/spring-security-jwt-authentication-tutorial
 
 Truy cap swagger UI: http://localhost:8081/swagger-ui/index.html#/checkout-controller
+
+Send Email: https://www.geeksforgeeks.org/how-to-send-email-with-thymeleaf-template-in-spring-boot/
+https://www.youtube.com/watch?v=Sst9O5C6WhQ
