@@ -11,6 +11,7 @@ import com.htdinh.bookstore.model.User;
 import com.htdinh.bookstore.repository.RefreshTokenRepository;
 import com.htdinh.bookstore.repository.UserRepository;
 import com.htdinh.bookstore.service.AuthService;
+import com.htdinh.bookstore.service.EmailService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -49,13 +51,20 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String register(RegisterRequest request) throws MessagingException, UnsupportedEncodingException {
         validateUserRegistration(request);
         User user = createUserFromRequest(request);
         userRepository.save(user);
-        sendVerificationEmail(user);
+
+        Context context = new Context();
+        context.setVariable("name", user.getFirstName());
+        context.setVariable("URL", "http://localhost:8081/api/v1/user/verify?code=" + user.getVerificationCode());
+        emailService.sendEmail(user.getEmail(), "Email verification for Book Store", "email-template.html", context);
         return "User created successfully";
     }
 
@@ -96,6 +105,9 @@ public class AuthServiceImpl implements AuthService {
                 + "Please click the link below to verify your registration:<br>"
                 + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
                 + "Thank you,<br>" + "Your company name.";
+        content = content.replace("[[name]]", user.getFirstName());
+        String verifyURL = "http://localhost:8081" + "/api/v1/user/verify?code=" + user.getVerificationCode();
+        content = content.replace("[[URL]]", verifyURL);
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -103,12 +115,6 @@ public class AuthServiceImpl implements AuthService {
         helper.setFrom(fromAddress, senderName);
         helper.setTo(toAddress);
         helper.setSubject(subject);
-
-        content = content.replace("[[name]]", user.getFirstName());
-
-        String verifyURL = "http://localhost:8081" + "/api/v1/user/verify?code=" + user.getVerificationCode();
-
-        content = content.replace("[[URL]]", verifyURL);
 
         helper.setText(content, true);
 
