@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
         Context context = new Context();
         context.setVariable("name", user.getFirstName());
         context.setVariable("URL", "http://localhost:8081/api/v1/user/verify?code=" + user.getVerificationCode());
-        emailService.sendEmail(user.getEmail(), "Email verification for Book Store", "email-template.html", context);
+        emailService.sendEmail(user.getEmail(), "Please verify your registration", "email-template.html", context);
         return "User created successfully";
     }
 
