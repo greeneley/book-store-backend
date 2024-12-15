@@ -15,8 +15,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public String verifyUser(String code) {
         User user = userRepository.findByVerificationCode(code).orElseThrow(() -> new ResourceNotFoundException("Code not exist:::" + code));
-        user.setIsActive(true);
-        userRepository.save(user);
-        return "verify_successfully";
+        if (user.getIsActive()) {
+            return "verified";
+        } else {
+            user.setIsActive(true);
+            userRepository.save(user);
+            return "success";
+        }
     }
 }

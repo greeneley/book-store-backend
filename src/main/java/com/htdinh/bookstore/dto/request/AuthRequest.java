@@ -1,12 +1,16 @@
 package com.htdinh.bookstore.dto.request;
 
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
 
 @Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthRequest {
     @NotNull
     private String username;
