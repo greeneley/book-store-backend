@@ -90,6 +90,10 @@ public class User implements UserDetails {
     @Column(name = "VERIFICATION_CODE", length = 64)
     private String verificationCode;
 
+    @Size(max = 30)
+    @Column(name = "RESET_PASSWORD_TOKEN", length = 30)
+    private String resetPasswordToken;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
