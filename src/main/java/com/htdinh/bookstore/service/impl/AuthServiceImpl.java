@@ -66,6 +66,17 @@ public class AuthServiceImpl implements AuthService {
         return "User created successfully";
     }
 
+    @Override
+    public String resend(String email) throws MessagingException, UnsupportedEncodingException {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User with email = " + email + " not found"));
+
+        Context context = new Context();
+        context.setVariable("name", user.getFirstName());
+        context.setVariable("URL", "http://localhost:8082/verify?code=" + user.getVerificationCode());
+        emailService.sendEmail(user.getEmail(), "Please verify your registration", "email-template.html", context);
+        return "Resend email for signup successfully";
+    }
+
     public AuthResponse login(AuthRequest request) {
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())

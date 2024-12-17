@@ -11,6 +11,8 @@ import java.io.UnsupportedEncodingException;
 public interface AuthService {
     String register(RegisterRequest request) throws MessagingException, UnsupportedEncodingException;
 
+    String resend(String email) throws MessagingException, UnsupportedEncodingException;
+
     AuthResponse login(AuthRequest request);
 
     String logout(LogoutRequest request);
