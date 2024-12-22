@@ -7,6 +7,7 @@ import com.htdinh.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -36,5 +37,10 @@ public class UserController {
     @GetMapping("/profile")
     public ResponseEntity<ProfileUserResponse> getProfileUser() {
         return ResponseEntity.ok().body(userService.getProfileUser());
+    }
+
+    @PostMapping("/avatar/upload")
+    public ResponseEntity<String> uploadAvatarProfile(@RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
+        return ResponseEntity.ok().body(userService.uploadAvatarProfile(multipartFile));
     }
 }

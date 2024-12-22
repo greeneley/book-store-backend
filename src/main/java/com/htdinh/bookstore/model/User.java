@@ -94,6 +94,10 @@ public class User implements UserDetails {
     @Column(name = "RESET_PASSWORD_TOKEN", length = 30)
     private String resetPasswordToken;
 
+    @Size(max = 128)
+    @Column(name = "PHOTOS", length = 128)
+    private String photos;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();

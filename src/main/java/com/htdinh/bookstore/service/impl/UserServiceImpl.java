@@ -8,12 +8,14 @@ import com.htdinh.bookstore.mapper.ProfileUserMapper;
 import com.htdinh.bookstore.model.User;
 import com.htdinh.bookstore.repository.UserRepository;
 import com.htdinh.bookstore.service.EmailService;
+import com.htdinh.bookstore.service.UploadService;
 import com.htdinh.bookstore.service.UserService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 
 @Service
@@ -25,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ProfileUserMapper profileUserMapper;
+
+    @Autowired
+    private UploadService uploadService;
 
     @Override
     public String verifyUser(String code) {
@@ -89,6 +94,15 @@ public class UserServiceImpl implements UserService {
     public ProfileUserResponse getProfileUser() {
         User user = getCurrentUser();
         return profileUserMapper.toProfileUser(user);
+    }
+
+    @Override
+    public String uploadAvatarProfile(MultipartFile multipartFile) throws Exception {
+        String fileUrl = uploadService.uploadProfile(multipartFile, "profile");
+        User user = getCurrentUser();
+        user.setPhotos(fileUrl);
+        userRepository.save(user);
+        return "Upload successfully";
     }
 
     private User getCurrentUser() {

@@ -14,4 +14,5 @@ public class ProfileUserResponse {
     private String phone;
     private String email;
     private String birthday;
+    private String photos;
 }
