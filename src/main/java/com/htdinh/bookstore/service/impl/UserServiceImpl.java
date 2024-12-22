@@ -2,13 +2,16 @@ package com.htdinh.bookstore.service.impl;
 
 import com.htdinh.bookstore.dto.request.ForgotPasswordRequest;
 import com.htdinh.bookstore.dto.request.ResetPasswordRequest;
+import com.htdinh.bookstore.dto.response.ProfileUserResponse;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
+import com.htdinh.bookstore.mapper.ProfileUserMapper;
 import com.htdinh.bookstore.model.User;
 import com.htdinh.bookstore.repository.UserRepository;
 import com.htdinh.bookstore.service.EmailService;
 import com.htdinh.bookstore.service.UserService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
@@ -19,6 +22,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private ProfileUserMapper profileUserMapper;
 
     @Override
     public String verifyUser(String code) {
@@ -77,5 +83,15 @@ public class UserServiceImpl implements UserService {
         User user = getByResetPasswordToken(token);
         updatePassword(user, password);
         return "You have successfully changed your password.";
+    }
+
+    @Override
+    public ProfileUserResponse getProfileUser() {
+        User user = getCurrentUser();
+        return profileUserMapper.toProfileUser(user);
+    }
+
+    private User getCurrentUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

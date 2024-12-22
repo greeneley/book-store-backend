@@ -2,6 +2,7 @@ package com.htdinh.bookstore.controller;
 
 import com.htdinh.bookstore.dto.request.ForgotPasswordRequest;
 import com.htdinh.bookstore.dto.request.ResetPasswordRequest;
+import com.htdinh.bookstore.dto.response.ProfileUserResponse;
 import com.htdinh.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,10 @@ public class UserController {
     @PostMapping("/reset-password")
     public ResponseEntity<String> processResetPassword(@RequestBody @Valid ResetPasswordRequest request) {
         return ResponseEntity.ok().body(userService.processResetPassword(request));
+    }
 
+    @GetMapping("/profile")
+    public ResponseEntity<ProfileUserResponse> getProfileUser() {
+        return ResponseEntity.ok().body(userService.getProfileUser());
     }
 }

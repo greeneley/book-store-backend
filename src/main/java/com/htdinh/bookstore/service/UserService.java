@@ -2,6 +2,7 @@ package com.htdinh.bookstore.service;
 
 import com.htdinh.bookstore.dto.request.ForgotPasswordRequest;
 import com.htdinh.bookstore.dto.request.ResetPasswordRequest;
+import com.htdinh.bookstore.dto.response.ProfileUserResponse;
 import com.htdinh.bookstore.model.User;
 
 public interface UserService {
@@ -16,4 +17,6 @@ public interface UserService {
     String processForgotPassword(ForgotPasswordRequest request);
 
     String processResetPassword(ResetPasswordRequest request);
+
+    ProfileUserResponse getProfileUser();
 }
