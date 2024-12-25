@@ -1,6 +1,7 @@
 package com.htdinh.bookstore.service;
 
 import com.htdinh.bookstore.dto.request.ForgotPasswordRequest;
+import com.htdinh.bookstore.dto.request.ProfileUpdateRequest;
 import com.htdinh.bookstore.dto.request.ResetPasswordRequest;
 import com.htdinh.bookstore.dto.response.ProfileUserResponse;
 import com.htdinh.bookstore.model.User;
@@ -22,4 +23,6 @@ public interface UserService {
     ProfileUserResponse getProfileUser();
 
     String uploadAvatarProfile(MultipartFile multipartFile) throws Exception;
+
+    String updateProfileUser(ProfileUpdateRequest request);
 }

@@ -1,6 +1,7 @@
 package com.htdinh.bookstore.controller;
 
 import com.htdinh.bookstore.dto.request.ForgotPasswordRequest;
+import com.htdinh.bookstore.dto.request.ProfileUpdateRequest;
 import com.htdinh.bookstore.dto.request.ResetPasswordRequest;
 import com.htdinh.bookstore.dto.response.ProfileUserResponse;
 import com.htdinh.bookstore.service.UserService;
@@ -42,5 +43,10 @@ public class UserController {
     @PostMapping("/avatar/upload")
     public ResponseEntity<String> uploadAvatarProfile(@RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
         return ResponseEntity.ok().body(userService.uploadAvatarProfile(multipartFile));
+    }
+
+    @PostMapping("/profile/update")
+    public ResponseEntity<String> updateProfileUser(@RequestBody ProfileUpdateRequest request) {
+        return ResponseEntity.ok().body(userService.updateProfileUser(request));
     }
 }

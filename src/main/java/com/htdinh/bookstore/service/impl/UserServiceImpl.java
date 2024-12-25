@@ -1,6 +1,7 @@
 package com.htdinh.bookstore.service.impl;
 
 import com.htdinh.bookstore.dto.request.ForgotPasswordRequest;
+import com.htdinh.bookstore.dto.request.ProfileUpdateRequest;
 import com.htdinh.bookstore.dto.request.ResetPasswordRequest;
 import com.htdinh.bookstore.dto.response.ProfileUserResponse;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
@@ -15,13 +16,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Autowired
     private EmailService emailService;
 
@@ -97,12 +107,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public String uploadAvatarProfile(MultipartFile multipartFile) throws Exception {
         String fileUrl = uploadService.uploadProfile(multipartFile, "profile");
         User user = getCurrentUser();
         user.setPhotos(fileUrl);
         userRepository.save(user);
         return "Upload successfully";
+    }
+
+    @Override
+    public String updateProfileUser(ProfileUpdateRequest request) {
+        User user = getCurrentUser();
+        Optional.ofNullable(request.getFirstName()).ifPresent(user::setFirstName);
+        Optional.ofNullable(request.getLastName()).ifPresent(user::setLastName);
+        Optional.ofNullable(request.getPhone()).ifPresent(user::setPhone);
+        Optional.ofNullable(request.getBirthday()).ifPresent(user::setBirthDay);
+        Optional.ofNullable(request.getNewPassword()).ifPresent(newPassword -> {
+            user.setPassword(passwordEncoder.encode(newPassword));
+        });
+
+        user.setUpdtId(user.getId());
+        user.setUpdtDt(getCurrentTimestamp());
+
+        userRepository.save(user);
+        return "update profile user successfully";
+    }
+
+    private LocalDateTime getCurrentTimestamp() {
+        return LocalDateTime.now();
     }
 
     private User getCurrentUser() {

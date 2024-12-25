@@ -31,7 +31,7 @@ public class UploadServiceImpl implements UploadService {
             File file = convertMultipartToFile(multipartFile);
             String fileName = UUID.randomUUID() + ".jpg"; // Default extension
             // https://book-store-images-2024.s3.ap-southeast-1.amazonaws.com/profile/image.png
-            String fileUrl = "https://" + bucketName + "s3." + regionName + ".amazonaws.com/" + directory + "/" + fileName;
+            String fileUrl = "https://" + bucketName + ".s3." + regionName + ".amazonaws.com/" + directory + "/" + fileName;
 
             uploadFileToS3Bucket(fileName, file, directory);
             file.delete();
