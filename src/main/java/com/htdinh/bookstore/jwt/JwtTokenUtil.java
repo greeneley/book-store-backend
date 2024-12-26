@@ -1,7 +1,9 @@
 package com.htdinh.bookstore.jwt;
 
+import com.htdinh.bookstore.exception.TokenExpiredException;
 import com.htdinh.bookstore.model.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -88,6 +90,12 @@ public class JwtTokenUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
+        try {
+            return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            LOGGER.error("Token has expired at: " + e.getClaims().getExpiration(), e);
+            // You can extract more information from the exception if needed
+            throw new TokenExpiredException("Token expired at: " + e.getClaims().getExpiration());
+        }
     }
 }

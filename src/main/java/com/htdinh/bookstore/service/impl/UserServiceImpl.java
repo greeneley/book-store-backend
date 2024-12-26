@@ -5,6 +5,7 @@ import com.htdinh.bookstore.dto.request.ProfileUpdateRequest;
 import com.htdinh.bookstore.dto.request.ResetPasswordRequest;
 import com.htdinh.bookstore.dto.response.ProfileUserResponse;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
+import com.htdinh.bookstore.exception.TokenExpiredException;
 import com.htdinh.bookstore.mapper.ProfileUserMapper;
 import com.htdinh.bookstore.model.User;
 import com.htdinh.bookstore.repository.UserRepository;
@@ -139,6 +140,14 @@ public class UserServiceImpl implements UserService {
     }
 
     private User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User) {
+            return (User) principal;
+        } else if (principal instanceof String) {
+            // Token expired scenario
+            throw new TokenExpiredException("Access token was expired. You need to send the server the refresh token.");
+        } else {
+            throw new IllegalStateException("Unexpected principal type: " + principal.getClass());
+        }
     }
 }

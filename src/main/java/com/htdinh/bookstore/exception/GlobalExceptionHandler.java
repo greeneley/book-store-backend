@@ -63,4 +63,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleDisabledException(Exception e) {
         return buildErrorResponse(HttpStatus.CONFLICT, e);
     }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<ErrorResponse> handleTokenExpiredException(TokenExpiredException e) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, e);
+    }
 }

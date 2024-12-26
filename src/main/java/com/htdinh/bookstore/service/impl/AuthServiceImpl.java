@@ -2,8 +2,10 @@ package com.htdinh.bookstore.service.impl;
 
 import com.htdinh.bookstore.dto.request.AuthRequest;
 import com.htdinh.bookstore.dto.request.LogoutRequest;
+import com.htdinh.bookstore.dto.request.RefreshTokenRequest;
 import com.htdinh.bookstore.dto.request.RegisterRequest;
 import com.htdinh.bookstore.dto.response.AuthResponse;
+import com.htdinh.bookstore.dto.response.RefreshTokenResponse;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.jwt.JwtTokenUtil;
 import com.htdinh.bookstore.model.RefreshToken;
@@ -16,6 +18,7 @@ import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -101,6 +104,32 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findById(request.getId()).orElseThrow(() -> new ResourceNotFoundException("User with ID = " + request.getId() + " not found"));
         refreshTokenRepository.deleteByUserId(user.getId());
         return "logout successfully";
+    }
+
+    @Override
+    @Transactional
+    public RefreshTokenResponse generateNewToken(RefreshTokenRequest request) {
+        RefreshToken refreshToken = refreshTokenRepository.findByValue(request.getRefreshToken()).orElseThrow(() -> new ResourceNotFoundException("Refresh token with value = " + request.getRefreshToken() + " not found"));
+
+        User user = refreshToken.getUser();
+
+        Long requestId = request.getId();
+        if (!requestId.equals(user.getId())) {
+            throw new BadCredentialsException("Not authorization");
+        } else {
+            refreshTokenRepository.deleteByValue(request.getRefreshToken());
+
+            String accessToken = jwtUtil.createJwtAccessToken(user);
+            String generatedRefreshToken = jwtUtil.createJwtRefreshToken(String.valueOf(user.getId()));
+
+            RefreshToken newRefreshToken = new RefreshToken();
+            newRefreshToken.setUser(user);
+            newRefreshToken.setValue(generatedRefreshToken);
+            newRefreshToken.setExpireDt(convertDateToString(jwtUtil.extractExpiration(generatedRefreshToken)));
+            newRefreshToken.setCrtDt(getCurrentTimestamp());
+            refreshTokenRepository.save(newRefreshToken);
+            return RefreshTokenResponse.builder().accessToken(accessToken).refreshToken(generatedRefreshToken).build();
+        }
     }
 
     private void validateUserRegistration(RegisterRequest request) {
