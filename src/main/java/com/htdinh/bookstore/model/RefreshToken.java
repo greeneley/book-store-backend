@@ -27,7 +27,6 @@ public class RefreshToken {
     @Size(max = 500)
     @Column(name = "VALUE", length = 500)
     private String value;
-    
 
     @Size(max = 50)
     @NotNull
@@ -45,5 +44,10 @@ public class RefreshToken {
 
     @Column(name = "UPDT_DT")
     private LocalDateTime updtDt;
+
+
+    @NotNull
+    @Column(name = "IS_ACTIVE", nullable = false)
+    private Boolean isActive = false;
 
 }

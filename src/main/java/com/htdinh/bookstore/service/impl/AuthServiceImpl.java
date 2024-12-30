@@ -16,6 +16,7 @@ import com.htdinh.bookstore.service.AuthService;
 import com.htdinh.bookstore.service.EmailService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -105,31 +106,52 @@ public class AuthServiceImpl implements AuthService {
         refreshTokenRepository.deleteByUserId(user.getId());
         return "logout successfully";
     }
-
+    
     @Override
-    @Transactional
-    public RefreshTokenResponse generateNewToken(RefreshTokenRequest request) {
-        RefreshToken refreshToken = refreshTokenRepository.findByValue(request.getRefreshToken()).orElseThrow(() -> new ResourceNotFoundException("Refresh token with value = " + request.getRefreshToken() + " not found"));
+    @Transactional()
+    public synchronized RefreshTokenResponse generateNewToken(RefreshTokenRequest request) {
+        RefreshToken existRefreshToken = refreshTokenRepository.findByValueForUpdate(request.getRefreshToken())
+                .orElseThrow(() -> new ResourceNotFoundException("Refresh token with value = " + request.getRefreshToken() + " not found"));
 
-        User user = refreshToken.getUser();
+        User user = existRefreshToken.getUser();
 
         Long requestId = request.getId();
+
         if (!requestId.equals(user.getId())) {
-            throw new BadCredentialsException("Not authorization");
-        } else {
-            refreshTokenRepository.deleteByValue(request.getRefreshToken());
-
-            String accessToken = jwtUtil.createJwtAccessToken(user);
-            String generatedRefreshToken = jwtUtil.createJwtRefreshToken(String.valueOf(user.getId()));
-
-            RefreshToken newRefreshToken = new RefreshToken();
-            newRefreshToken.setUser(user);
-            newRefreshToken.setValue(generatedRefreshToken);
-            newRefreshToken.setExpireDt(convertDateToString(jwtUtil.extractExpiration(generatedRefreshToken)));
-            newRefreshToken.setCrtDt(getCurrentTimestamp());
-            refreshTokenRepository.save(newRefreshToken);
-            return RefreshTokenResponse.builder().accessToken(accessToken).refreshToken(generatedRefreshToken).build();
+            throw new BadCredentialsException("Not authorized");
         }
+        existRefreshToken.setIsActive(false);
+        existRefreshToken.setUpdtId(user.getId());
+        existRefreshToken.setUpdtDt(getCurrentTimestamp());
+        refreshTokenRepository.save(existRefreshToken);
+
+        // Generate new tokens
+        String accessToken = jwtUtil.createJwtAccessToken(user);
+        String generatedRefreshToken = jwtUtil.createJwtRefreshToken(String.valueOf(user.getId()));
+
+        RefreshToken newRefreshToken = new RefreshToken();
+        newRefreshToken.setUser(user);
+        newRefreshToken.setValue(generatedRefreshToken);
+        newRefreshToken.setExpireDt(convertDateToString(jwtUtil.extractExpiration(generatedRefreshToken)));
+        newRefreshToken.setCrtDt(getCurrentTimestamp());
+        newRefreshToken.setIsActive(true);
+
+        try {
+            refreshTokenRepository.save(newRefreshToken);
+        } catch (DataIntegrityViolationException e) {
+            return refreshTokenRepository.findByValueForUpdate(generatedRefreshToken)
+                    .map(token -> RefreshTokenResponse.builder()
+                            .accessToken(jwtUtil.createJwtAccessToken(user))
+                            .refreshToken(token.getValue())
+                            .build())
+                    .orElseThrow(() -> new RuntimeException("Failed to generate refresh token"));
+        }
+
+        return RefreshTokenResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(generatedRefreshToken)
+                .build();
+
     }
 
     private void validateUserRegistration(RegisterRequest request) {

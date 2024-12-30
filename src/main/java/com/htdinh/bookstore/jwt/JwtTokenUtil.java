@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Component
@@ -38,6 +39,7 @@ public class JwtTokenUtil {
     private String createToken(Object id, String username, long validTime) {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("id", id);
+        claims.put("uuid", UUID.randomUUID());
 
         Date now = new Date();
         Date expiration = new Date(now.getTime() + validTime);
