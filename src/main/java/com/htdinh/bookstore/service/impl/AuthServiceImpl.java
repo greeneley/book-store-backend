@@ -30,6 +30,7 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -62,6 +63,7 @@ public class AuthServiceImpl implements AuthService {
         validateUserRegistration(request);
         User user = createUserFromRequest(request);
         userRepository.save(user);
+        LocalDate date = LocalDate.ofEpochDay(0);
 
         Context context = new Context();
         context.setVariable("name", user.getFirstName());
@@ -106,7 +108,7 @@ public class AuthServiceImpl implements AuthService {
         refreshTokenRepository.deleteByUserId(user.getId());
         return "logout successfully";
     }
-    
+
     @Override
     @Transactional()
     public synchronized RefreshTokenResponse generateNewToken(RefreshTokenRequest request) {
