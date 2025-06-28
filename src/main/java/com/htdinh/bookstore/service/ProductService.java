@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 public interface ProductService {
 
     Page<ProductResponse> getAllProduct(int pageNumber, int pageSize, Integer seed);
+    ProductResponse getProduct(Long id);
 
     Page<ProductResponse> getProductsByName(String searchKey, int pageNumber, int pageSize);
 

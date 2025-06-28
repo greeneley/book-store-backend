@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "PRODUCT_IMAGE", schema = "bookstore")
 public class ProductImage {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SEQ_ID", nullable = false)

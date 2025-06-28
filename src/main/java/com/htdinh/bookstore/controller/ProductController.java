@@ -33,6 +33,12 @@ public class ProductController {
     ) {
         return ResponseEntity.ok(productService.getAllProduct(pageNumber, pageSize, seed));
     }
+    
+    @GetMapping(value="{id}")
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") @NotNull(message = "Product ID cannot be null")
+                                                      @Min(value = 1, message = "Product ID must be greater than 0") Long productId) {
+        return ResponseEntity.ok(productService.getProduct(productId));
+    }
 
     @GetMapping("/search")
     public ResponseEntity<?> getProductsByName(@RequestParam(value = "key") String keySearch,

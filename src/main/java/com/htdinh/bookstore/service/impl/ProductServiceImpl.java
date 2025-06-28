@@ -51,6 +51,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductResponse getProduct(Long productId) {
+        return productRepository.findById(productId).map(productMapper::toProductResponse).orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
+    }
+
+    @Override
     public Page<ProductResponse> getProductsByName(String searchKey, int pageNumber, int pageSize) {
         return productRepository.findAllByName(searchKey, PageRequest.of(pageNumber, pageSize)).map(productMapper::toProductResponse);
     }
