@@ -73,4 +73,9 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private Set<ProductVariant> productVariants = new LinkedHashSet<>();
+
+    @Size(max = 200)
+    @Column(name = "AUTHOR", length = 200)
+    private String author;
+
 }

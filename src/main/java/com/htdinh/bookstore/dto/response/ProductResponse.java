@@ -28,6 +28,9 @@ public class ProductResponse {
     BigDecimal updtId;
     @Size(max = 128)
     String updtDt;
+    @Size(max = 200)
+    private String author;
+    
     private BigDecimal regularPrice;
     private BigDecimal salePrice;
     private UserDto user;
