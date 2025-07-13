@@ -1,7 +1,9 @@
 package com.htdinh.bookstore.service.impl;
 
 import com.htdinh.bookstore.dto.request.ProductCartRequest;
+import com.htdinh.bookstore.dto.response.ProductCartResponse;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
+import com.htdinh.bookstore.mapper.ProductCartMapper;
 import com.htdinh.bookstore.model.Product;
 import com.htdinh.bookstore.model.ProductCart;
 import com.htdinh.bookstore.model.ProductCartId;
@@ -27,6 +29,8 @@ public class ProductCartServiceImpl implements ProductCartService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ProductCartMapper productCartMapper;
     @Override
     @Transactional
     public String addToCart(ProductCartRequest request) {
@@ -71,7 +75,7 @@ public class ProductCartServiceImpl implements ProductCartService {
     }
 
     @Override
-    public String updateCartItem(ProductCartRequest request) {
+    public ProductCartResponse updateCartItem(ProductCartRequest request) {
         User user = getCurrentUser();
         Long productId = request.getProductId();
         Product product = productRepository.findById(productId)
@@ -82,7 +86,7 @@ public class ProductCartServiceImpl implements ProductCartService {
         productCart.setQuantity(request.getQuantity());
         productCart.setUpdtDt(getCurrentTimestamp());
         productCartRepository.save(productCart);
-        return "update successfully";
+        return productCartMapper.toProductCartResponse(productCart);
     }
 
     private User getCurrentUser() {

@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/intended-cart")
+@RequestMapping("/api/v1/cart")
 public class CartController {
 
     @Autowired
     private CartService cartService;
 
-    @GetMapping("/me")
+    @GetMapping("")
     public ResponseEntity<CartResponse> getCartInfo() {
         return ResponseEntity.status(HttpStatus.OK).body(cartService.getCartInfo());
     }

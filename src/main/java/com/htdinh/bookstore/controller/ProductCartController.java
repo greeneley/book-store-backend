@@ -1,6 +1,7 @@
 package com.htdinh.bookstore.controller;
 
 import com.htdinh.bookstore.dto.request.ProductCartRequest;
+import com.htdinh.bookstore.dto.response.ProductCartResponse;
 import com.htdinh.bookstore.service.ProductCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class ProductCartController {
     @Autowired
     private ProductCartService productCartService;
 
-    @PostMapping("")
+    @PostMapping("/add")
     public ResponseEntity<String> addToCart(@RequestBody ProductCartRequest request) {
         return ResponseEntity.ok(productCartService.addToCart(request));
     }
@@ -25,8 +26,8 @@ public class ProductCartController {
         return ResponseEntity.ok(productCartService.deleteCartItem(productId));
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<String> updateCart(@RequestBody @Valid ProductCartRequest productCartRequest) {
+    @PutMapping("/update")
+    public ResponseEntity<ProductCartResponse> updateCart(@RequestBody @Valid ProductCartRequest productCartRequest) {
         return ResponseEntity.ok(productCartService.updateCartItem(productCartRequest));
     }
 
