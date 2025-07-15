@@ -15,6 +15,7 @@ import com.htdinh.bookstore.repository.OrderDetailRepository;
 import com.htdinh.bookstore.repository.OrderRepository;
 import com.htdinh.bookstore.repository.ProductRepository;
 import com.htdinh.bookstore.service.OrderService;
+import com.htdinh.bookstore.utils.AuthUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
                 build();
         addressOrderRepository.save(addressOrder);
 
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
         Orders order = Orders.builder().user(user).addressOrder(addressOrder)
                 .orderNumber(RandomStringUtils.randomAlphanumeric(10))
                 .orderStatus(OrderStatus.ORDERED)
@@ -128,9 +129,5 @@ public class OrderServiceImpl implements OrderService {
 
     private LocalDateTime getCurrentTimestamp() {
         return LocalDateTime.now();
-    }
-
-    private User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

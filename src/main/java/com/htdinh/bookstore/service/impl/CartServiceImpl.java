@@ -8,9 +8,8 @@ import com.htdinh.bookstore.model.User;
 import com.htdinh.bookstore.repository.ProductCartRepository;
 import com.htdinh.bookstore.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
+import com.htdinh.bookstore.utils.AuthUtils;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +25,11 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartResponse getCartInfo() {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
 
         List<ProductCart> productCartsList = new ArrayList<>();
         productCartRepository.findAllByUser(user).forEach(item -> {
-            item.setSubTotal(item.getProduct().getRegularPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
+            item.setSubTotal(item.getProduct().getSalePrice().multiply(BigDecimal.valueOf(item.getQuantity())));
             productCartsList.add(item);
         });
 
@@ -44,8 +43,5 @@ public class CartServiceImpl implements CartService {
         
         return CartResponse.builder().items(productCartResponses).total(total.get()).build();
     }
-
-    private User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
+    
 }

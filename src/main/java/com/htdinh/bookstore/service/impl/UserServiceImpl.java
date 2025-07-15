@@ -12,6 +12,7 @@ import com.htdinh.bookstore.repository.UserRepository;
 import com.htdinh.bookstore.service.EmailService;
 import com.htdinh.bookstore.service.UploadService;
 import com.htdinh.bookstore.service.UserService;
+import com.htdinh.bookstore.utils.AuthUtils;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -103,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ProfileUserResponse getProfileUser() {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
         return profileUserMapper.toProfileUser(user);
     }
 
@@ -111,7 +112,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public String uploadAvatarProfile(MultipartFile multipartFile) throws Exception {
         String fileUrl = uploadService.uploadProfile(multipartFile, "profile");
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
         user.setPhotos(fileUrl);
         userRepository.save(user);
         return "Upload successfully";
@@ -119,7 +120,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String updateProfileUser(ProfileUpdateRequest request) {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
         Optional.ofNullable(request.getFirstName()).ifPresent(user::setFirstName);
         Optional.ofNullable(request.getLastName()).ifPresent(user::setLastName);
         Optional.ofNullable(request.getPhone()).ifPresent(user::setPhone);
@@ -138,16 +139,5 @@ public class UserServiceImpl implements UserService {
     private LocalDateTime getCurrentTimestamp() {
         return LocalDateTime.now();
     }
-
-    private User getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof User) {
-            return (User) principal;
-        } else if (principal instanceof String) {
-            // Token expired scenario
-            throw new TokenExpiredException("Access token was expired. You need to send the server the refresh token.");
-        } else {
-            throw new IllegalStateException("Unexpected principal type: " + principal.getClass());
-        }
-    }
+    
 }

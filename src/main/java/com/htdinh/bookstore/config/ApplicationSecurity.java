@@ -33,7 +33,9 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
             "/api/v1/user/**",
             "/swagger-ui/index.html",
             "/api/v1/cart",
-            "/api/v1/cart-item/**",
+            "/api/v1/**/*",
+            "/api/v1/cart-items/**",
+            "/api/v1/product/**",
             "/api/v1/orders/**",
             "/v2/api-docs",
             "/v3/api-docs",
@@ -53,15 +55,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//        http.authorizeRequests()
-//                .antMatchers("/api/v1/profile/user").hasAnyAuthority("USER")
-//                .antMatchers("/api/v1/profile/admin").hasAnyAuthority("ADMIN")
-//                .antMatchers(PUBLIC_ENDPOINTS).permitAll()
-//                .antMatchers(AUTH_WHITELIST).permitAll()
-//                .anyRequest().authenticated();
-//
+
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 //        http.authorizeRequests().antMatchers("/**").permitAll();
 

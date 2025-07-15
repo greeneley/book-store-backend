@@ -11,6 +11,7 @@ import com.htdinh.bookstore.model.User;
 import com.htdinh.bookstore.repository.ProductCartRepository;
 import com.htdinh.bookstore.repository.ProductRepository;
 import com.htdinh.bookstore.service.ProductCartService;
+import com.htdinh.bookstore.utils.AuthUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,7 +35,7 @@ public class ProductCartServiceImpl implements ProductCartService {
     @Override
     @Transactional
     public String addToCart(ProductCartRequest request) {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
         Long productId = request.getProductId();
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
@@ -64,7 +65,7 @@ public class ProductCartServiceImpl implements ProductCartService {
     @Override
     @Transactional
     public String deleteCartItem(Long productId) {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
 
@@ -76,7 +77,7 @@ public class ProductCartServiceImpl implements ProductCartService {
 
     @Override
     public ProductCartResponse updateCartItem(ProductCartRequest request) {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
         Long productId = request.getProductId();
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
@@ -88,11 +89,7 @@ public class ProductCartServiceImpl implements ProductCartService {
         productCartRepository.save(productCart);
         return productCartMapper.toProductCartResponse(productCart);
     }
-
-    private User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
+    
     private LocalDateTime getCurrentTimestamp() {
         return LocalDateTime.now();
     }

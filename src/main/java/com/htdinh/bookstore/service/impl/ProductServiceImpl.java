@@ -8,10 +8,10 @@ import com.htdinh.bookstore.mapper.ProductMapper;
 import com.htdinh.bookstore.model.*;
 import com.htdinh.bookstore.repository.*;
 import com.htdinh.bookstore.service.ProductService;
+import com.htdinh.bookstore.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,15 +38,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductAttributeRepository productAttributeRepository;
-
-
-    private User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
+    
 
     @Override
     public Page<ProductResponse> getAllProduct(int pageNumber, int pageSize, Integer seed) {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
         return productRepository.findAllById(user.getId(), seed, PageRequest.of(pageNumber, pageSize)).map(productMapper::toProductResponse);
     }
 
@@ -62,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void publishProductByShop(Long productId) {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
 
@@ -76,13 +72,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductResponse> getAllPublishForShop(int pageNumber, int pageSize) {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
         return productRepository.findAllPublishProduct(user.getId(), PageRequest.of(pageNumber, pageSize)).map(productMapper::toProductResponse);
     }
 
     @Override
     public void draftProductByShop(Long productId) {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + productId));
@@ -97,14 +93,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductResponse> getAllDraftForShop(int pageNumber, int pageSize) {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
         return productRepository.findAllDraftProduct(user.getId(), PageRequest.of(pageNumber, pageSize)).map(productMapper::toProductResponse);
     }
 
     @Override
     @Transactional
     public String createProduct(ProductRequest request) {
-        User user = getCurrentUser();
+        User user = AuthUtils.getCurrentUser();
 
         Product product = new Product();
         product.setName(request.getName());

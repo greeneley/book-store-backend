@@ -37,7 +37,7 @@ public class ProductController {
     @GetMapping(value="{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") @NotNull(message = "Product ID cannot be null")
                                                       @Min(value = 1, message = "Product ID must be greater than 0") Long productId) {
-        return ResponseEntity.ok(productService.getProduct(productId));
+        return ResponseEntity.ok().body(productService.getProduct(productId));
     }
 
     @GetMapping("/search")
