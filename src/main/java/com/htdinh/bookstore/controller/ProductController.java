@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -33,8 +34,8 @@ public class ProductController {
     ) {
         return ResponseEntity.ok(productService.getAllProduct(pageNumber, pageSize, seed));
     }
-    
-    @GetMapping(value="{id}")
+
+    @GetMapping(value = "{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") @NotNull(message = "Product ID cannot be null")
                                                       @Min(value = 1, message = "Product ID must be greater than 0") Long productId) {
         return ResponseEntity.ok().body(productService.getProduct(productId));
@@ -93,4 +94,18 @@ public class ProductController {
     public ResponseEntity<String> createProduct(@RequestBody ProductRequest request) {
         return ResponseEntity.ok(productService.createProduct(request));
     }
+
+
+    @GetMapping("/{catId}/books")
+    public ResponseEntity<?> getBooksByCategory(@PathVariable Long catId, @RequestParam(value = "page")
+                                                    @Min(value = 0, message = "Page index must not be less than zero")
+                                                    @NotNull(message = "Page index must not be null")
+                                                    Integer pageNumber,
+                                                    @RequestParam(value = "size")
+                                                    @Min(value = 0, message = "Page size must not be less than 1")
+                                                    @NotNull(message = "Page size must not be null")
+                                                    Integer pageSize) {
+        return ResponseEntity.ok(productService.getProductsByCategory(catId, pageNumber, pageSize));
+    }
 }
+

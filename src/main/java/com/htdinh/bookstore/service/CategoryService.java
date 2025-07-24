@@ -9,4 +9,6 @@ public interface CategoryService {
     String createCategory(String catName);
 
     List<CategoryResponse> getAllCategory();
+
+    List<CategoryResponse> getAllCategoryHierarchy();
 }

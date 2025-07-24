@@ -2,6 +2,7 @@ package com.htdinh.bookstore.controller;
 
 import com.htdinh.bookstore.dto.request.CategoryRequest;
 import com.htdinh.bookstore.dto.response.CategoryResponse;
+import com.htdinh.bookstore.dto.response.ProductResponse;
 import com.htdinh.bookstore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,9 @@ public class CategoryController {
 
     @GetMapping("/all")
     public List<CategoryResponse> getAllCategory() {
-        return categoryService.getAllCategory();
+        return categoryService.getAllCategoryHierarchy();
     }
+    
+ 
+    
 }

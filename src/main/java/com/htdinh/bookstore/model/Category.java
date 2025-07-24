@@ -6,7 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -42,14 +44,11 @@ public class Category {
     @OneToMany(mappedBy = "cat")
     private Set<ProductCategory> productCategories = new LinkedHashSet<>();
 
-    // @Column(name = "IS_ACTIVE", nullable = false)
-    // private Boolean isActive = true;
+    @Size(max = 128)
+    @NotNull
+    @Column(name = "SLUG", nullable = false, length = 128)
+    private String slug;
 
-    // @ManyToOne
-    // @JoinColumn(name = "PARENT_ID")
-    // private Category parent;
-
-    // @Column(name = "LEVEL", nullable = false)
-    // private Integer level;
-
+    @Column(name = "PARENT_CAT_ID")
+    private Long parentCatId;
 }

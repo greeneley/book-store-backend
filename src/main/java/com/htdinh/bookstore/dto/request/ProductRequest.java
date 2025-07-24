@@ -5,6 +5,7 @@ import lombok.Getter;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 public class ProductRequest {

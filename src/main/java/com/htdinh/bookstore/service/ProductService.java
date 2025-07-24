@@ -21,4 +21,6 @@ public interface ProductService {
     Page<ProductResponse> getAllDraftForShop(int pageNumber, int pageSize);
 
     String createProduct(ProductRequest request);
+    
+    Page<ProductResponse> getProductsByCategory(Long catId, int pageNumber, int pageSize);
 }

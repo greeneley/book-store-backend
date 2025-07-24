@@ -20,8 +20,8 @@ public class Product {
     @Column(name = "PRODUCT_ID", nullable = false, precision = 22)
     private Long id;
 
-    @Size(max = 50)
-    @Column(name = "NAME", length = 50)
+    @Size(max = 200)
+    @Column(name = "NAME", length = 200)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)

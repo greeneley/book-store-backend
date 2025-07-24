@@ -22,7 +22,7 @@ public class JwtTokenUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
 
-    private static final long ACCESS_TOKEN_VALID_TIME = 15 * 1000; // 1 hour
+    private static final long ACCESS_TOKEN_VALID_TIME = 60 * 60 * 1000; // 1 hour
     private static final long REFRESH_TOKEN_VALID_TIME = 24 * 60 * 60 * 1000 * 7; // 7 days
 
     @Value("${app.jwt.secret}")
@@ -87,6 +87,8 @@ public class JwtTokenUtil {
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        /// Kiểm tra giá trị token khác null
+        
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
