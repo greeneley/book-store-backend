@@ -45,4 +45,7 @@ public class Image {
     @Column(name = "UPDT_DT", length = 128)
     private LocalDateTime updtDt;
 
+    @Column(name = "IS_THUMBNAIL")
+    private Boolean isThumbnail;
+
 }

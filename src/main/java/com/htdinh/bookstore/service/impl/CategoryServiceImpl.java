@@ -1,11 +1,10 @@
 package com.htdinh.bookstore.service.impl;
 
+import com.htdinh.bookstore.dto.ProductSummaryDTO;
 import com.htdinh.bookstore.dto.response.CategoryResponse;
-import com.htdinh.bookstore.dto.response.ProductResponse;
 import com.htdinh.bookstore.mapper.CategoryMapper;
 import com.htdinh.bookstore.model.Category;
 import com.htdinh.bookstore.repository.CategoryRepository;
-import com.htdinh.bookstore.repository.ProductRepository;
 import com.htdinh.bookstore.service.CategoryService;
 import com.htdinh.bookstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
         Map<Long, CategoryResponse> map = new HashMap<>();
         for(Category category: categories) {
             Long cartId = category.getId();
-            List<ProductResponse> books = productService.getProductsByCategory(cartId, 0, 10).getContent();
+            List<ProductSummaryDTO> books = productService.getProductsByCategory(cartId, 0, 10).getContent();
             map.put(cartId, CategoryResponse.builder().id(category.getId())
                     .name(category.getName()).slug(category.getSlug()).parentCatId(category.getParentCatId()).children(new ArrayList<>()).books(books).build());
         }

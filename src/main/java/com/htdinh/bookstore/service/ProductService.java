@@ -1,5 +1,6 @@
 package com.htdinh.bookstore.service;
 
+import com.htdinh.bookstore.dto.ProductSummaryDTO;
 import com.htdinh.bookstore.dto.request.ProductRequest;
 import com.htdinh.bookstore.dto.response.ProductResponse;
 import org.springframework.data.domain.Page;
@@ -22,5 +23,5 @@ public interface ProductService {
 
     String createProduct(ProductRequest request);
     
-    Page<ProductResponse> getProductsByCategory(Long catId, int pageNumber, int pageSize);
+    Page<ProductSummaryDTO> getProductsByCategory(Long catId, int pageNumber, int pageSize);
 }

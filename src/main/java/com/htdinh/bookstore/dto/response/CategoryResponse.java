@@ -1,7 +1,7 @@
 package com.htdinh.bookstore.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.htdinh.bookstore.model.Product;
+import com.htdinh.bookstore.dto.ProductSummaryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +30,6 @@ public class CategoryResponse {
 
     private List<CategoryResponse> children = new ArrayList<>();
 
-    private List<ProductResponse> books = new ArrayList<>();
+    private List<ProductSummaryDTO> books = new ArrayList<>();
 
 }

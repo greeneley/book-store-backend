@@ -1,5 +1,6 @@
 package com.htdinh.bookstore.service.impl;
 
+import com.htdinh.bookstore.dto.ProductSummaryDTO;
 import com.htdinh.bookstore.dto.request.ProductRequest;
 import com.htdinh.bookstore.dto.response.ProductResponse;
 import com.htdinh.bookstore.exception.BusinessValidationException;
@@ -14,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -159,29 +159,11 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public Page<ProductResponse> getProductsByCategory(Long catId, int pageNumber, int pageSize) {
-        Category category = categoryRepository.findById(catId)
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + catId));
-        
-        List<ProductCategory> productCategoryList = productCategoryRepository.findProductCategoriesByCat((category));
-        
-        List<Product> products = new ArrayList<>();
-        
-        if (!productCategoryList.isEmpty()) {
-            productCategoryList.forEach((item) -> {
-                products.add(item.getProduct());
-            });   
-        }
-        
-        List<ProductResponse> productResponses = products.stream().map(productMapper::toProductResponse).collect(Collectors.toList());
-        Pageable pageRequest = createPageRequestUsing(pageNumber, pageSize);
-        
-        int start = (int) pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), productResponses.size());
-        
-        List<ProductResponse> pageContent = productResponses.subList(start, end);
-        
-        return new PageImpl<>(pageContent, pageRequest, productResponses.size());
+    public Page<ProductSummaryDTO> getProductsByCategory(Long catId, int pageNumber, int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        return productCategoryRepository.findProductSummariesByCategoryId(catId, pageable);
     }
 
 
