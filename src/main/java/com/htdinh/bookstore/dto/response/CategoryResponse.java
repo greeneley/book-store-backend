@@ -1,7 +1,7 @@
 package com.htdinh.bookstore.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.htdinh.bookstore.dto.ProductSummaryDTO;
+import com.htdinh.bookstore.dto.summary.ProductSummaryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

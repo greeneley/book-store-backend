@@ -1,6 +1,6 @@
 package com.htdinh.bookstore.repository;
 
-import com.htdinh.bookstore.dto.ProductSummaryDTO;
+import com.htdinh.bookstore.dto.summary.ProductSummaryDTO;
 import com.htdinh.bookstore.model.Category;
 import com.htdinh.bookstore.model.ProductCategory;
 import org.springframework.data.domain.Page;

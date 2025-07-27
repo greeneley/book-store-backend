@@ -1,8 +1,8 @@
 package com.htdinh.bookstore.service.impl;
 
-import com.htdinh.bookstore.dto.ProductSummaryDTO;
 import com.htdinh.bookstore.dto.request.ProductRequest;
 import com.htdinh.bookstore.dto.response.ProductResponse;
+import com.htdinh.bookstore.dto.summary.ProductSummaryDTO;
 import com.htdinh.bookstore.exception.BusinessValidationException;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.mapper.ProductMapper;
@@ -12,18 +12,15 @@ import com.htdinh.bookstore.service.ProductService;
 import com.htdinh.bookstore.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
