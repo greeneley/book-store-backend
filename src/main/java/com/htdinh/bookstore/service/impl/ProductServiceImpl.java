@@ -1,8 +1,8 @@
 package com.htdinh.bookstore.service.impl;
 
+import com.htdinh.bookstore.dto.common.ProductSummaryDTO;
 import com.htdinh.bookstore.dto.request.ProductRequest;
 import com.htdinh.bookstore.dto.response.ProductResponse;
-import com.htdinh.bookstore.dto.summary.ProductSummaryDTO;
 import com.htdinh.bookstore.exception.BusinessValidationException;
 import com.htdinh.bookstore.exception.ResourceNotFoundException;
 import com.htdinh.bookstore.mapper.ProductMapper;

@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -30,14 +31,15 @@ public class ProductResponse {
     String updtDt;
     @Size(max = 200)
     private String author;
-    
     private BigDecimal regularPrice;
     private BigDecimal salePrice;
     private UserDto user;
     private Set<ProductCategoryDto> productCategories = new LinkedHashSet<>();
     private Set<ProductAttributeDto> productAttributes = new LinkedHashSet<>();
     private Set<ProductVariantDto> productVariants = new LinkedHashSet<>();
-    private Set<ProductImageDto> productImages = new LinkedHashSet<>();
+    private Set<ImageDto> productImages = new LinkedHashSet<>();
+
+    private ImageDto thumbnail;
 
     /**
      * DTO for {@link com.htdinh.bookstore.model.User}
@@ -126,36 +128,26 @@ public class ProductResponse {
         private String updtDt;
     }
 
+
     /**
-     * DTO for {@link com.htdinh.bookstore.model.ProductImage}
+     * DTO for {@link com.htdinh.bookstore.model.Image}
      */
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class ProductImageDto implements Serializable {
-        private ImageDto image;
-
-        /**
-         * DTO for {@link com.htdinh.bookstore.model.Image}
-         */
-        @Data
-        @AllArgsConstructor
-        @NoArgsConstructor
-        public static class ImageDto implements Serializable {
-            private Long id;
-            @Size(max = 128)
-            private String title;
-            private String url;
-            @Size(max = 128)
-            private String altText;
-            @Size(max = 128)
-            private String description;
-            private BigDecimal crtId;
-            @Size(max = 128)
-            private String crtDt;
-            private BigDecimal updtId;
-            @Size(max = 128)
-            private String updtDt;
-        }
+    public static class ImageDto implements Serializable {
+        private Long id;
+        @Size(max = 128)
+        private String title;
+        private String url;
+        @Size(max = 128)
+        private String altText;
+        @Size(max = 128)
+        private String description;
+        private Long crtId;
+        private LocalDateTime crtDt;
+        private Long updtId;
+        private LocalDateTime updtDt;
+        private Boolean isThumbnail;
     }
 }

@@ -1,6 +1,6 @@
 package com.htdinh.bookstore.repository;
 
-import com.htdinh.bookstore.dto.summary.ProductSummaryDTO;
+import com.htdinh.bookstore.dto.common.ProductSummaryDTO;
 import com.htdinh.bookstore.model.Category;
 import com.htdinh.bookstore.model.ProductCategory;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,7 @@ public interface ProductCategoryRepository extends JpaRepository<ProductCategory
     List<ProductCategory> findProductCategoriesByCat(Category cat);
     
     @Query("""
-               SELECT new com.htdinh.bookstore.dto.ProductSummaryDTO(p.id, p.name, p.description, p.regularPrice, p.salePrice, pi.image.url) FROM Product p JOIN p.productCategories pc LEFT JOIN p.productImages pi WITH pi.image.isThumbnail = true WHERE pc.cat.id = :categoryId
+               SELECT new com.htdinh.bookstore.dto.common.ProductSummaryDTO(p.id, p.name, p.description, p.regularPrice, p.salePrice, pi.image.url) FROM Product p JOIN p.productCategories pc LEFT JOIN p.productImages pi WITH pi.image.isThumbnail = true WHERE pc.cat.id = :categoryId
             """)
     Page<ProductSummaryDTO> findProductSummariesByCategoryId(
             @Param("categoryId") Long catId,

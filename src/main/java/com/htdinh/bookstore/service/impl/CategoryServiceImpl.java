@@ -1,7 +1,7 @@
 package com.htdinh.bookstore.service.impl;
 
+import com.htdinh.bookstore.dto.common.ProductSummaryDTO;
 import com.htdinh.bookstore.dto.response.CategoryResponse;
-import com.htdinh.bookstore.dto.summary.ProductSummaryDTO;
 import com.htdinh.bookstore.mapper.CategoryMapper;
 import com.htdinh.bookstore.model.Category;
 import com.htdinh.bookstore.repository.CategoryRepository;
