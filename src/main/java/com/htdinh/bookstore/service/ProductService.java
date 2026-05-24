@@ -5,6 +5,8 @@ import com.htdinh.bookstore.dto.request.ProductRequest;
 import com.htdinh.bookstore.dto.response.ProductResponse;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface ProductService {
 
     Page<ProductResponse> getAllProduct(int pageNumber, int pageSize, Integer seed);
@@ -24,4 +26,6 @@ public interface ProductService {
     String createProduct(ProductRequest request);
     
     Page<ProductSummaryDTO> getProductsByCategory(Long catId, int pageNumber, int pageSize);
+
+    List<ProductSummaryDTO> getRelatedProducts(Long productId, int limit);
 }

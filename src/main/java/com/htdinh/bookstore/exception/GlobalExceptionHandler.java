@@ -34,6 +34,11 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, e);
     }
 
+    @ExceptionHandler(BusinessValidationException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessValidationException(BusinessValidationException e) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, e);
+    }
+
     @ExceptionHandler(TokenInValidException.class)
     public ResponseEntity<ErrorResponse> handleTokenInValidException(TokenInValidException e) {
         return buildErrorResponse(HttpStatus.UNAUTHORIZED, e);

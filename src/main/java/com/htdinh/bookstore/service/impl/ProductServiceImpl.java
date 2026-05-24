@@ -157,12 +157,29 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductSummaryDTO> getProductsByCategory(Long catId, int pageNumber, int pageSize) {
-
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-
         return productCategoryRepository.findProductSummariesByCategoryId(catId, pageable);
     }
 
+    @Override
+    public List<ProductSummaryDTO> getRelatedProducts(Long productId, int limit) {
+        // Verify the product exists first
+        if (!productRepository.existsById(productId)) {
+            throw new ResourceNotFoundException("Product not found with id: " + productId);
+        }
+        int safeLimit = Math.min(limit, 20); // cap at 20
+        return productRepository.findRelatedProducts(productId, safeLimit).stream()
+                .map(p -> {
+                    String thumbnailUrl = p.getProductImages().stream()
+                            .filter(pi -> Boolean.TRUE.equals(pi.getImage().getIsThumbnail()))
+                            .findFirst()
+                            .map(pi -> pi.getImage().getUrl())
+                            .orElse(null);
+                    return new ProductSummaryDTO(p.getId(), p.getName(), p.getDescription(),
+                            p.getRegularPrice(), p.getSalePrice(), thumbnailUrl);
+                })
+                .collect(java.util.stream.Collectors.toList());
+    }
 
     private Pageable createPageRequestUsing(int page, int size) {
         return PageRequest.of(page, size);

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import com.htdinh.bookstore.dto.common.ProductSummaryDTO;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -106,6 +107,18 @@ public class ProductController {
                                                     @NotNull(message = "Page size must not be null")
                                                     Integer pageSize) {
         return ResponseEntity.ok(productService.getProductsByCategory(catId, pageNumber, pageSize));
+    }
+
+    /**
+     * GET /api/v1/product/{id}/related?limit=8
+     * Public — returns related products in the same category
+     */
+    @GetMapping("/{id}/related")
+    public ResponseEntity<List<ProductSummaryDTO>> getRelatedProducts(
+            @PathVariable @NotNull @Min(1) Long id,
+            @RequestParam(value = "limit", defaultValue = "8")
+            @Min(value = 1, message = "Limit must be at least 1") int limit) {
+        return ResponseEntity.ok(productService.getRelatedProducts(id, limit));
     }
 }
 

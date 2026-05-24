@@ -37,8 +37,15 @@ public class ProductResponse {
     private Set<ProductCategoryDto> productCategories = new LinkedHashSet<>();
     private Set<ProductAttributeDto> productAttributes = new LinkedHashSet<>();
     private Set<ProductVariantDto> productVariants = new LinkedHashSet<>();
-    private Set<ImageDto> productImages = new LinkedHashSet<>();
+    /**
+     * Non-thumbnail gallery images (isThumbnail = false).
+     * Renamed from productImages → galleryImages to avoid confusion with the JPA entity.
+     */
+    private Set<ImageDto> galleryImages = new LinkedHashSet<>();
 
+    /**
+     * The main cover image (isThumbnail = true).
+     */
     private ImageDto thumbnail;
 
     /**

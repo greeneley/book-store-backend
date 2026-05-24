@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
     @Mapping(target = "thumbnail", expression = "java(findThumbnailImage(product))")
-    @Mapping(target = "productImages", expression = "java(filterNonThumbnailImages(product))")
+    @Mapping(target = "galleryImages", expression = "java(filterNonThumbnailImages(product))")
     ProductResponse toProductResponse(Product product);
 
     ProductResponse.ImageDto imageToImageDto(Image image);
