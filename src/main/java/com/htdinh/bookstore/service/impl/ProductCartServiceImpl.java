@@ -52,11 +52,12 @@ public class ProductCartServiceImpl implements ProductCartService {
                     .updtDt(getCurrentTimestamp())
                     .build()
             );
-            productCart = productCartRepository.save(productCart);
         } else {
             productCart.setQuantity(productCart.getQuantity() + request.getQuantity());
+            productCart.setUpdtDt(getCurrentTimestamp());
+            productCartRepository.save(productCart);
         }
-        productCart.setSubTotal(product.getRegularPrice().multiply(BigDecimal.valueOf(request.getQuantity())));
+        productCart.setSubTotal(product.getSalePrice().multiply(BigDecimal.valueOf(productCart.getQuantity())));
         log.info("Add item to cart successfully");
 
         return "Add item to cart successfully";

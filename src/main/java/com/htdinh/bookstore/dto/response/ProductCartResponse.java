@@ -8,7 +8,6 @@ import lombok.Value;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Set;
 
 @Getter
@@ -25,7 +24,7 @@ public class ProductCartResponse {
      */
     @Value
     public static class ProductDto implements Serializable {
-        BigDecimal id;
+        Long id;
         @Size(max = 50)
         String name;
         String description;
@@ -34,6 +33,8 @@ public class ProductCartResponse {
         @Size(max = 50)
         String salePrice;
         Set<ProductImageDto> productImages;
+        /** URL ảnh thumbnail, dùng để FE hiển thị nhanh không cần duyệt productImages */
+        String thumbnailUrl;
 
         /**
          * DTO for {@link com.htdinh.bookstore.model.ProductImage}
